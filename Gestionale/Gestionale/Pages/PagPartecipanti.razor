@@ -1,0 +1,16 @@
+﻿@page "/Partecipanti"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+
+<h3>Partecipanti</h3>
+
+@code 
+{
+    private Partecipanti[] ListaPartecipanti;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+    }
+}
