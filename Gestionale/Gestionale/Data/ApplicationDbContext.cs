@@ -105,7 +105,84 @@ namespace Gestionale.Data
                    CorsiId = 2,
 
                });
-            builder.Entity<Moduli>().HasData(
+            builder.Entity<Partecipanti>().HasData(
+                 new Partecipanti
+                 {
+                     Id = 1,
+                     Nome = "Marco",
+                     Cognome = "Polo",
+                     DataNascita = DateTime.Parse("05/09/1990"),
+                     Email = "MarcoPolo@gmail.com",
+                     Indirizzo = "Via Polo 29°",
+                     Citta = "Cesena",
+                     Telefono = "3338614937",
+                     Diploma = "Tecnico",
+                     AnnoDiploma = DateTime.Parse("17/06/2010"),
+                     IscrizioniId = 3,
+                     CorsiId = 1,   
+                 },
+                 new Partecipanti
+                 {
+                     Id = 2,
+                     Nome = "Giorgia",
+                     Cognome = "Venere",
+                     DataNascita = DateTime.Parse("15/02/1995"),
+                     Email = "GiorgiaVenere@gmail.com",
+                     Indirizzo = "Via Venere 219°",
+                     Citta = "Bologna",
+                     Telefono = "3338895937",
+                     Diploma = "Sociale",
+                     AnnoDiploma = DateTime.Parse("17/06/2016"),
+                     IscrizioniId = 5,
+                     CorsiId = 2,
+                 },
+                 new Partecipanti
+                 {
+                     Id = 3,
+                     Nome = "Luigi",
+                     Cognome = "Deandrè",
+                     DataNascita = DateTime.Parse("02/08/2000"),
+                     Email = "LuigiDeandè@gmail.com",
+                     Indirizzo = "Via Deandè 5°",
+                     Citta = "Rimini",
+                     Telefono = "3338678437",
+                     Diploma = "Tecnico",
+                     AnnoDiploma = DateTime.Parse("17/06/2019"),
+                     IscrizioniId = 4,
+                     CorsiId = 3,
+                 },
+                 new Partecipanti
+                 {
+                     Id = 4,
+                     Nome = "Marta",
+                     Cognome = "Pane",
+                     DataNascita = DateTime.Parse("02/08/1999"),
+                     Email = "MartaPane@gmail.com",
+                     Indirizzo = "Via Pane 15°",
+                     Citta = "Forlì",
+                     Telefono = "3458684937",
+                     Diploma = "Tecnico",
+                     AnnoDiploma = DateTime.Parse("17/06/2018"),
+                     IscrizioniId = 1,
+                     CorsiId = 4,
+                 },
+                 new Partecipanti
+                 {
+                     Id = 5,
+                     Nome = "Giorgia",
+                     Cognome = "Telo",
+                     DataNascita = DateTime.Parse("02/08/1998"),
+                     Email = "GiorgiaTelo@gmail.com",
+                     Indirizzo = "Via Telo 78°",
+                     Citta = "Faenza",
+                     Telefono = "3338614937",
+                     Diploma = "Tecnico",
+                     AnnoDiploma = DateTime.Parse("17/06/2017"),
+                     IscrizioniId = 2,
+                     CorsiId = 5,
+                 });
+ 
+             builder.Entity<Moduli>().HasData(
                 new Moduli
                 {
                     Id = 1,
