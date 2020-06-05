@@ -181,7 +181,188 @@ namespace Gestionale.Data
                      IscrizioniId = 2,
                      CorsiId = 5,
                  });
- 
+            builder.Entity<Personale>().HasData(
+                 new Personale
+                 {
+                     Id = 1,
+                     Nome = "Matteo",
+                     Cognome = "Frasulli",
+                     DataNascita = DateTime.Parse("05/09/1989"),
+                     Email = "MatteoFrasulli@gmail.com",
+                     Telefono = "3458614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Coordinatore,
+                     CorsiId = 1,
+                 },
+                 new Personale
+                 {
+                     Id = 2,
+                     Nome = "Paola",
+                     Cognome = "Grud",
+                     DataNascita = DateTime.Parse("05/09/1988"),
+                     Email = "PaolaGrud@gmail.com",
+                     Telefono = "3458775787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Coordinatore,
+                     CorsiId = 2,
+                 },
+                 new Personale
+                 {
+                     Id = 3,
+                     Nome = "Giorgia",
+                     Cognome = "Stella",
+                     DataNascita = DateTime.Parse("05/09/1987"),
+                     Email = "GiorgiaStella@gmail.com",
+                     Telefono = "3458618787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Coordinatore,
+                     CorsiId = 3,
+                 },
+                 new Personale
+                 {
+                     Id = 4,
+                     Nome = "Dario",
+                     Cognome = "Dadi",
+                     DataNascita = DateTime.Parse("05/09/1989"),
+                     Email = "DarioDadi@gmail.com",
+                     Telefono = "3457914787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Coordinatore,
+                     CorsiId = 4,
+                 },
+                 new Personale
+                 {
+                     Id = 5,
+                     Nome = "Mattia",
+                     Cognome = "Raro",
+                     DataNascita = DateTime.Parse("05/09/1980"),
+                     Email = "MattiaRaro@gmail.com",
+                     Telefono = "3458614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Coordinatore,
+                     CorsiId = 5,
+                 },
+                 new Personale
+                 {
+                     Id = 6,
+                     Nome = "Mauro",
+                     Cognome = "Giuseppa",
+                     DataNascita = DateTime.Parse("05/09/1989"),
+                     Email = "MauroGiuseppa@gmail.com",
+                     Telefono = "3228614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Tutor,
+                     CorsiId = 1,
+                 }, new Personale
+                 {
+                     Id = 7,
+                     Nome = "Giulia",
+                     Cognome = "Frafra",
+                     DataNascita = DateTime.Parse("05/09/1989"),
+                     Email = "GiuliaFrafra@gmail.com",
+                     Telefono = "3248614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Tutor,
+                     CorsiId = 2
+                 },
+                 new Personale
+                 {
+                     Id = 8,
+                     Nome = "Carmine",
+                     Cognome = "Del Mio",
+                     DataNascita = DateTime.Parse("05/09/1989"),
+                     Email = "CarmineDelMio@gmail.com",
+                     Telefono = "3278614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Tutor,
+                     CorsiId = 3,
+                 },
+                 new Personale
+                 {
+                     Id = 9,
+                     Nome = "Francesca",
+                     Cognome = "Del Capo",
+                     DataNascita = DateTime.Parse("05/09/1989"),
+                     Email = "FrancescaDelCapo@gmail.com",
+                     Telefono = "3298614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Tutor,
+                     CorsiId = 4,
+                 },
+                 new Personale
+                 {
+                     Id = 10,
+                     Nome = "Alessandro",
+                     Cognome = "Ortè",
+                     DataNascita = DateTime.Parse("05/09/1989"),
+                     Email = "AlessandroOrtè@gmail.com",
+                     Telefono = "3258614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Tutor,
+                     CorsiId = 5,
+                 },
+                 new Personale
+                 {
+                     Id = 11,
+                     Nome = "Rosalia",
+                     Cognome = "Telepatia",
+                     DataNascita = DateTime.Parse("05/09/1979"),
+                     Email = "RosaliaTelepatia@gmail.com",
+                     Telefono = "3278614787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Insegnante,
+                     CorsiId = 1,
+                 },
+                 new Personale
+                 {
+                     Id = 12,
+                     Nome = "Alessandro",
+                     Cognome = "De'Martino",
+                     DataNascita = DateTime.Parse("05/09/1978"),
+                     Email = "AlessandroDeMartino@gmail.com",
+                     Telefono = "3258174787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Insegnante,
+                     CorsiId = 2,
+                 },
+                 new Personale
+                 {
+                     Id = 13,
+                     Nome = "Sara",
+                     Cognome = "Martin",
+                     DataNascita = DateTime.Parse("05/09/1990"),
+                     Email = "SaraMartin@gmail.com",
+                     Telefono = "3258614977",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Insegnante,
+                     CorsiId = 3,
+                 },
+                 new Personale
+                 {
+                     Id = 14,
+                     Nome = "Marco",
+                     Cognome = "Terra",
+                     DataNascita = DateTime.Parse("05/09/1988"),
+                     Email = "MarcoTerra@gmail.com",
+                     Telefono = "3258610787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Insegnante,
+                     CorsiId = 4,
+                 },
+                 new Personale
+                 {
+                     Id = 15,
+                     Nome = "Francesca",
+                     Cognome = "Rosa",
+                     DataNascita = DateTime.Parse("05/09/1987"),
+                     Email = "FrancescaRosa@gmail.com",
+                     Telefono = "3258414787",
+                     Assunzione = DateTime.Parse(DateTime.Now.ToString()),
+                     Categorie = Data.Personale.Professioni.Insegnante,
+                     CorsiId = 5,
+                 }
+                 );
+
              builder.Entity<Moduli>().HasData(
                 new Moduli
                 {
