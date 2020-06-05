@@ -27,12 +27,49 @@ namespace Gestionale.Data
                 new Corsi
                 {
                     Id = 1,
-                    Nome = "Turing",
+                    Nome = "Alan Turing",
                     AnnoAccademico = "21/23",
                     AnnoInizioCorso = DateTime.Parse("01/01/2021"),
                     AnnoFineCorso = DateTime.Parse("01/01/2023"),
-                    Sede = "Bologna"
-                });
+                    Sede = "Cesena",
+                },
+                new Corsi
+                {
+                    Id = 2,
+                    Nome = "Marshall McLuhan",
+                    AnnoAccademico = "21/23",
+                    AnnoInizioCorso = DateTime.Parse("01/01/2021"),
+                    AnnoFineCorso = DateTime.Parse("01/01/2023"),
+                    Sede = "Bologna",
+                },
+                new Corsi
+                {
+                    Id = 3,
+                    Nome = "Grace Hopper",
+                    AnnoAccademico = "21/23",
+                    AnnoInizioCorso = DateTime.Parse("01/01/2021"),
+                    AnnoFineCorso = DateTime.Parse("01/01/2023"),
+                    Sede = "Modena"
+                },
+                new Corsi
+                {
+                    Id = 4,
+                    Nome = "Product Manager Fashion",
+                    AnnoAccademico = "21/23",
+                    AnnoInizioCorso = DateTime.Parse("01/01/2021"),
+                    AnnoFineCorso = DateTime.Parse("01/01/2023"),
+                    Sede = "Carpi"
+                },
+                new Corsi
+                {
+                    Id = 5,
+                    Nome = "Expert Mixed Reality",
+                    AnnoAccademico = "21/23",
+                    AnnoInizioCorso = DateTime.Parse("01/01/2021"),
+                    AnnoFineCorso = DateTime.Parse("01/01/2023"),
+                    Sede = "Casalecchio"
+                }
+                );
 
                 builder.Entity<Moduli>().HasData(
                 new Moduli
