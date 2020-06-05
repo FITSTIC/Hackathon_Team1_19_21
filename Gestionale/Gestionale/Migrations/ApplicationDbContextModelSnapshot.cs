@@ -139,7 +139,7 @@ namespace Gestionale.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CorsiId")
+                    b.Property<int>("CorsiId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataFine")
@@ -167,6 +167,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 1,
+                            CorsiId = 1,
                             DataFine = new DateTime(2021, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Materia = "Programmazione OOP"
@@ -491,7 +492,9 @@ namespace Gestionale.Migrations
                 {
                     b.HasOne("Gestionale.Data.Corsi", "Corsi")
                         .WithMany("Moduli")
-                        .HasForeignKey("CorsiId");
+                        .HasForeignKey("CorsiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Gestionale.Data.Personale", "Personale")
                         .WithMany("Moduli")

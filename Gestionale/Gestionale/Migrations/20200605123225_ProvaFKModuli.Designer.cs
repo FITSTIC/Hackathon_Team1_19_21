@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestionale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200603142415_aggiuntaDatiModificaProprieta")]
-    partial class aggiuntaDatiModificaProprieta
+    [Migration("20200605123225_ProvaFKModuli")]
+    partial class ProvaFKModuli
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,8 +53,44 @@ namespace Gestionale.Migrations
                             AnnoAccademico = "21/23",
                             AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nome = "Turing",
+                            Nome = "Alan Turing",
+                            Sede = "Cesena"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AnnoAccademico = "21/23",
+                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Marshall McLuhan",
                             Sede = "Bologna"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AnnoAccademico = "21/23",
+                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Grace Hopper",
+                            Sede = "Modena"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AnnoAccademico = "21/23",
+                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Product Manager Fashion",
+                            Sede = "Carpi"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AnnoAccademico = "21/23",
+                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Nome = "Expert Mixed Reality",
+                            Sede = "Casalecchio"
                         });
                 });
 
@@ -105,7 +141,7 @@ namespace Gestionale.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CorsiId")
+                    b.Property<int>("CorsiId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataFine")
@@ -133,6 +169,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 1,
+                            CorsiId = 1,
                             DataFine = new DateTime(2021, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Materia = "Programmazione OOP"
@@ -457,7 +494,9 @@ namespace Gestionale.Migrations
                 {
                     b.HasOne("Gestionale.Data.Corsi", "Corsi")
                         .WithMany("Moduli")
-                        .HasForeignKey("CorsiId");
+                        .HasForeignKey("CorsiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Gestionale.Data.Personale", "Personale")
                         .WithMany("Moduli")

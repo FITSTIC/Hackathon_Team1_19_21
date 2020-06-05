@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Gestionale.Migrations
 {
-    public partial class creazioneTabelle : Migration
+    public partial class ProvaFKModuli : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,7 @@ namespace Gestionale.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nome = table.Column<string>(nullable: false),
-                    AnnoAccademico = table.Column<DateTime>(nullable: false),
+                    AnnoAccademico = table.Column<string>(nullable: false),
                     AnnoInizioCorso = table.Column<DateTime>(nullable: false),
                     AnnoFineCorso = table.Column<DateTime>(nullable: false),
                     Sede = table.Column<string>(nullable: false)
@@ -222,7 +222,7 @@ namespace Gestionale.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Materia = table.Column<string>(nullable: false),
-                    CorsiId = table.Column<int>(nullable: true),
+                    CorsiId = table.Column<int>(nullable: false),
                     DataInizio = table.Column<DateTime>(nullable: false),
                     DataFine = table.Column<DateTime>(nullable: false),
                     PersonaleId = table.Column<int>(nullable: true)
@@ -235,7 +235,7 @@ namespace Gestionale.Migrations
                         column: x => x.CorsiId,
                         principalTable: "Corsi",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Moduli_Personale_PersonaleId",
                         column: x => x.PersonaleId,
@@ -313,6 +313,36 @@ namespace Gestionale.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Corsi",
+                columns: new[] { "Id", "AnnoAccademico", "AnnoFineCorso", "AnnoInizioCorso", "Nome", "Sede" },
+                values: new object[] { 1, "21/23", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Alan Turing", "Cesena" });
+
+            migrationBuilder.InsertData(
+                table: "Corsi",
+                columns: new[] { "Id", "AnnoAccademico", "AnnoFineCorso", "AnnoInizioCorso", "Nome", "Sede" },
+                values: new object[] { 2, "21/23", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Marshall McLuhan", "Bologna" });
+
+            migrationBuilder.InsertData(
+                table: "Corsi",
+                columns: new[] { "Id", "AnnoAccademico", "AnnoFineCorso", "AnnoInizioCorso", "Nome", "Sede" },
+                values: new object[] { 3, "21/23", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Grace Hopper", "Modena" });
+
+            migrationBuilder.InsertData(
+                table: "Corsi",
+                columns: new[] { "Id", "AnnoAccademico", "AnnoFineCorso", "AnnoInizioCorso", "Nome", "Sede" },
+                values: new object[] { 4, "21/23", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Product Manager Fashion", "Carpi" });
+
+            migrationBuilder.InsertData(
+                table: "Corsi",
+                columns: new[] { "Id", "AnnoAccademico", "AnnoFineCorso", "AnnoInizioCorso", "Nome", "Sede" },
+                values: new object[] { 5, "21/23", new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Expert Mixed Reality", "Casalecchio" });
+
+            migrationBuilder.InsertData(
+                table: "Moduli",
+                columns: new[] { "Id", "CorsiId", "DataFine", "DataInizio", "Materia", "PersonaleId" },
+                values: new object[] { 1, 1, new DateTime(2021, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Programmazione OOP", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

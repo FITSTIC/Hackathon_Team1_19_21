@@ -70,14 +70,17 @@ namespace Gestionale.Data
                     Sede = "Casalecchio"
                 }
                 );
-
+                
                 builder.Entity<Moduli>().HasData(
                 new Moduli
                 {
                     Id = 1,
-                    Materia = "Programmazione OOP",
-                    DataInizio= DateTime.Parse("02/01/2021"),
+                    CorsiId = 1,                 
                     DataFine = DateTime.Parse("02/02/2021"),
+                    DataInizio = DateTime.Parse("02/01/2021"),
+                    Materia = "Programmazione OOP",
+                    PersonaleId = null,
+
                 });
         }
 

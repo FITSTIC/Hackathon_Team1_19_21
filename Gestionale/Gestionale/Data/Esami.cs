@@ -10,7 +10,6 @@ namespace Gestionale.Data
     {
         [Key]
         public int Id { get; set; }
-        public List<Partecipanti> Partecipanti { get; set; }
         public Moduli Moduli { get; set; }//FK
         public DateTime DataEsame { get; set; }
         public double Punteggio { get; set; }

@@ -26,9 +26,9 @@ namespace Gestionale.Data
         public string Telefono { get; set; }
         public string Diploma { get; set; }
         public DateTime AnnoDiploma { get; set; }
+        public int IscrizioniId { get; set; }
         public Iscrizioni Iscrizioni { get; set; }//FK
-        public Moduli Moduli { get; set; }//FK
-        public Esami Esame { get; set; }//FK
+        public int CorsiId { get; set; }
         public Corsi Corsi { get; set; }//FK
         public Partecipanti() { }
     }
