@@ -11,6 +11,7 @@ namespace Gestionale.Data
         [Key]
         public int Id { get; set; }
         public DateTime DataIscrizione { get; set; }
+        public int CorsiId { get; set; }
         public Corsi Corsi { get; set; }//FK
         public List<Partecipanti> Partecipanti { get; set; }
         public Iscrizioni() { }

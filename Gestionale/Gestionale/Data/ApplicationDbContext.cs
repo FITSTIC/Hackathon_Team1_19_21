@@ -68,10 +68,44 @@ namespace Gestionale.Data
                     AnnoInizioCorso = DateTime.Parse("01/01/2021"),
                     AnnoFineCorso = DateTime.Parse("01/01/2023"),
                     Sede = "Casalecchio"
-                }
-                );
-                
-                builder.Entity<Moduli>().HasData(
+                });
+            builder.Entity<Iscrizioni>().HasData(
+               new Iscrizioni
+               {
+                   Id = 1,
+                   DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
+                   CorsiId = 4,
+
+               },
+               new Iscrizioni
+               {
+                   Id = 2,
+                   DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
+                   CorsiId = 5,
+
+               },
+               new Iscrizioni
+               {
+                   Id = 3,
+                   DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
+                   CorsiId = 1,
+
+               },
+               new Iscrizioni
+               {
+                   Id = 4,
+                   DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
+                   CorsiId = 3,
+
+               },
+               new Iscrizioni
+               {
+                   Id = 5,
+                   DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
+                   CorsiId = 2,
+
+               });
+            builder.Entity<Moduli>().HasData(
                 new Moduli
                 {
                     Id = 1,

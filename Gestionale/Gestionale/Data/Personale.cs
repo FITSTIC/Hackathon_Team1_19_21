@@ -23,6 +23,7 @@ namespace Gestionale.Data
         [Required]
         public Professioni Categorie { get; set; }
         public List<Moduli> Moduli { get; set; }
+        public int CorsiId { get; set; }
         public Corsi Corsi { get; set; }
         public Personale() { }
         public enum Professioni

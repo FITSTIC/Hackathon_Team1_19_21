@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestionale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200605123225_ProvaFKModuli")]
-    partial class ProvaFKModuli
+    [Migration("20200605141426_modificaClassi")]
+    partial class modificaClassi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,7 +103,7 @@ namespace Gestionale.Migrations
                     b.Property<DateTime>("DataEsame")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ModuliId")
+                    b.Property<int>("ModuliId")
                         .HasColumnType("INTEGER");
 
                     b.Property<double>("Punteggio")
@@ -122,7 +122,7 @@ namespace Gestionale.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CorsiId")
+                    b.Property<int>("CorsiId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataIscrizione")
@@ -193,7 +193,7 @@ namespace Gestionale.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("CorsiId")
+                    b.Property<int>("CorsiId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataNascita")
@@ -206,17 +206,11 @@ namespace Gestionale.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("EsameId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Indirizzo")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("IscrizioniId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ModuliId")
+                    b.Property<int>("IscrizioniId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nome")
@@ -231,11 +225,7 @@ namespace Gestionale.Migrations
 
                     b.HasIndex("CorsiId");
 
-                    b.HasIndex("EsameId");
-
                     b.HasIndex("IscrizioniId");
-
-                    b.HasIndex("ModuliId");
 
                     b.ToTable("Partecipanti");
                 });
@@ -256,7 +246,7 @@ namespace Gestionale.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("CorsiId")
+                    b.Property<int>("CorsiId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("DataNascita")
@@ -480,14 +470,18 @@ namespace Gestionale.Migrations
                 {
                     b.HasOne("Gestionale.Data.Moduli", "Moduli")
                         .WithMany("Esami")
-                        .HasForeignKey("ModuliId");
+                        .HasForeignKey("ModuliId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Gestionale.Data.Iscrizioni", b =>
                 {
                     b.HasOne("Gestionale.Data.Corsi", "Corsi")
                         .WithMany()
-                        .HasForeignKey("CorsiId");
+                        .HasForeignKey("CorsiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Gestionale.Data.Moduli", b =>
@@ -507,26 +501,24 @@ namespace Gestionale.Migrations
                 {
                     b.HasOne("Gestionale.Data.Corsi", "Corsi")
                         .WithMany("Partecipanti")
-                        .HasForeignKey("CorsiId");
-
-                    b.HasOne("Gestionale.Data.Esami", "Esame")
-                        .WithMany("Partecipanti")
-                        .HasForeignKey("EsameId");
+                        .HasForeignKey("CorsiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Gestionale.Data.Iscrizioni", "Iscrizioni")
                         .WithMany("Partecipanti")
-                        .HasForeignKey("IscrizioniId");
-
-                    b.HasOne("Gestionale.Data.Moduli", "Moduli")
-                        .WithMany("Partecipanti")
-                        .HasForeignKey("ModuliId");
+                        .HasForeignKey("IscrizioniId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Gestionale.Data.Personale", b =>
                 {
                     b.HasOne("Gestionale.Data.Corsi", "Corsi")
                         .WithMany("Personale")
-                        .HasForeignKey("CorsiId");
+                        .HasForeignKey("CorsiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

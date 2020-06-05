@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Gestionale.Migrations
 {
-    public partial class ProvaFKModuli : Migration
+    public partial class modificaClassi : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -176,7 +176,7 @@ namespace Gestionale.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DataIscrizione = table.Column<DateTime>(nullable: false),
-                    CorsiId = table.Column<int>(nullable: true)
+                    CorsiId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,7 +186,7 @@ namespace Gestionale.Migrations
                         column: x => x.CorsiId,
                         principalTable: "Corsi",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,7 +202,7 @@ namespace Gestionale.Migrations
                     Telefono = table.Column<string>(nullable: false),
                     Assunzione = table.Column<DateTime>(nullable: false),
                     Categorie = table.Column<int>(nullable: false),
-                    CorsiId = table.Column<int>(nullable: true)
+                    CorsiId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,7 +212,42 @@ namespace Gestionale.Migrations
                         column: x => x.CorsiId,
                         principalTable: "Corsi",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Partecipanti",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(nullable: false),
+                    Cognome = table.Column<string>(nullable: false),
+                    DataNascita = table.Column<DateTime>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Indirizzo = table.Column<string>(nullable: false),
+                    Citta = table.Column<string>(nullable: false),
+                    Telefono = table.Column<string>(nullable: false),
+                    Diploma = table.Column<string>(nullable: true),
+                    AnnoDiploma = table.Column<DateTime>(nullable: false),
+                    IscrizioniId = table.Column<int>(nullable: false),
+                    CorsiId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Partecipanti", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Partecipanti_Corsi_CorsiId",
+                        column: x => x.CorsiId,
+                        principalTable: "Corsi",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Partecipanti_Iscrizioni_IscrizioniId",
+                        column: x => x.IscrizioniId,
+                        principalTable: "Iscrizioni",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,7 +285,7 @@ namespace Gestionale.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ModuliId = table.Column<int>(nullable: true),
+                    ModuliId = table.Column<int>(nullable: false),
                     DataEsame = table.Column<DateTime>(nullable: false),
                     Punteggio = table.Column<double>(nullable: false)
                 },
@@ -262,56 +297,7 @@ namespace Gestionale.Migrations
                         column: x => x.ModuliId,
                         principalTable: "Moduli",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Partecipanti",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(nullable: false),
-                    Cognome = table.Column<string>(nullable: false),
-                    DataNascita = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    Indirizzo = table.Column<string>(nullable: false),
-                    Citta = table.Column<string>(nullable: false),
-                    Telefono = table.Column<string>(nullable: false),
-                    Diploma = table.Column<string>(nullable: true),
-                    AnnoDiploma = table.Column<DateTime>(nullable: false),
-                    IscrizioniId = table.Column<int>(nullable: true),
-                    ModuliId = table.Column<int>(nullable: true),
-                    EsameId = table.Column<int>(nullable: true),
-                    CorsiId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Partecipanti", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Partecipanti_Corsi_CorsiId",
-                        column: x => x.CorsiId,
-                        principalTable: "Corsi",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Partecipanti_Esami_EsameId",
-                        column: x => x.EsameId,
-                        principalTable: "Esami",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Partecipanti_Iscrizioni_IscrizioniId",
-                        column: x => x.IscrizioniId,
-                        principalTable: "Iscrizioni",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Partecipanti_Moduli_ModuliId",
-                        column: x => x.ModuliId,
-                        principalTable: "Moduli",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -407,19 +393,9 @@ namespace Gestionale.Migrations
                 column: "CorsiId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Partecipanti_EsameId",
-                table: "Partecipanti",
-                column: "EsameId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Partecipanti_IscrizioniId",
                 table: "Partecipanti",
                 column: "IscrizioniId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Partecipanti_ModuliId",
-                table: "Partecipanti",
-                column: "ModuliId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Personale_CorsiId",
@@ -445,6 +421,9 @@ namespace Gestionale.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Esami");
+
+            migrationBuilder.DropTable(
                 name: "Partecipanti");
 
             migrationBuilder.DropTable(
@@ -454,13 +433,10 @@ namespace Gestionale.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Esami");
+                name: "Moduli");
 
             migrationBuilder.DropTable(
                 name: "Iscrizioni");
-
-            migrationBuilder.DropTable(
-                name: "Moduli");
 
             migrationBuilder.DropTable(
                 name: "Personale");
