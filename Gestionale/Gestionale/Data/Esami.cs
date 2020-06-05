@@ -13,7 +13,7 @@ namespace Gestionale.Data
         public int ModuliId { get; set; }
         public Moduli Moduli { get; set; }//FK
         public DateTime DataEsame { get; set; }
-        public double Punteggio { get; set; }
+        public double? Punteggio { get; set; }
         public Esami() { }
     }
 }

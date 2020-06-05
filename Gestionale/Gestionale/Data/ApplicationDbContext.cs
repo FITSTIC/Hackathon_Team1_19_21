@@ -119,7 +119,7 @@ namespace Gestionale.Data
                      Diploma = "Tecnico",
                      AnnoDiploma = DateTime.Parse("17/06/2010"),
                      IscrizioniId = 3,
-                     CorsiId = 1,   
+                     CorsiId = 1,
                  },
                  new Partecipanti
                  {
@@ -362,56 +362,91 @@ namespace Gestionale.Data
                      CorsiId = 5,
                  });
 
-             builder.Entity<Moduli>().HasData(
-                new Moduli
+            builder.Entity<Moduli>().HasData(
+               new Moduli
+               {
+                   Id = 1,
+                   CorsiId = 1,
+                   DataFine = DateTime.Parse("02/03/2021"),
+                   DataInizio = DateTime.Parse("02/01/2021"),
+                   Materia = "Programmazione OOP",
+                   PersonaleId = 11,
+               },
+               new Moduli
+               {
+                   Id = 2,
+                   CorsiId = 2,
+                   DataFine = DateTime.Parse("02/10/2021"),
+                   DataInizio = DateTime.Parse("02/01/2021"),
+                   Materia = "C#",
+                   PersonaleId = 1,
+               },
+               new Moduli
+               {
+                   Id = 3,
+                   CorsiId = 3,
+                   DataFine = DateTime.Parse("02/09/2021"),
+                   DataInizio = DateTime.Parse("02/01/2021"),
+                   Materia = "Inglese",
+                   PersonaleId = 5,
+               },
+               new Moduli
+               {
+                   Id = 4,
+                   CorsiId = 4,
+                   DataFine = DateTime.Parse("02/05/2021"),
+                   DataInizio = DateTime.Parse("02/01/2021"),
+                   Materia = "Lavorare in team",
+                   PersonaleId = 12,
+               },
+               new Moduli
+               {
+                   Id = 5,
+                   CorsiId = 5,
+                   DataFine = DateTime.Parse("02/11/2021"),
+                   DataInizio = DateTime.Parse("02/01/2021"),
+                   Materia = "Relazione con il Cliente",
+                   PersonaleId = 15,
+               });
+            builder.Entity<Esami>().HasData(
+                new Esami
                 {
                     Id = 1,
-                    CorsiId = 1,                 
-                    DataFine = DateTime.Parse("02/03/2021"),
-                    DataInizio = DateTime.Parse("02/01/2021"),
-                    Materia = "Programmazione OOP",
-                    PersonaleId = 11,
+                    ModuliId = 5,
+                    DataEsame = DateTime.Parse("02/11/2021"),
+                    Punteggio = null,
                 },
-                new Moduli
+                new Esami
                 {
                     Id = 2,
-                    CorsiId = 2,
-                    DataFine = DateTime.Parse("02/10/2021"),
-                    DataInizio = DateTime.Parse("02/01/2021"),
-                    Materia = "C#",
-                    PersonaleId = 1,
+                    ModuliId = 4,
+                    DataEsame = DateTime.Parse("02/05/2021"),
+                    Punteggio = null,
                 },
-                new Moduli
+                new Esami
                 {
                     Id = 3,
-                    CorsiId = 3,
-                    DataFine = DateTime.Parse("02/09/2021"),
-                    DataInizio = DateTime.Parse("02/01/2021"),
-                    Materia = "Inglese",
-                    PersonaleId = 5,
+                    ModuliId = 3,
+                    DataEsame = DateTime.Parse("02/09/2021"),
+                    Punteggio = null,
                 },
-                new Moduli
+                new Esami
                 {
                     Id = 4,
-                    CorsiId = 4,
-                    DataFine = DateTime.Parse("02/05/2021"),
-                    DataInizio = DateTime.Parse("02/01/2021"),
-                    Materia = "Lavorare in team",
-                    PersonaleId = 12,
+                    ModuliId = 2,
+                    DataEsame = DateTime.Parse("02/10/2021"),
+                    Punteggio = null,
                 },
-                new Moduli
+                new Esami
                 {
                     Id = 5,
-                    CorsiId = 5,
-                    DataFine = DateTime.Parse("02/11/2021"),
-                    DataInizio = DateTime.Parse("02/01/2021"),
-                    Materia = "Relazione con il Cliente",
-                    PersonaleId = 15,
+                    ModuliId = 1,
+                    DataEsame = DateTime.Parse("02/03/2021"),
+                    Punteggio = null,
                 });
-            
+
+
         }
-
-
 
     }
 }
