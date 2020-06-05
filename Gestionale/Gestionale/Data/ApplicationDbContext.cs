@@ -360,23 +360,58 @@ namespace Gestionale.Data
                      Assunzione = DateTime.Parse(DateTime.Now.ToString()),
                      Categorie = Data.Personale.Professioni.Insegnante,
                      CorsiId = 5,
-                 }
-                 );
+                 });
 
              builder.Entity<Moduli>().HasData(
                 new Moduli
                 {
                     Id = 1,
                     CorsiId = 1,                 
-                    DataFine = DateTime.Parse("02/02/2021"),
+                    DataFine = DateTime.Parse("02/03/2021"),
                     DataInizio = DateTime.Parse("02/01/2021"),
                     Materia = "Programmazione OOP",
-                    PersonaleId = null,
-
+                    PersonaleId = 11,
+                },
+                new Moduli
+                {
+                    Id = 2,
+                    CorsiId = 2,
+                    DataFine = DateTime.Parse("02/10/2021"),
+                    DataInizio = DateTime.Parse("02/01/2021"),
+                    Materia = "C#",
+                    PersonaleId = 1,
+                },
+                new Moduli
+                {
+                    Id = 3,
+                    CorsiId = 3,
+                    DataFine = DateTime.Parse("02/09/2021"),
+                    DataInizio = DateTime.Parse("02/01/2021"),
+                    Materia = "Inglese",
+                    PersonaleId = 5,
+                },
+                new Moduli
+                {
+                    Id = 4,
+                    CorsiId = 4,
+                    DataFine = DateTime.Parse("02/05/2021"),
+                    DataInizio = DateTime.Parse("02/01/2021"),
+                    Materia = "Lavorare in team",
+                    PersonaleId = 12,
+                },
+                new Moduli
+                {
+                    Id = 5,
+                    CorsiId = 5,
+                    DataFine = DateTime.Parse("02/11/2021"),
+                    DataInizio = DateTime.Parse("02/01/2021"),
+                    Materia = "Relazione con il Cliente",
+                    PersonaleId = 15,
                 });
+            
         }
 
 
 
-        }
+    }
 }
