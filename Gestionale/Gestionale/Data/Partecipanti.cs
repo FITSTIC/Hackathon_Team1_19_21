@@ -30,6 +30,8 @@ namespace Gestionale.Data
         public Iscrizioni Iscrizioni { get; set; }//FK
         public int CorsiId { get; set; }
         public Corsi Corsi { get; set; }//FK
+        public int? EsamiId { get; set; }
+        public Esami Esami { get; set; }//FK
         public Partecipanti() { }
     }
 
