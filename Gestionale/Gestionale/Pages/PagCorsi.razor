@@ -109,86 +109,83 @@ else
                                                             <label>Insegnante</label>
                                                             <select id="" class="form-control">
                                                                 <!-- inserire id -->
-
                                                                 @foreach (Personale personale in ListaPersonale)
-                                                                {
-                                                                <option selected>
-                                                                    @if (personale.Categorie == Personale.Professioni.Insegnante)
-                                                                    {
-                                                                       @personale.Cognome @personale.Nome;
-                                                                    }
-                                                                     </option>
+                                                                 {
+                                                                    <option selected>
+                                                                        @if (personale.Categorie == Personale.Professioni.Insegnante)
+                                                                        {
+                                                                            @personale.Cognome @personale.Nome;
+                                                                        }
+                                                                    </option>
                                                                  }
-                                                                </select>
-                                                                    </div>
-                                                                    <div class="form-group col-md-6">
-                                                                        <label>Tutor</label>
-                                                                        <select id="" class="form-control">
-                                                                            <!-- inserire id -->
-                                                                            <option selected></option>
-                                                                        </select>
-                                                                    </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                                                        <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    <div class="mr-4">
-                                                                        <button class="btn btn-danger" title="Elimina l'esame selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
-                                                                    </div>
-                                                                    </div>
-                                                                    <!-- DA CAMBIARE IN ESAMI -->
-                                                                    @if (ListaCorsi == null)
-                                                                    {
-                                                                        <p>Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <table class="table table-hover table-sm">
-                                                                            <thead>
-                                                                                <tr class="table-secondary">
-                                                                                    <td><input type="checkbox"></td>
-                                                                                    <th>Nome</th>
-                                                                                    <th>Anno Accademico</th>
-                                                                                    <th>Inizio corso</th>
-                                                                                    <th>Fine corso</th>
-                                                                                    <th>Sede</th>
-                                                                                    <th></th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <!-- DA CAMBIARE IN ESAMI -->
-                                                                                @foreach (var Modulo in ListaModuli)
-                                                                                {
-                                                                                    <tr>
-                                                                                        <td><input type="checkbox"></td>
-                                                                                        <td>@Modulo.Materia</td>
-                                                                                        <td>@Modulo.Personale</td>
-                                                                                        <td>@Modulo.DataInizio.ToString("MM/yyyy")</td>
-                                                                                        <td>@Modulo.DataFine.ToString("yyyy")</td>
-                                                                                        <td>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                }
-                                                                            </tbody>
-                                                                        </table>
-
-
-                                                                    }
-                                                                    </div>
-                                                                    </td>
-                                                                    </tr>
-                                                                    <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
-                                                                    <tr>
-                                                                        <td>
-                                                                        </td>
-                                                                    </tr>
-                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Tutor</label>
+                                                            <select id="" class="form-control">
+                                                                <!-- inserire id -->
+                                                                <option selected></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                                                        <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mr-4">
+                                    <button class="btn btn-danger" title="Elimina l'esame selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
+                                </div>
+                            </div>
+                            <!-- DA CAMBIARE IN ESAMI -->
+                            @if (ListaCorsi == null)
+                             {
+                                <p>Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
+                             }
+                            else
+                            {
+                                <table class="table table-hover table-sm">
+                                    <thead>
+                                        <tr class="table-secondary">
+                                            <td><input type="checkbox"></td>
+                                            <th>Nome</th>
+                                            <th>Anno Accademico</th>
+                                            <th>Inizio corso</th>
+                                            <th>Fine corso</th>
+                                            <th>Sede</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- DA CAMBIARE IN ESAMI -->
+                                        @foreach (var Modulo in ListaModuli)
+                                         {
+                                            <tr>
+                                                <td><input type="checkbox"></td>
+                                                <td>@Modulo.Materia</td>
+                                                <td>@Modulo.Personale</td>
+                                                <td>@Modulo.DataInizio.ToString("MM/yyyy")</td>
+                                                <td>@Modulo.DataFine.ToString("yyyy")</td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                         }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </td>
+                </tr>
+             }
+    <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
+            <tr>
+                <td>
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -205,7 +202,7 @@ else
     {
         ListaModuli = await db.Moduli.ToArrayAsync();
         ListaCorsi = await db.Corsi.ToArrayAsync(); // Da modificare in esami
-        ListaPersonale= await db.Personale.ToArrayAsync(); 
+        ListaPersonale = await db.Personale.ToArrayAsync();
     }
 
 
