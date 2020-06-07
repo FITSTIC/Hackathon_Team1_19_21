@@ -105,60 +105,65 @@
 }
 else
 {
-<table class="table table-hover">
-    <thead>
-        <tr class="table-secondary">
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-secondary">
 
-            <th><input type="checkbox"></th>
-            <th>Foto</th>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>Data di nascita</th>
-            <th>Indirizzo</th>
-            <th>Città</th>
-            <th>Telefono</th>
-            <th>E-Mail</th>
-            <th>Diploma</th>
-            <th>Anno Diploma</th>
-            <th>Data dell'Iscrizione</th>
-            <th>Corso</th>
-        </tr>
-    </thead>
-    <tbody class="accordion" id="boolAccord">
-        @foreach (var Partecipante in ListaPartecipanti)
+                <th><input type="checkbox"></th>
+                <!--<th>Foto</th>-->
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Data di nascita</th>
+                <th>Indirizzo</th>
+                <th>Città</th>
+                <th>Telefono</th>
+                <th>E-Mail</th>
+                <th>Diploma</th>
+                <th>Anno Diploma</th>
+                <th>Data dell'Iscrizione</th>
+                <th>Corso</th>
+            </tr>
+        </thead>
+        <tbody class="accordion" id="boolAccord">
+            @foreach (var Partecipante in ListaPartecipanti)
+            {
+            <tr>
+                <td><input type="checkbox"></td>               
+                <td>@Partecipante.Nome</td>
+                <td>@Partecipante.Cognome</td>
+                <td>@Partecipante.DataNascita.ToString("dd/MM/yyyy")</td>
+                <td>@Partecipante.Indirizzo</td>
+                <td>@Partecipante.Citta</td>
+                <td>@Partecipante.Telefono</td>
+                <td>@Partecipante.Email</td>
+                <td>@Partecipante.Diploma</td>
+                <td>@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")</td>
+                <td>@Partecipante.Iscrizioni.DataIscrizione.ToString("dd/MM/yyyy")</td>
+                <td>@Partecipante.Corsi.Nome</td>
+
+                <td>
+                    <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("i" + Partecipante.Id)">Info</button>
+                    <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("e" + Partecipante.Id)">Esami</button>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+}
+
+
+
+    @code { // private Moduli[] ListaModuli;
+        private Corsi[] ListaCorsi; // Da modificare in esami
+        private Partecipanti[] ListaPartecipanti;
+        private Iscrizioni[] ListaIscrizioni;
+        protected override async Task OnInitializedAsync()
         {
-<tr>
-    <td><input type="checkbox"></td>
-    <td>
-        <img style="width:30px" src=" " />
-    </td>
-    <td>@Partecipante.Nome</td>
-    <td>@Partecipante.Cognome</td>
-    <td>@Partecipante.DataNascita.ToString("dd/MM/yyyy")</td>
-    <td>@Partecipante.Indirizzo</td>
-    <td>@Partecipante.Telefono</td>
-    <td>@Partecipante.Diploma</td>
-    <td>@Partecipante.AnnoDiploma.ToString("yyyy")</td>
-    <td>@Partecipante.Iscrizioni.DataIscrizione.ToString("dd/MM/yyyy")</td>
-    <td>@Partecipante.Corsi.Nome</td>
+            //ListaModuli = await db.Moduli.ToArrayAsync();
 
-    <td>
-        <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("i"+Partecipante.Id)">Info</button>
-        <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("e"+Partecipante.Id)">Esami</button>
-    </td>
-</tr>}
-    </tbody>
-</table>}
+            ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+            ListaCorsi = await db.Corsi.ToArrayAsync();
+            ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
 
-
-
-@code { // private Moduli[] ListaModuli;
-    //private Corsi[] ListaCorsi; // Da modificare in esami
-    private Partecipanti[] ListaPartecipanti;
-    protected override async Task OnInitializedAsync()
-    {
-        //ListaModuli = await db.Moduli.ToArrayAsync();
-        //ListaCorsi = await db.Corsi.ToArrayAsync(); // Da modificare in esami
-        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
-        //ListaCorsi = await db.Corsi.ToArrayAsync();
-    } }
+        }
+          }
