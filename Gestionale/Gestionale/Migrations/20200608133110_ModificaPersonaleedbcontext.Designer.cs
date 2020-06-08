@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestionale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200607150657_ModificaEsami1")]
-    partial class ModificaEsami1
+    [Migration("20200608133110_ModificaPersonaleedbcontext")]
+    partial class ModificaPersonaleedbcontext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,7 +119,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 1,
-                            DataEsame = new DateTime(2021, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataEsame = new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ModuliId = 5
                         },
                         new
@@ -171,31 +171,31 @@ namespace Gestionale.Migrations
                         {
                             Id = 1,
                             CorsiId = 4,
-                            DataIscrizione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified)
+                            DataIscrizione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             CorsiId = 5,
-                            DataIscrizione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified)
+                            DataIscrizione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
                             CorsiId = 1,
-                            DataIscrizione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified)
+                            DataIscrizione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
                             CorsiId = 3,
-                            DataIscrizione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified)
+                            DataIscrizione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5,
                             CorsiId = 2,
-                            DataIscrizione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified)
+                            DataIscrizione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -270,7 +270,7 @@ namespace Gestionale.Migrations
                         {
                             Id = 5,
                             CorsiId = 5,
-                            DataFine = new DateTime(2021, 11, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataFine = new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Materia = "Relazione con il Cliente",
                             PersonaleId = 15
@@ -343,7 +343,7 @@ namespace Gestionale.Migrations
                             Citta = "Cesena",
                             Cognome = "Polo",
                             CorsiId = 1,
-                            DataNascita = new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataNascita = new DateTime(2010, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Diploma = "Tecnico",
                             Email = "MarcoPolo@gmail.com",
                             Indirizzo = "Via Polo 29°",
@@ -422,8 +422,8 @@ namespace Gestionale.Migrations
                     b.Property<DateTime>("Assunzione")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Categorie")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Categoria")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Cognome")
                         .IsRequired()
@@ -456,8 +456,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 1,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 2,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Coordinatore",
                             Cognome = "Frasulli",
                             CorsiId = 1,
                             DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -468,8 +468,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 2,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 2,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Coordinatore",
                             Cognome = "Grud",
                             CorsiId = 2,
                             DataNascita = new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -480,8 +480,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 3,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 2,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Coordinatore",
                             Cognome = "Stella",
                             CorsiId = 3,
                             DataNascita = new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -492,8 +492,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 4,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 2,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Coordinatore",
                             Cognome = "Dadi",
                             CorsiId = 4,
                             DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -504,11 +504,11 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 5,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 2,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Coordinatore",
                             Cognome = "Raro",
                             CorsiId = 5,
-                            DataNascita = new DateTime(1980, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataNascita = new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "MattiaRaro@gmail.com",
                             Nome = "Mattia",
                             Telefono = "3458614787"
@@ -516,8 +516,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 6,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 1,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Tutor",
                             Cognome = "Giuseppa",
                             CorsiId = 1,
                             DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -528,8 +528,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 7,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 1,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Tutor",
                             Cognome = "Frafra",
                             CorsiId = 2,
                             DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -540,8 +540,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 8,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 1,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Tutor",
                             Cognome = "Del Mio",
                             CorsiId = 3,
                             DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -552,8 +552,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 9,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 1,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Tutor",
                             Cognome = "Del Capo",
                             CorsiId = 4,
                             DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -564,8 +564,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 10,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 1,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Tutor",
                             Cognome = "Ortè",
                             CorsiId = 5,
                             DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -576,8 +576,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 11,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 0,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Insegnante",
                             Cognome = "Telepatia",
                             CorsiId = 1,
                             DataNascita = new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -588,11 +588,11 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 12,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 0,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Insegnante",
                             Cognome = "De'Martino",
                             CorsiId = 2,
-                            DataNascita = new DateTime(1978, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataNascita = new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "AlessandroDeMartino@gmail.com",
                             Nome = "Alessandro",
                             Telefono = "3258174787"
@@ -600,8 +600,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 13,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 0,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Insegnante",
                             Cognome = "Martin",
                             CorsiId = 3,
                             DataNascita = new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -612,8 +612,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 14,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 0,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Insegnante",
                             Cognome = "Terra",
                             CorsiId = 4,
                             DataNascita = new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -624,8 +624,8 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 15,
-                            Assunzione = new DateTime(2020, 6, 7, 17, 6, 56, 0, DateTimeKind.Unspecified),
-                            Categorie = 0,
+                            Assunzione = new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified),
+                            Categoria = "Insegnante",
                             Cognome = "Rosa",
                             CorsiId = 5,
                             DataNascita = new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),

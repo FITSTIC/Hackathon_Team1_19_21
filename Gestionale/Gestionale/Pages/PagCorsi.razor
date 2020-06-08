@@ -112,7 +112,7 @@ else
                                                                 @foreach (Personale personale in ListaPersonale)
                                                                  {
                                                                     <option selected>
-                                                                        @if (personale.Categorie == Personale.Professioni.Insegnante)
+                                                                        @if (personale.Categoria == "Insegnante")
                                                                         {
                                                                             @personale.Cognome @personale.Nome;
                                                                         }
