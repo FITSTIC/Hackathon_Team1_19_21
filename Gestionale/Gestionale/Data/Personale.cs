@@ -21,18 +21,37 @@ namespace Gestionale.Data
         public string Telefono { get; set; }
         public DateTime Assunzione { get; set; }
         [Required]
-        public Professioni Categorie { get; set; }
         public List<Moduli> Moduli { get; set; }
+        public string Categoria { get; set; }
         public int CorsiId { get; set; }
         public Corsi Corsi { get; set; }
         public Personale() { }
-        public enum Professioni
+    }
+    public class Insegnanti : Personale
+    { 
+        public int Id { get; set; }
+        public Insegnanti() : base()
         {
-            Insegnante,
-            Tutor,
-            Coordinatore
 
         }
+    }
+    public class Tutor : Personale
+    {
+        public int Id { get; set; }
+        public Tutor() : base()
+        {
+
+        }
+    }
+    public class Coordinatore : Personale
+    {
+        public int Id { get; set; }
+        public Coordinatore() : base()
+        {
+
+        }
+    }
+
+
 }
-    
-}
+ 

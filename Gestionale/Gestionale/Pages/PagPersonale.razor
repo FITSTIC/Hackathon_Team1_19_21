@@ -1,16 +1,1 @@
-﻿@page "/Personale"
-@using Gestionale.Data
-@using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext db
-
-<h3>Personale</h3>
-
-@code
-{
-    private Personale[] ListaPersonale;
-
-    protected override async Task OnInitializedAsync()
-    {
-        ListaPersonale = await db.Personale.ToArrayAsync();
-    }
-}
+﻿

@@ -60,9 +60,9 @@
                                 <option selected></option>
                                 @foreach (var personale in ListaPersonale)
                                 {
-                                    if (personale.Categorie == Personale.Professioni.Insegnante)
+                                   // if (personale.Categorie == Personale.Professioni.Insegnante)
                                     {
-                            <option value="@personale.Id">@(personale.Nome + " " + personale.Cognome)</option>
+                                        //<option value="@personale.Id">@(personale.Nome + " " + personale.Cognome)</option>
                                     }
 
                                 }
@@ -74,9 +74,9 @@
                                 <option selected></option>
                                 @foreach (var personale in ListaPersonale)
                                 {
-                                    if (personale.Categorie == Personale.Professioni.Tutor)
+                                    //if (personale.Categorie == Personale.Professioni.Tutor)
                                     {
-                                        <option value="@personale.Id">@(personale.Nome + " " + personale.Cognome)</option>
+                                        //<option value="@personale.Id">@(personale.Nome + " " + personale.Cognome)</option>
                                     }
 
                                 }
