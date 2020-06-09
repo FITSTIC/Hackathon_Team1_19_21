@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,8 +14,10 @@ namespace Gestionale.Data
         public int ModuliId { get; set; }
         public Moduli Moduli { get; set; }//FK
         public DateTime DataEsame { get; set; }
-        public double? Punteggio { get; set; }
         public List<Partecipanti> Partecipanti { get; set; }
-        public Esami() { }
+        public Esami() 
+        {
+            
+        }
     }
 }

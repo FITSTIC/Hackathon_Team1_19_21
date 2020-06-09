@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,6 +33,8 @@ namespace Gestionale.Data
         public Corsi Corsi { get; set; }//FK
         public int? EsamiId { get; set; }
         public Esami Esami { get; set; }//FK
+        [NotMapped]
+        public List<double?> Punteggi { get; set; }
         public Partecipanti() { }
     }
 

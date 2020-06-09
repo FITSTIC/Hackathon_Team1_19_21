@@ -7,6 +7,5 @@ namespace Gestionale.Data
 {
     public class Insegnanti : Personale
     {
-        public Insegnanti() : base() { }
     }
 }

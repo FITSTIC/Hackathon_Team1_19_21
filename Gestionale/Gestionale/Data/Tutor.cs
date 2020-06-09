@@ -7,9 +7,6 @@ namespace Gestionale.Data
 {
     public class Tutor : Personale
     {
-        public Tutor() : base()
-        {
 
-        }
     }
 }
