@@ -8,9 +8,6 @@ namespace Gestionale.Data
     public class Insegnanti : Personale
     {
         public new int Id { get; set; }
-        public Insegnanti() : base()
-        {
-
-        }
+        public Insegnanti() : base() { }
     }
 }

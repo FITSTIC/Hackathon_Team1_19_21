@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Coordinatori : Personale
+    public class Coordinatore : Personale
     {
         public new int Id { get; set; }
-        public Coordinatori() : base()
+        public Coordinatore() : base()
         {
 
         }

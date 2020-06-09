@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Gestionale.Migrations
 {
-    public partial class ModificaPersonaleedbcontext : Migration
+    public partial class DB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -335,102 +335,102 @@ namespace Gestionale.Migrations
             migrationBuilder.InsertData(
                 table: "Iscrizioni",
                 columns: new[] { "Id", "CorsiId", "DataIscrizione" },
-                values: new object[] { 3, 1, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 3, 1, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Iscrizioni",
                 columns: new[] { "Id", "CorsiId", "DataIscrizione" },
-                values: new object[] { 2, 5, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 2, 5, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Iscrizioni",
                 columns: new[] { "Id", "CorsiId", "DataIscrizione" },
-                values: new object[] { 5, 2, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 5, 2, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Iscrizioni",
                 columns: new[] { "Id", "CorsiId", "DataIscrizione" },
-                values: new object[] { 1, 4, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 1, 4, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Iscrizioni",
                 columns: new[] { "Id", "CorsiId", "DataIscrizione" },
-                values: new object[] { 4, 3, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 4, 3, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 5, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Coordinatore", "Raro", 5, new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MattiaRaro@gmail.com", "Mattia", "3458614787" });
+                values: new object[] { 5, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Coordinatore", "Raro", 5, new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MattiaRaro@gmail.com", "Mattia", "3458614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 14, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Insegnante", "Terra", 4, new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MarcoTerra@gmail.com", "Marco", "3258610787" });
+                values: new object[] { 14, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Insegnante", "Terra", 4, new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MarcoTerra@gmail.com", "Marco", "3258610787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 9, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Tutor", "Del Capo", 4, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "FrancescaDelCapo@gmail.com", "Francesca", "3298614787" });
+                values: new object[] { 9, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Tutor", "Del Capo", 4, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "FrancescaDelCapo@gmail.com", "Francesca", "3298614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 4, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Coordinatore", "Dadi", 4, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "DarioDadi@gmail.com", "Dario", "3457914787" });
+                values: new object[] { 4, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Coordinatore", "Dadi", 4, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "DarioDadi@gmail.com", "Dario", "3457914787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 13, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Insegnante", "Martin", 3, new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "SaraMartin@gmail.com", "Sara", "3258614977" });
+                values: new object[] { 13, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Insegnante", "Martin", 3, new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "SaraMartin@gmail.com", "Sara", "3258614977" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 3, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Coordinatore", "Stella", 3, new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "GiorgiaStella@gmail.com", "Giorgia", "3458618787" });
+                values: new object[] { 3, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Coordinatore", "Stella", 3, new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "GiorgiaStella@gmail.com", "Giorgia", "3458618787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 10, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Tutor", "Ortè", 5, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "AlessandroOrtè@gmail.com", "Alessandro", "3258614787" });
+                values: new object[] { 10, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Tutor", "Ortè", 5, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "AlessandroOrtè@gmail.com", "Alessandro", "3258614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 12, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Insegnante", "De'Martino", 2, new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "AlessandroDeMartino@gmail.com", "Alessandro", "3258174787" });
+                values: new object[] { 12, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Insegnante", "De'Martino", 2, new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "AlessandroDeMartino@gmail.com", "Alessandro", "3258174787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 7, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Tutor", "Frafra", 2, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "GiuliaFrafra@gmail.com", "Giulia", "3248614787" });
+                values: new object[] { 7, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Tutor", "Frafra", 2, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "GiuliaFrafra@gmail.com", "Giulia", "3248614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 2, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Coordinatore", "Grud", 2, new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "PaolaGrud@gmail.com", "Paola", "3458775787" });
+                values: new object[] { 2, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Coordinatore", "Grud", 2, new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "PaolaGrud@gmail.com", "Paola", "3458775787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 11, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Insegnante", "Telepatia", 1, new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "RosaliaTelepatia@gmail.com", "Rosalia", "3278614787" });
+                values: new object[] { 11, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Insegnante", "Telepatia", 1, new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "RosaliaTelepatia@gmail.com", "Rosalia", "3278614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 6, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Tutor", "Giuseppa", 1, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MauroGiuseppa@gmail.com", "Mauro", "3228614787" });
+                values: new object[] { 6, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Tutor", "Giuseppa", 1, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MauroGiuseppa@gmail.com", "Mauro", "3228614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 1, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Coordinatore", "Frasulli", 1, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MatteoFrasulli@gmail.com", "Matteo", "3458614787" });
+                values: new object[] { 1, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Coordinatore", "Frasulli", 1, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "MatteoFrasulli@gmail.com", "Matteo", "3458614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 8, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Tutor", "Del Mio", 3, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "CarmineDelMio@gmail.com", "Carmine", "3278614787" });
+                values: new object[] { 8, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Tutor", "Del Mio", 3, new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "CarmineDelMio@gmail.com", "Carmine", "3278614787" });
 
             migrationBuilder.InsertData(
                 table: "Personale",
                 columns: new[] { "Id", "Assunzione", "Categoria", "Cognome", "CorsiId", "DataNascita", "Email", "Nome", "Telefono" },
-                values: new object[] { 15, new DateTime(2020, 6, 8, 15, 31, 9, 0, DateTimeKind.Unspecified), "Insegnante", "Rosa", 5, new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "FrancescaRosa@gmail.com", "Francesca", "3258414787" });
+                values: new object[] { 15, new DateTime(2020, 6, 9, 14, 40, 34, 0, DateTimeKind.Unspecified), "Insegnante", "Rosa", 5, new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "FrancescaRosa@gmail.com", "Francesca", "3258414787" });
 
             migrationBuilder.InsertData(
                 table: "Moduli",
