@@ -385,7 +385,8 @@ namespace Gestionale.Data
                 DataFine = new DateTime(2021, 03, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Programmazione OOP",
-                PersonaleId = 11,
+                InsegnanteId = 15,
+                TutorId = 9
             },
             new Moduli
             {
@@ -394,7 +395,8 @@ namespace Gestionale.Data
                 DataFine = new DateTime(2021, 10, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "C#",
-                PersonaleId = 1,
+                InsegnanteId = 11,
+                TutorId = 10
 
             },
             new Moduli
@@ -404,7 +406,8 @@ namespace Gestionale.Data
                 DataFine = new DateTime(2021, 09, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Inglese",
-                PersonaleId = 5,
+                InsegnanteId = 12,
+                TutorId = 8
             },
             new Moduli
             {
@@ -413,7 +416,8 @@ namespace Gestionale.Data
                 DataFine = new DateTime(2021, 05, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Lavorare in team",
-                PersonaleId = 12,
+                InsegnanteId = 13,
+                TutorId = 7
             },
             new Moduli
             {
@@ -422,7 +426,8 @@ namespace Gestionale.Data
                 DataFine = new DateTime(2021, 02, 11),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Relazione con il Cliente",
-                PersonaleId = 15,
+                InsegnanteId = 14,
+                TutorId = 6
             });
         builder.Entity<Esami>().HasData(
             new Esami

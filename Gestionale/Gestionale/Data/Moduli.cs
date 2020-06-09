@@ -16,8 +16,10 @@ namespace Gestionale.Data
         public Corsi Corsi { get; set; }//FK
         public DateTime DataInizio { get; set; }
         public DateTime DataFine { get; set; }
-        public int? PersonaleId { get; set; }
-        public Personale Personale { get; set; }//FK
+        public int? InsegnanteId { get; set; }
+        public Insegnanti Insegnanti{ get; set; }//FK
+        public int? TutorId { get; set; }
+        public Tutor Tutor { get; set; }//FK
         public List<Esami> Esami { get; set; }
         public Moduli() { }
     }
