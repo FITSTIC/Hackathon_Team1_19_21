@@ -21,6 +21,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">Inserisci la foto del partecipante</label>
+                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                            </div>
+                        </form>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -73,14 +79,14 @@
                                 <select id="" class="form-control">
                                     <!-- inserire id -->
                                     @*@foreach (Corsi corso in ListaCorsi)
-                                        {
-                                            <option selected>
-                                                @if (corso.Nome == Corsi.Nome)
-                                                {
-                                            @corso.Nome;
-                                            }
-                                          </option>
-                                        }*@
+                    {
+                        <option selected>
+                            @if (corso.Nome == Corsi.Nome)
+                            {
+                        @corso.Nome;
+                        }
+                      </option>
+                    }*@
                                 </select>
                             </div>
                         </div>
@@ -141,8 +147,97 @@ else
                 <td>@Partecipante.Corsi.Nome</td>
 
                 <td>
-                    <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("i" + Partecipante.Id)">Info</button>
-                    <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("e" + Partecipante.Id)">Esami</button>
+                    <button class="btn btn-success" data-toggle="modal" title="Visualizza le informazioni del partecipante" data-target="#InfoPartecipanti"><b>+</b></button>
+
+                    <!-- Modale inserimento modulo -->
+                    <div class="modal fade" id="InfoPartecipanti" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Visualizza le informazioni del partecipante</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Nome</label>
+                                            
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Nome">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Cognome</label>
+                                            
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Cognome">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Data di nascita</label>
+                                            
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.DataNascita.ToString("dd/MM/yyyy")">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Indirizzo</label>
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Indirizzo">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Città</label>
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Citta">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Telefono</label>
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Telefono">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>E-Mail</label>
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Email">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Diploma</label>
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Diploma">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label>Anno diploma</label>
+
+                                           <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Data Iscrizione</label>
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Iscrizioni.DataIscrizione.ToString("dd/MM/yyyy")">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Corso</label>
+
+                                            <select id="" class="form-control" value="@Partecipante.Corsi.Nome" readonly> 
+                                                <!-- inserire id -->
+                                                @*@foreach (Corsi corso in ListaCorsi)
+                                    {
+                                        <option selected>
+                                            @if (corso.Nome == Corsi.Nome)
+                                            {
+                                        @corso.Nome;
+                                        }
+                                      </option>
+                                    }*@
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                                        <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </td>
             </tr>
     }
