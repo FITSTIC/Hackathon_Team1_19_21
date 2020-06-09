@@ -23,7 +23,6 @@ namespace Gestionale.Data
         {
         }
 
-        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             
@@ -193,6 +192,7 @@ namespace Gestionale.Data
                 CorsiId = 5,
                 Punteggi = new List<double?>() { 0 },
             });
+
             builder.Entity<Coordinatore>().HasData(
             new Coordinatore
             {
