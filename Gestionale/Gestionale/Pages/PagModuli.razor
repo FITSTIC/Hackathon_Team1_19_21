@@ -297,11 +297,11 @@
     @code {
 
         private string prova;
-        private Corsi[] ListaCorsi;
-        private Moduli[] ListaModuli;
-        private Esami[] ListaEsami;
-        private Partecipanti[] ListaPartecipanti;
-        private Personale[] ListaPersonale;
+        private Corso[] ListaCorsi;
+        private Modulo[] ListaModuli;
+        private Esame[] ListaEsami;
+        private Partecipante[] ListaPartecipanti;
+        private Persona[] ListaPersonale;
 
         protected override async Task OnInitializedAsync()
         {
@@ -313,7 +313,7 @@
         }
 
 
-        private Moduli NuovoModulo = new Moduli()
+        private Modulo NuovoModulo = new Modulo()
         {
             DataInizio = DateTime.Now,
             DataFine = DateTime.Now
@@ -329,7 +329,7 @@
             StateHasChanged();
         }
 
-        private Esami NuovoEsame = new Esami()
+        private Esame NuovoEsame = new Esame()
         {
             DataEsame = DateTime.Now
         };

@@ -109,8 +109,8 @@ else
                                                             <label>Insegnante</label>
                                                             <select id="" class="form-control">
                                                                 <!-- inserire id -->
-                                                                @foreach (Personale personale in ListaPersonale)
-                                                                 {
+                                                                @foreach (Persona personale in ListaPersonale)
+                                                                {
                                                                     <option selected>
                                                                         @if (personale.Categoria == "Insegnante")
                                                                         {
@@ -195,9 +195,9 @@ else
 
 @code {
 
-    private Moduli[] ListaModuli;
-    private Corsi[] ListaCorsi; // Da modificare in esami
-    private Personale[] ListaPersonale;
+    private Modulo[] ListaModuli;
+    private Corso[] ListaCorsi; // Da modificare in esami
+    private Persona[] ListaPersonale;
     protected override async Task OnInitializedAsync()
     {
         ListaModuli = await db.Moduli.ToArrayAsync();

@@ -13,6 +13,6 @@ namespace Gestionale.Data
         {
         }
 
-        public DbSet<Gestionale.Data.Corsi> Corsi { get; set; }
+        public DbSet<Gestionale.Data.Corso> Corsi { get; set; }
     }
 }

@@ -15,6 +15,15 @@
     </div>
 </div>
 
+
+
+
+
+
+
+
+
+<!--DIVISOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-->
 <!-- Modale inserimento Personale -->
 <div class="modal fade" id="InsertPersonale" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
@@ -165,10 +174,10 @@
 
 @code
 { 
-    private Personale[] ListaPersonale;
-    private Corsi[] ListaCorsi;
-    private Personale NuovoPersonale = new Personale() { };
-    private Insegnanti NuovoInsegnante = new Insegnanti() { };
+    private Persona[] ListaPersonale;
+    private Corso[] ListaCorsi;
+    private Persona NuovoPersonale = new Persona() { };
+    private Insegnante NuovoInsegnante = new Insegnante() { };
     private Tutor NuovoTutor = new Tutor() { };
     private Coordinatore NuovoCoordinatore = new Coordinatore() { };
 
@@ -176,5 +185,5 @@
     {
         ListaPersonale = await db.Personale.ToArrayAsync();
         ListaCorsi = await db.Corsi.ToArrayAsync();
-    } 
+    }
 }

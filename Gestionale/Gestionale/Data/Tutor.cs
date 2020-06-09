@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Tutor : Personale
+    public class Tutor : Persona
     {
 
     }
