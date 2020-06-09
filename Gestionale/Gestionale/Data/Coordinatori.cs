@@ -7,7 +7,7 @@ namespace Gestionale.Data
 {
     public class Coordinatore : Personale
     {
-        public new int Id { get; set; }
+        public int Id { get; set; }
         public Coordinatore() : base()
         {
 

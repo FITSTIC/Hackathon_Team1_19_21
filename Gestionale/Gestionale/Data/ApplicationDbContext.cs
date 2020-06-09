@@ -9,6 +9,9 @@ namespace Gestionale.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Personale> Personale { get; set; }
+        public DbSet<Coordinatore> Coordinatore { get; set; }
+        public DbSet<Insegnanti> Insegnanti { get; set; }
+        public DbSet<Tutor> Tutor { get; set; }
         public DbSet<Partecipanti> Partecipanti { get; set; }
         public DbSet<Corsi> Corsi { get; set; }
         public DbSet<Moduli> Moduli { get; set; }
@@ -182,7 +185,7 @@ namespace Gestionale.Data
                      CorsiId = 5,
                  });
             builder.Entity<Personale>().HasData(
-                 new Personale
+                 new Coordinatore
                  {
                      Id = 1,
                      Nome = "Matteo",
@@ -194,7 +197,7 @@ namespace Gestionale.Data
                      Categoria = "Coordinatore",
                      CorsiId = 1,
                  },
-                 new Personale
+                 new Coordinatore
                  {
                      Id = 2,
                      Nome = "Paola",
@@ -206,7 +209,7 @@ namespace Gestionale.Data
                      Categoria = "Coordinatore",
                      CorsiId = 2,
                  },
-                 new Personale
+                 new Coordinatore
                  {
                      Id = 3,
                      Nome = "Giorgia",
@@ -218,7 +221,7 @@ namespace Gestionale.Data
                      Categoria = "Coordinatore",
                      CorsiId = 3,
                  },
-                 new Personale
+                 new Coordinatore
                  {
                      Id = 4,
                      Nome = "Dario",
@@ -230,7 +233,7 @@ namespace Gestionale.Data
                      Categoria = "Coordinatore",
                      CorsiId = 4,
                  },
-                 new Personale
+                 new Coordinatore
                  {
                      Id = 5,
                      Nome = "Mattia",
@@ -242,7 +245,7 @@ namespace Gestionale.Data
                      Categoria = "Coordinatore",
                      CorsiId = 5,
                  },
-                 new Personale
+                 new Tutor
                  {
                      Id = 6,
                      Nome = "Mauro",
@@ -253,7 +256,8 @@ namespace Gestionale.Data
                      Assunzione = DateTime.Parse(DateTime.Now.ToString()),
                      Categoria = "Tutor",
                      CorsiId = 1,
-                 }, new Personale
+                 }, 
+                 new Tutor
                  {
                      Id = 7,
                      Nome = "Giulia",
@@ -265,7 +269,7 @@ namespace Gestionale.Data
                      Categoria = "Tutor",
                      CorsiId = 2
                  },
-                 new Personale
+                 new Tutor
                  {
                      Id = 8,
                      Nome = "Carmine",
@@ -277,7 +281,7 @@ namespace Gestionale.Data
                      Categoria = "Tutor",
                      CorsiId = 3,
                  },
-                 new Personale
+                 new Tutor
                  {
                      Id = 9,
                      Nome = "Francesca",
@@ -289,7 +293,7 @@ namespace Gestionale.Data
                      Categoria = "Tutor",
                      CorsiId = 4,
                  },
-                 new Personale
+                 new Tutor
                  {
                      Id = 10,
                      Nome = "Alessandro",
@@ -301,7 +305,7 @@ namespace Gestionale.Data
                      Categoria = "Tutor",
                      CorsiId = 5,
                  },
-                 new Personale
+                 new Insegnanti
                  {
                      Id = 11,
                      Nome = "Rosalia",
@@ -313,7 +317,7 @@ namespace Gestionale.Data
                      Categoria = "Insegnante",
                      CorsiId = 1,
                  },
-                 new Personale
+                 new Insegnanti
                  {
                      Id = 12,
                      Nome = "Alessandro",
@@ -325,7 +329,7 @@ namespace Gestionale.Data
                      Categoria = "Insegnante",
                      CorsiId = 2,
                  },
-                 new Personale
+                 new Insegnanti
                  {
                      Id = 13,
                      Nome = "Sara",
@@ -337,7 +341,7 @@ namespace Gestionale.Data
                      Categoria = "Insegnante",
                      CorsiId = 3,
                  },
-                 new Personale
+                 new Insegnanti
                  {
                      Id = 14,
                      Nome = "Marco",
@@ -349,7 +353,7 @@ namespace Gestionale.Data
                      Categoria = "Insegnante",
                      CorsiId = 4,
                  },
-                 new Personale
+                 new Insegnanti
                  {
                      Id = 15,
                      Nome = "Francesca",
@@ -380,6 +384,7 @@ namespace Gestionale.Data
                    DataInizio = new DateTime(2021, 01, 02),
                    Materia = "C#",
                    PersonaleId = 1,
+
                },
                new Moduli
                {
