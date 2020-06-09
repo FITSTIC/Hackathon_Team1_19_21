@@ -170,11 +170,11 @@
     private Personale NuovoPersonale = new Personale() { };
     private Insegnanti NuovoInsegnante = new Insegnanti() { };
     private Tutor NuovoTutor = new Tutor() { };
-    private Coordinatore NuovoCoordinatore = new Coordinatore() { };
+    private Coordinatori NuovoCoordinatore = new Coordinatori() { };
 
     protected override async Task OnInitializedAsync()
     {
         ListaPersonale = await db.Personale.ToArrayAsync();
         ListaCorsi = await db.Corsi.ToArrayAsync();
-    } 
+    }
 }

@@ -14,6 +14,9 @@ namespace Gestionale.Data
         public DbSet<Moduli> Moduli { get; set; }
         public DbSet<Esami> Esami { get; set; }
         public DbSet<Iscrizioni> Iscrizioni { get; set; }
+        public DbSet<Tutor> Tutor { get; set; }
+        public DbSet<Insegnanti> Insegnanti { get; set; }
+        public DbSet<Coordinatori> Coordinatori { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -370,7 +373,9 @@ namespace Gestionale.Data
                    DataFine = new DateTime(2021, 03, 02),
                    DataInizio = new DateTime(2021, 01, 02),
                    Materia = "Programmazione OOP",
-                   PersonaleId = 11,
+                   CoordinatoriId = 1,
+                   TutorId = 6,
+                   InsegnantiId = 11
                },
                new Moduli
                {
@@ -379,7 +384,9 @@ namespace Gestionale.Data
                    DataFine = new DateTime(2021, 10, 02),
                    DataInizio = new DateTime(2021, 01, 02),
                    Materia = "C#",
-                   PersonaleId = 1,
+                   CoordinatoriId = 2,
+                   TutorId = 7,
+                   InsegnantiId = 12
                },
                new Moduli
                {
@@ -388,7 +395,9 @@ namespace Gestionale.Data
                    DataFine = new DateTime(2021, 09, 02),
                    DataInizio = new DateTime(2021, 01, 02),
                    Materia = "Inglese",
-                   PersonaleId = 5,
+                   CoordinatoriId = 3,
+                   TutorId = 8,
+                   InsegnantiId = 13
                },
                new Moduli
                {
@@ -397,7 +406,9 @@ namespace Gestionale.Data
                    DataFine = new DateTime(2021, 05, 02),
                    DataInizio = new DateTime(2021, 01, 02),
                    Materia = "Lavorare in team",
-                   PersonaleId = 12,
+                   CoordinatoriId = 4,
+                   TutorId = 9,
+                   InsegnantiId = 14
                },
                new Moduli
                {
@@ -406,7 +417,9 @@ namespace Gestionale.Data
                    DataFine = new DateTime(2021, 02, 11),
                    DataInizio = new DateTime(2021, 01, 02),
                    Materia = "Relazione con il Cliente",
-                   PersonaleId = 15,
+                   CoordinatoriId = 5,
+                   TutorId = 10,
+                   InsegnantiId = 15
                });
             builder.Entity<Esami>().HasData(
                 new Esami

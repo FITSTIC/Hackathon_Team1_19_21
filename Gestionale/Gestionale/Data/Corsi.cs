@@ -21,6 +21,6 @@ namespace Gestionale.Data
         public List<Partecipanti> Partecipanti { get; set; }
         public List<Moduli> Moduli { get; set; }
         public List<Personale> Personale { get; set; }
-        public Corsi() { }
+        public Corsi() {}
     }
 }

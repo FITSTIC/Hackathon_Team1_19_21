@@ -22,36 +22,27 @@ namespace Gestionale.Data
         public DateTime Assunzione { get; set; }
         [Required]
         public List<Moduli> Moduli { get; set; }
+        public List<Insegnanti> Insegnante { get; set; }
+        public List<Coordinatori> Coordinatore { get; set; }
+        public List<Tutor> Tutor { get; set; }
         public string Categoria { get; set; }
         public int CorsiId { get; set; }
         public Corsi Corsi { get; set; }
-        public Personale() { }
-    }
-    public class Insegnanti : Personale
-    { 
-        public int Id { get; set; }
-        public Insegnanti() : base()
+        public Personale() 
         {
-
+            if(Categoria == "Insegnante")
+            {
+               new Insegnanti();
+            }
+            else if(Categoria == "Tutor")
+            {
+               new Tutor();
+            }
+            else if(Categoria == "Coordinatore")
+            {
+                new Coordinatori();
+            }
         }
     }
-    public class Tutor : Personale
-    {
-        public int Id { get; set; }
-        public Tutor() : base()
-        {
-
-        }
-    }
-    public class Coordinatore : Personale
-    {
-        public int Id { get; set; }
-        public Coordinatore() : base()
-        {
-
-        }
-    }
-
-
 }
  
