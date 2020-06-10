@@ -3,85 +3,13 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 
-<div class="row">
+
+<div class="row mb-2">
     <div class="col align-self-start">
         <h2>Moduli</h2>
     </div>
-    <div class="mr-1">
-        <button class="btn btn-success" data-toggle="modal" title="Aggiungi un nuovo modulo" data-target="#InsertModuli"><b>+</b></button>
-    </div>
     <div class="mr-4">
-        <button class="btn btn-danger" title="Elimina il modulo selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
-    </div>
-</div>
-
-<!-- Modale inserimento modulo -->
-<div class="modal fade" id="InsertModuli" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Inserisci un nuovo modulo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <EditForm Model="NuovoModulo" OnSubmit="()=> SaveNuovoModulo()">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Nome Materia</label>
-                            <InputText class="form-control" @bind-Value="NuovoModulo.Materia" />
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Corso</label>
-                            <select @bind="NuovoModulo.CorsiId" class="form-control">
-                                <option selected></option>
-                                @foreach (var Corso in ListaCorsi)
-                                {
-                                    <option value="@Corso.Id">@Corso.Nome</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Data inizio modulo</label>
-                            <InputDate type="date" class="form-control valid" @bind-Value="NuovoModulo.DataInizio" />
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Data fine modulo</label>
-                            <InputDate type="date" class="form-control valid" @bind-Value="NuovoModulo.DataFine" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Insegnante</label>
-                            <select @bind="@NuovoModulo.InsegnanteId" class="form-control">
-                                <option selected></option>
-                                @foreach (var Insegnante in ListaInsegnanti)
-                                {
-                                    <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome) </option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Tutor</label>
-                            <select @bind="@NuovoModulo.TutorId" class="form-control">
-                                <option selected></option>
-                                @foreach (var Tutor in ListaTutor)
-                                {
-                                    <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome) </option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button> <!-- AGGIUNGERE FUNZIONE -->
-                        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
-                    </div>
-                </EditForm>
-            </div>
-        </div>
+        <a href="/AddModulo" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a>
     </div>
 </div>
 
@@ -95,12 +23,13 @@ else
     <table class="table table-hover">
         <thead>
             <tr class="table-secondary">
-                <th><input type="checkbox"></th>
+                <th></th>
                 <th>Materia modulo</th>
                 <th>Corso</th>
                 <th>Inizio Modulo</th>
                 <th>Fine Modulo</th>
                 <th>Insegnante</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -108,73 +37,31 @@ else
             @foreach (var Modulo in ListaModuli)
             {
                 <tr>
-                    <td><input type="checkbox"></td>
+                    <td>
+                        <button class="btn btn-outline-danger" title="Elimina questo modulo"><b>–</b></button> <!-- Aggiungere Funzione -->
+                    </td>
                     <td>@Modulo.Materia</td>
                     <td>@Modulo.Corsi.Nome</td>
                     <td>@Modulo.DataInizio.ToString("dd/MM/yyyy")</td>
                     <td>@Modulo.DataFine.ToString("dd/MM/yyyy")</td>
-                    <td>@(Modulo.Insegnanti.Nome + " " + Modulo.Insegnanti.Cognome)</td>
+                    <td></td>
+                    <td style="text-align:center;">
+                        <button class="btn btn-secondary accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+Modulo.Id)">Esami</button>
+                    </td>
                     <td>
-                        <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("i"+Modulo.Id)">Info</button>
-                        <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("e"+Modulo.Id)">Esami</button>
+                        <a href="/AddModulo/@Modulo.Id" class="btn btn-link mr-n2 float-right"><img src="/css/gear.ico" width="27" height="32" /></a>
                     </td>
                 </tr>
+                <!-- Riga nascosta degli esami -->
                 <tr>
-                    <td colspan="7" class="hiddenRow p-0" style="background-color:white">
-                        <div class="accordian-body collapse m-3" id="@("i"+Modulo.Id)" data-parent="#boolAccord">
-                            <div class="card card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="7" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                        <div class="table accordian-body collapse p-3 container" id="@("e"+Modulo.Id)" data-parent="#boolAccord">
-
+                    <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
+                        <div class="table collapse p-3 container accordian-body" id="@("e"+Modulo.Id)" data-parent="#boolAccord">
                             <div class="row">
                                 <div class="col align-self-start">
                                     <h2>Esami del modulo @Modulo.Materia</h2>
                                 </div>
-                                <div class="mr-1">
-                                    <button class="btn btn-success" data-toggle="modal" title="Aggiungi un nuovo Esame" data-target="#@("InsertEsame"+Modulo.Id)"><b>+</b></button>
-                                </div>
-                                <div class="mr-4">
-                                    <button class="btn btn-danger" title="Elimina l'esame selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
-                                </div>
-                            </div>
-
-                            <!-- Modale inserimento esame -->
-                            <div class="modal fade" id="@("InsertEsame"+Modulo.Id)" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Inserisci un nuovo esame</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <EditForm Model="NuovoEsame" OnSubmit="()=> SaveNuovoEsame()">
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label>Modulo</label>
-                                                        <InputSelect class="form-control" @bind-Value="@NuovoEsame.Moduli" disabled>
-                                                            <option Value="@Modulo.Id" selected>@Modulo.Materia</option>
-                                                        </InputSelect>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label>Data inizio modulo</label>
-                                                        <InputDate type="date" class="form-control valid" @bind-Value="@NuovoEsame.DataEsame" />
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                                    <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
-                                                </div>
-                                            </EditForm>
-                                        </div>
-                                    </div>
+                                <div class="mr-3">
+                                    <button class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></button>
                                 </div>
                             </div>
 
@@ -187,11 +74,12 @@ else
                                 <table class="table table-hover table-sm">
                                     <thead>
                                         <tr class="table-secondary">
-                                            <td><input type="checkbox"></td>
+                                            <td></td>
                                             <th>N.</th>
                                             <th>Modulo</th>
                                             <th>Data Esame</th>
-                                            <th>Media Punteggio</th>
+                                            <th></th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -199,110 +87,46 @@ else
                                         @foreach (var Esame in Modulo.Esami)
                                         {
                                             <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
-
                                             <tr>
-                                                <td><input type="checkbox"></td>
+                                                <td>
+                                                    <button class="btn btn-outline-danger" title="Elimina questo modulo">
+                                                        <b>–</b>
+                                                    </button> <!-- Aggiungere Funzione -->
+                                                </td>
                                                 <td>@Esame.Id</td>
                                                 <td>@Esame.Moduli.Materia</td>
                                                 <td>@Esame.DataEsame.ToString("dd/MM/yy")</td>
                                                 <td></td> <!-- AGGIUNGERE Media punteggio classe -->
+                                                <td style="text-align:center;">
+                                                    <button class="btn btn-secondary">Lista Partecipanti</button>
+                                                </td>
                                                 <td>
-                                                    <button class="btn btn-secondary" data-toggle="modal" data-target="#@("p"+Modulo.Id)">Lista Partecipanti</button>
+                                                    <button class="btn mr-n2 float-right"><img src="/css/gear.ico" width="27" height="32" /></button>
                                                 </td>
                                             </tr>
-
                                         }
                                     </tbody>
-                                </table>
-
-                                <!-- Modale visualizzazione partecipanti -->
-                                <div class="modal fade" id="@("p"+Modulo.Id)" tabindex="-1" role="dialog" aria-labelledby="#@("p"+Modulo.Id)" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Lista partecipanti all'esame</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                @if (ListaPartecipanti == null)
-                                                {
-                                                    <p>Non sono presenti partecipanti.</p>
-                                                }
-                                                else
-                                                {
-                                                    <table class="table table-hover table-sm">
-                                                        <thead>
-                                                            <tr class="table-secondary">
-                                                                <th>Nome</th>
-                                                                <th>Cognome</th>
-                                                                <th>Punteggio</th>
-                                                                <th>Id</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach (var I in ListaIscrizioni)
-                                                            {
-                                                                    @foreach (var v in I.Esami)
-                                                                    {
-                                                                        
-                                                            <tr>
-                                                                <td>@I.Partecipante.Nome</td>
-                                                                <td>@I.Partecipante.Cognome</td>
-                                                                <td>@v.Punteggio</td>
-                                                                <td>
-
-                                                                    @if (v.Punteggio != null)
-                                                                    {
-                                                                        prova = v.Punteggio;
-                                                                    }
-                                                                    else
-                                                                    {
-
-                                                                    }
-                                                                </td>
-                                                                <td><input type="text" @bind="@prova" /></td>
-                                                                @(recuperoIdEsame = v.Id)
-                                                            </tr>
-                                                                    }
-
-
-                                                                
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                }
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                                <button type="button" class="btn btn-primary" @onclick="()=> UpdateVote()">Salva</button> <!-- AGGIUNGERE FUNZIONE -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </table> <!-- fine tabella esami -->
                             }
                         </div>
                     </td>
                 </tr>
+ <!-- fine riga nascosta tabella esami -->
             }
-
             <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
             <tr>
                 <td>
                 </td>
             </tr>
         </tbody>
-    </table>
-
+    </table> <!-- fine tabella moduli -->
 }
-
 
 
 @code {
 
     public double? prova = 0;
-    public int recuperoIdEsame;
+    public int recuperoIdPartecipante;
     private Corso[] ListaCorsi;
     private Modulo[] ListaModuli;
     private Esame[] ListaEsami;
@@ -310,7 +134,6 @@ else
     private Dipendente[] ListaPersonale;
     private Insegnante[] ListaInsegnanti;
     private Tutor[] ListaTutor;
-    private Iscrizione[] ListaIscrizioni;
 
 
     protected override async Task OnInitializedAsync()
@@ -322,34 +145,13 @@ else
         ListaPersonale = await db.Dipendente.ToArrayAsync();
         ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
         ListaTutor = await db.Tutor.ToArrayAsync();
-        ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private async Task UpdateVote()
     {
-        var e = db.Esami.Find(recuperoIdEsame);
-        e.Punteggio = prova;
+        var p = db.Partecipanti.Find(recuperoIdPartecipante);
+       // p.punteggio = prova;
+
         await db.SaveChangesAsync();
 
         StateHasChanged();
