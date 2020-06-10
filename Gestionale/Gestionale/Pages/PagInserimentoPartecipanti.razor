@@ -1,0 +1,125 @@
+﻿@page "/Inserimentopartecipanti"
+@inject ApplicationDbContext db
+@inject NavigationManager navigationManager
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+
+
+    <EditForm Model="P" OnSubmit="()=> SaveNuovoPartecipante()">
+        <DataAnnotationsValidator />
+        <div class="form-row">
+            <form>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Inserisci la foto del partecipante</label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+            </form>
+            <div class="form-group col-md-6">
+                <label>Nome</label>
+                <InputText class="form-control" @bind-Value="P.Nome" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Cognome</label>
+                <InputText class="form-control" @bind-Value="P.Cognome" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Data di nascita</label>
+                <InputDate class="form-control" @bind-Value="P.DataNascita"></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="P.Email" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Indirizzo</label>
+                <InputText class="form-control" @bind-Value="P.Indirizzo" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Città</label>
+                <InputText class="form-control" @bind-Value="P.Citta" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Telefono</label>
+                <InputText class="form-control" @bind-Value="P.Telefono" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Diploma</label>
+                <InputText class="form-control" @bind-Value="P.Diploma" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Anno del diploma</label>
+                <InputDate class="form-control" @bind-Value="P.AnnoDiploma"></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Data d'iscrizione</label>
+                <InputDate class="form-control" @bind-Value="P.Iscrizioni.DataIscrizione"></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
+                <select class="form-control" @bind="P.Corsi.Nome" required>
+                    <option value="">Select a city</option>
+                    @foreach (var Corso in ListaCorsi)
+                    {
+            <option value="@Corso.Id">@Corso.Nome</option>
+}
+                </select>
+
+                
+                <button type="button" value="save" class="btn btn-success" onclick="/Partecipanti">Salva</button>
+            </div>
+        </div>
+
+    </EditForm>
+
+@code { 
+    [Parameter]
+    public int Id { get; set; }
+
+    private Corsi[] ListaCorsi;
+
+    private Partecipanti[] ListaPartecipanti;
+
+    private Personale[] ListaPersonale;
+
+    private Partecipanti P;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaPersonale = await db.Personale.ToArrayAsync();
+
+        if ( Id == 0)
+        {
+            P = new Partecipanti()
+            {
+                DataNascita = DateTime.Now,
+                AnnoDiploma = DateTime.Now
+            };
+        }
+        else
+        {
+            P = await db.Partecipanti.FindAsync(Id);
+        }
+    }
+
+
+    private async Task SaveNuovoPartecipante()
+
+    {
+        if (Id == 0)
+        {
+
+            db.Partecipanti.Add(P);
+            await db.SaveChangesAsync();
+
+            navigationManager.NavigateTo("/Partecipanti");
+        }
+        else
+        {
+            await db.SaveChangesAsync();
+        }
+
+    }
+}

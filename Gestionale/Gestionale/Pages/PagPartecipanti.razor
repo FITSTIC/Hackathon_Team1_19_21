@@ -8,97 +8,10 @@
         <h2>Partecipanti</h2>
     </div>
     <div class="mr-1">
-        <button class="btn btn-success" data-toggle="modal" title="Aggiungi un nuovo partecipante" data-target="#InsertPartecipanti"><b>+</b></button>
+        <!--<button class="btn btn-success" data-toggle="modal" title="Aggiungi un nuovo partecipante" href="/inserimentopartecipanti" ><b>+</b></button>-->
 
-        <!-- Modale inserimento modulo -->
-        <div class="modal fade" id="InsertPartecipanti" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Inserisci un nuovo partecipante</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="exampleFormControlFile1">Inserisci la foto del partecipante</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                            </div>
-                        </form>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Nome</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Cognome</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Data di nascita</label>
-                                <input type="date" class="form-control valid">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Indirizzo</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Città</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Telefono</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>E-Mail</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Diploma</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Anno diploma</label>
-                                <input type="date" class="form-control valid">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Data Iscrizione</label>
-                                <input type="date" class="form-control valid">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Corso</label>
-
-                                <select id="" class="form-control">
-                                    <!-- inserire id -->
-                                    @*@foreach (Corsi corso in ListaCorsi)
-                    {
-                        <option selected>
-                            @if (corso.Nome == Corsi.Nome)
-                            {
-                        @corso.Nome;
-                        }
-                      </option>
-                    }*@
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                            <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <a href="/Inserimentopartecipanti" data-toggle="modal" title="Aggiungi un nuovo partecipante" class="btn btn-success">+</a>
+        
     </div>
     <div class="mr-4">
         <button class="btn btn-danger" title="Elimina il partecipante selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
@@ -231,7 +144,7 @@ else
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                        <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
+                                        <button type="button" onclick="/Inserimentopartecipanti"class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
                                     </div>
                                 </div>
                             </div>
