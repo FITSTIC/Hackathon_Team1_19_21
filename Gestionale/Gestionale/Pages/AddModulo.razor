@@ -1,0 +1,20 @@
+﻿@page "/AddModulo"
+@page "/AddModulo/{Id:int}"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+
+@if (Id == 0)
+{
+    <h2>Ciaone</h2>
+}
+else
+{
+    <h2>Arrivederci</h2>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+}
