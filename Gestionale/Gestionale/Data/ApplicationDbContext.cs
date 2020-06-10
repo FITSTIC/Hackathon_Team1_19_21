@@ -53,7 +53,7 @@ namespace Gestionale.Data
                 AnnoAccademico = "21/23",
                 AnnoInizioCorso = new DateTime(2021, 01, 01),
                 AnnoFineCorso = new DateTime(2023, 01, 01),
-                Sede = "Modena"
+                Sede = "Modena",
             },
             new Corso
             {
@@ -62,7 +62,7 @@ namespace Gestionale.Data
                 AnnoAccademico = "21/23",
                 AnnoInizioCorso = new DateTime(2021, 01, 01),
                 AnnoFineCorso = new DateTime(2023, 01, 01),
-                Sede = "Carpi"
+                Sede = "Carpi", 
             },
             new Corso
             {
@@ -71,7 +71,7 @@ namespace Gestionale.Data
                 AnnoAccademico = "21/23",
                 AnnoInizioCorso = new DateTime(2021, 01, 01),
                 AnnoFineCorso = new DateTime(2023, 01, 01),
-                Sede = "Casalecchio"
+                Sede = "Casalecchio",
             });
 
             builder.Entity<Iscrizione>().HasData(

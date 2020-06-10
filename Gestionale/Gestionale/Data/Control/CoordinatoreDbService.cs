@@ -16,13 +16,21 @@ namespace Gestionale.Data.Control
             db = new ApplicationDbContext(optionsBuilder.Options);
         }
 
-        public async Task<string> Create(Dipendente d)
-        {   
+        public async Task Create(ApplicationDbContext db, Dipendente d)
+        {
 
             db.Dipendente.Add(d);
             await db.SaveChangesAsync();
-
-            return "inserito";
+        }
+        public async Task Read(ApplicationDbContext db, int id)
+        {
+            db.Dipendente.Find(id);
+            await db.SaveChangesAsync();
+        }
+        public async Task Read(ApplicationDbContext db, string nome)
+        {
+            db.Dipendente.First(x => x.Nome == nome);
+            await db.SaveChangesAsync();
         }
     }
 }

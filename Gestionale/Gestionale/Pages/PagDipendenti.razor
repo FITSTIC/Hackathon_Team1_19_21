@@ -2,10 +2,10 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
-@code
-{
+@code{
     Gestionale.Data.Control.DipendenteDbService personaleService = new Data.Control.DipendenteDbService();
 }
+
 <div class="row">
     <div class="col align-self-start">
         <h2>Personale</h2>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label>Corso</label>
-                            <select class="form-control" required>
+                            <select class="form-control" @bind="NewDipendente.CorsiId" required>
                                 <option selected></option>
                                 @foreach (var Corso in ListaCorsi)
                                 {
@@ -86,7 +86,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button> <!-- AGGIUNGERE FUNZIONE -->
-                        <button type="submit" value="save" onclick="@personaleService.Create(NewDipendente)" class="btn btn-primary">Inserisci</button>
+                        <button type="submit" value="save" @onclick="()=>BtnSalva(NewDipendente)" class="btn btn-primary">Inserisci</button>
                     </div>
                 </EditForm>
             </div>
@@ -185,5 +185,11 @@
         ListaCorsi = await db.Corsi.ToArrayAsync();
     }
 
+    protected async Task BtnSalva(Dipendente d)
+    {
+        await personaleService.Create(db, d);
+        StateHasChanged();
+
+    }
 
 }

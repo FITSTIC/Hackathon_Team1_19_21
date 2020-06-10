@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestionale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200610114102_eliminazioneElementoDB1")]
+    [Migration("20200610154652_eliminazioneElementoDB1")]
     partial class eliminazioneElementoDB1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,8 +133,6 @@ namespace Gestionale.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CorsiId");
-
                     b.ToTable("Dipendente");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Dipendente");
@@ -242,35 +240,35 @@ namespace Gestionale.Migrations
                         {
                             Id = 1,
                             CorsiId = 4,
-                            DataIscrizione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             PartecipanteId = 1
                         },
                         new
                         {
                             Id = 2,
                             CorsiId = 5,
-                            DataIscrizione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             PartecipanteId = 2
                         },
                         new
                         {
                             Id = 3,
                             CorsiId = 1,
-                            DataIscrizione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             PartecipanteId = 3
                         },
                         new
                         {
                             Id = 4,
                             CorsiId = 3,
-                            DataIscrizione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             PartecipanteId = 4
                         },
                         new
                         {
                             Id = 5,
                             CorsiId = 2,
-                            DataIscrizione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             PartecipanteId = 5
                         });
                 });
@@ -689,13 +687,15 @@ namespace Gestionale.Migrations
                 {
                     b.HasBaseType("Gestionale.Data.Dipendente");
 
+                    b.HasIndex("CorsiId");
+
                     b.HasDiscriminator().HasValue("Coordinatore");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Frasulli",
                             CorsiId = 1,
@@ -707,7 +707,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 2,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Grud",
                             CorsiId = 2,
@@ -719,7 +719,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 3,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Stella",
                             CorsiId = 3,
@@ -731,7 +731,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 4,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Dadi",
                             CorsiId = 4,
@@ -743,7 +743,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 5,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Raro",
                             CorsiId = 5,
@@ -758,13 +758,16 @@ namespace Gestionale.Migrations
                 {
                     b.HasBaseType("Gestionale.Data.Dipendente");
 
+                    b.HasIndex("CorsiId")
+                        .HasName("IX_Dipendente_CorsiId1");
+
                     b.HasDiscriminator().HasValue("Insegnante");
 
                     b.HasData(
                         new
                         {
                             Id = 11,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Telepatia",
                             CorsiId = 1,
@@ -776,7 +779,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 12,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "De'Martino",
                             CorsiId = 2,
@@ -788,7 +791,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 13,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Martin",
                             CorsiId = 3,
@@ -800,7 +803,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 14,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Terra",
                             CorsiId = 4,
@@ -812,7 +815,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 15,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Rosa",
                             CorsiId = 5,
@@ -827,13 +830,16 @@ namespace Gestionale.Migrations
                 {
                     b.HasBaseType("Gestionale.Data.Dipendente");
 
+                    b.HasIndex("CorsiId")
+                        .HasName("IX_Dipendente_CorsiId2");
+
                     b.HasDiscriminator().HasValue("Tutor");
 
                     b.HasData(
                         new
                         {
                             Id = 6,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Giuseppa",
                             CorsiId = 1,
@@ -845,7 +851,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 7,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Frafra",
                             CorsiId = 2,
@@ -857,7 +863,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 8,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Del Mio",
                             CorsiId = 3,
@@ -869,7 +875,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 9,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Del Capo",
                             CorsiId = 4,
@@ -881,7 +887,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 10,
-                            Assunzione = new DateTime(2020, 6, 10, 13, 41, 1, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Ortè",
                             CorsiId = 5,
@@ -890,15 +896,6 @@ namespace Gestionale.Migrations
                             Nome = "Alessandro",
                             Telefono = "3258614787"
                         });
-                });
-
-            modelBuilder.Entity("Gestionale.Data.Dipendente", b =>
-                {
-                    b.HasOne("Gestionale.Data.Corso", "Corsi")
-                        .WithMany("Personale")
-                        .HasForeignKey("CorsiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Gestionale.Data.Esame", b =>
@@ -1014,6 +1011,35 @@ namespace Gestionale.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Gestionale.Data.Coordinatore", b =>
+                {
+                    b.HasOne("Gestionale.Data.Corso", "Corsi")
+                        .WithMany("Coordinatori")
+                        .HasForeignKey("CorsiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Gestionale.Data.Insegnante", b =>
+                {
+                    b.HasOne("Gestionale.Data.Corso", "Corsi")
+                        .WithMany("Insegnanti")
+                        .HasForeignKey("CorsiId")
+                        .HasConstraintName("FK_Dipendente_Corsi_CorsiId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Gestionale.Data.Tutor", b =>
+                {
+                    b.HasOne("Gestionale.Data.Corso", "Corsi")
+                        .WithMany("Tutor")
+                        .HasForeignKey("CorsiId")
+                        .HasConstraintName("FK_Dipendente_Corsi_CorsiId2")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -7,6 +7,5 @@ namespace Gestionale.Data
 {
     public class Coordinatore : Dipendente
     {
-
     }
 }
