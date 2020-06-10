@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Coordinatore : Persona
+    public class Coordinatore : Dipendente
     {
 
     }

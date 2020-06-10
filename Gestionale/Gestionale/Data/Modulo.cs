@@ -20,7 +20,7 @@ namespace Gestionale.Data
         public Insegnante Insegnanti{ get; set; }//FK
         public int? TutorId { get; set; }
         public Tutor Tutor { get; set; }//FK
-        public List<Esame> Esami { get; set; }
+        public virtual ICollection<Esame> Esami { get; set; }
         public Modulo() { }
     }
 }

@@ -18,9 +18,10 @@ namespace Gestionale.Data
         public DateTime AnnoFineCorso { get; set; }
         [Required]
         public string Sede { get; set; }
-        public List<Partecipante> Partecipanti { get; set; }
-        public List<Modulo> Moduli { get; set; }
-        public List<Persona> Personale { get; set; }
+        public virtual ICollection<Partecipante> Partecipanti { get; set; }
+        public virtual ICollection<Modulo> Moduli { get; set; }
+        public virtual ICollection<Dipendente> Personale { get; set; }
+        public virtual ICollection<Iscrizione> Iscrizioni { get; set; }
         public Corso() {}
     }
 }

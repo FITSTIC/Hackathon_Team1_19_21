@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Gestionale.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public DbSet<Persona> Personale { get; set; }
+        public DbSet<Dipendente> Dipendente { get; set; }
         public DbSet<Coordinatore> Coordinatore { get; set; }
         public DbSet<Insegnante> Insegnanti { get; set; }
         public DbSet<Tutor> Tutor { get; set; }
@@ -80,6 +81,7 @@ namespace Gestionale.Data
                 Id = 1,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 4,
+                PartecipanteId = 1,
 
             },
             new Iscrizione
@@ -87,6 +89,7 @@ namespace Gestionale.Data
                 Id = 2,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 5,
+                PartecipanteId = 2,
 
             },
             new Iscrizione
@@ -94,6 +97,7 @@ namespace Gestionale.Data
                 Id = 3,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 1,
+                PartecipanteId = 3,
 
             },
             new Iscrizione
@@ -101,6 +105,7 @@ namespace Gestionale.Data
                 Id = 4,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 3,
+                PartecipanteId = 4,
 
             },
             new Iscrizione
@@ -108,6 +113,7 @@ namespace Gestionale.Data
                 Id = 5,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 2,
+                PartecipanteId = 5,
 
             });
             
@@ -124,10 +130,8 @@ namespace Gestionale.Data
                 Telefono = "3338614937",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2010, 06, 17),
-                IscrizioniId = 3,
                 CorsiId = 1,
-                Punteggi = new List<double?>() { 0 },
-                EsamiId = 1
+                
             },
             new Partecipante
             {
@@ -141,10 +145,7 @@ namespace Gestionale.Data
                 Telefono = "3338895937",
                 Diploma = "Sociale",
                 AnnoDiploma = new DateTime(2016, 06, 17),
-                IscrizioniId = 5,
                 CorsiId = 2,
-                Punteggi = new List<double?>() { 0 },
-                EsamiId = 2
             },
             new Partecipante
             {
@@ -158,10 +159,7 @@ namespace Gestionale.Data
                 Telefono = "3338678437",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2019, 06, 17),
-                IscrizioniId = 4,
                 CorsiId = 3,
-                Punteggi = new List<double?>() { 0 },
-                EsamiId = 3
             },
             new Partecipante
             {
@@ -175,10 +173,7 @@ namespace Gestionale.Data
                 Telefono = "3458684937",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2018, 06, 17),
-                IscrizioniId = 1,
                 CorsiId = 4,
-                Punteggi = new List<double?>() { 0 },
-                EsamiId = 4
             },
             new Partecipante
             {
@@ -192,10 +187,7 @@ namespace Gestionale.Data
                 Telefono = "3338614937",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2017, 06, 17),
-                IscrizioniId = 2,
                 CorsiId = 5,
-                Punteggi = new List<double?>() { 0 },
-                EsamiId = 5
             });
 
             builder.Entity<Coordinatore>().HasData(
@@ -440,30 +432,45 @@ namespace Gestionale.Data
                 Id = 1,
                 ModuliId = 5,
                 DataEsame = new DateTime(2021, 02, 11),
+                Punteggio = null,
+                PartecipanteId = 2,
+                IscrizioniId = 1,
             },
             new Esame
             {
                 Id = 2,
                 ModuliId = 4,
                 DataEsame = new DateTime(2021, 05, 02),
+                Punteggio = null,
+                PartecipanteId = 2,
+                IscrizioniId = 2,
             },
             new Esame
             {
                 Id = 3,
                 ModuliId = 3,
                 DataEsame = new DateTime(2021, 09, 02),
+                Punteggio = null,
+                PartecipanteId = 3,
+                IscrizioniId = 3,
             },
             new Esame
             {
                 Id = 4,
                 ModuliId = 2,
                 DataEsame = new DateTime(2021, 10, 02),
+                Punteggio = null,
+                PartecipanteId = 4,
+                IscrizioniId = 4,
             },
             new Esame
             {
                 Id = 5,
                 ModuliId = 1,
                 DataEsame = new DateTime(2021, 03, 02),
+                Punteggio = null,
+                PartecipanteId = 5,
+                IscrizioniId = 5,
             });
         }
     }

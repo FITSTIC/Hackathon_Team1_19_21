@@ -14,7 +14,11 @@ namespace Gestionale.Data
         public int ModuliId { get; set; }
         public Modulo Moduli { get; set; }//FK
         public DateTime DataEsame { get; set; }
-        public List<Partecipante> Partecipanti { get; set; }
+        public double? Punteggio { get; set; }
+        public int PartecipanteId { get; set; }
+        public Partecipante Partecipante { get; set; }//FK
+        public int IscrizioniId { get; set; }
+        public Iscrizione Iscrizioni { get; set; }//FK
         public Esame() 
         {
             

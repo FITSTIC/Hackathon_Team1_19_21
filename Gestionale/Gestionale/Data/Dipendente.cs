@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Persona
+    public class Dipendente
     {
         [Key]
         public int Id { get; set; }
@@ -21,11 +21,11 @@ namespace Gestionale.Data
         public string Telefono { get; set; }
         public DateTime Assunzione { get; set; }
         [Required]
-        public List<Modulo> Moduli { get; set; }
+        public virtual ICollection<Modulo> Moduli { get; set; }
         public string Categoria { get; set; }
         public int CorsiId { get; set; }
         public Corso Corsi { get; set; }
-        public Persona() { }
+        public Dipendente() { }
     }
 }
  

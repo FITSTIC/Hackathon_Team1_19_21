@@ -27,14 +27,9 @@ namespace Gestionale.Data
         public string Telefono { get; set; }
         public string Diploma { get; set; }
         public DateTime AnnoDiploma { get; set; }
-        public int IscrizioniId { get; set; }
-        public Iscrizione Iscrizioni { get; set; }//FK
         public int CorsiId { get; set; }
         public Corso Corsi { get; set; }//FK
-        public int? EsamiId { get; set; }
-        public Esame Esami { get; set; }//FK
-        [NotMapped]
-        public List<double?> Punteggi { get; set; }
+        public virtual ICollection<Iscrizione> Iscrizioni { get; set; }
         public Partecipante() { }
     }
 
