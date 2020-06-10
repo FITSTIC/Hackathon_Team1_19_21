@@ -2,7 +2,10 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
-
+@code
+{
+    Gestionale.Data.Control.DipendenteDbService personaleService = new Data.Control.DipendenteDbService();
+}
 <div class="row">
     <div class="col align-self-start">
         <h2>Personale</h2>
@@ -14,12 +17,6 @@
         <button class="btn btn-danger" title="Elimina Personale selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
     </div>
 </div>
-
-
-
-
-
-
 
 
 
@@ -35,41 +32,41 @@
                 </button>
             </div>
             <div class="modal-body">
-                <EditForm Model="NuovoPersonale">
+                <EditForm Model="NewDipendente">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Nome</label>
-                            <input type="text" class="form-control valid" @bind="NuovoPersonale.Nome" required />
+                            <input type="text" class="form-control valid" @bind="NewDipendente.Nome" required />
                         </div>
                         <div class="form-group col-md-6">
                             <label>Cognome</label>
-                            <input type="text" class="form-control valid" @bind="NuovoPersonale.Cognome" required />
+                            <input type="text" class="form-control valid" @bind="NewDipendente.Cognome" required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Data di Nascita</label>
-                            <input type="date" class="form-control valid" @bind="NuovoPersonale.DataNascita" required />
+                            <input type="date" class="form-control valid" @bind="NewDipendente.DataNascita" required />
                         </div>
                         <div class="form-group col-md-6">
                             <label>Email</label>
-                            <input type="email" class="form-control valid" @bind="NuovoPersonale.Email" />
+                            <input type="email" class="form-control valid" @bind="NewDipendente.Email" />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Telefono</label>
-                            <input type="text" class="form-control valid" @bind="NuovoPersonale.Telefono" required />
+                            <input type="text" class="form-control valid" @bind="NewDipendente.Telefono" required />
                         </div>
                         <div class="form-group col-md-6">
                             <label>Data Assunzione</label>
-                            <input type="date" class="form-control valid" @bind="NuovoPersonale.Assunzione" required />
+                            <input type="date" class="form-control valid" @bind="NewDipendente.Assunzione" required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label>Categoria</label>
-                            <select class="form-control" @bind="NuovoPersonale.Categoria" required>
+                            <select class="form-control" @bind="NewDipendente.Categoria" required>
                                 <option selected></option>
                                 <option value="Coordinatore">Coordinatore</option>
                                 <option value="Insegnante">Insegnante</option>
@@ -81,15 +78,15 @@
                             <select class="form-control" required>
                                 <option selected></option>
                                 @foreach (var Corso in ListaCorsi)
-                                 {
+                                {
                                     <option value="@Corso.Id">@Corso.Nome</option>
-                                 }
+                                }
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button> <!-- AGGIUNGERE FUNZIONE -->
-                        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+                        <button type="submit" value="save" onclick="@personaleService.Create(NewDipendente)" class="btn btn-primary">Inserisci</button>
                     </div>
                 </EditForm>
             </div>
@@ -174,16 +171,19 @@
 
 @code
 { 
-    private Persona[] ListaPersonale;
+    private Dipendente[] ListaPersonale;
     private Corso[] ListaCorsi;
-    private Persona NuovoPersonale = new Persona() { };
+    private Dipendente NewDipendente = new Dipendente() { };
     private Insegnante NuovoInsegnante = new Insegnante() { };
     private Tutor NuovoTutor = new Tutor() { };
     private Coordinatore NuovoCoordinatore = new Coordinatore() { };
 
+
     protected override async Task OnInitializedAsync()
     {
-        ListaPersonale = await db.Personale.ToArrayAsync();
+        ListaPersonale = await db.Dipendente.ToArrayAsync();
         ListaCorsi = await db.Corsi.ToArrayAsync();
     }
+
+
 }
