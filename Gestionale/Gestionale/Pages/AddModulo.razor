@@ -3,18 +3,205 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
+@inject NavigationManager Navigator
 
 @if (Id == 0)
 {
-    <h2>Ciaone</h2>
+    /*======================================================================================
+
+                           CONDIZIONE PER INSERIRE UN NUOVO MODULO
+
+    ======================================================================================*/
+
+    <h2>Inserisci un nuovo modulo</h2>
+
+    <hr />
+
+    <EditForm Model="NuovoModulo" OnSubmit="()=> SaveModulo()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nome Materia</label>
+                <InputText class="form-control" @bind-Value="NuovoModulo.Materia" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
+                <select @bind="NuovoModulo.CorsiId" class="form-control">
+                    <option value="" selected></option>
+                    @foreach (var Corso in ListaCorsi)
+                    {
+                        <option value="@Corso.Id">@Corso.Nome</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Data inizio modulo</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="NuovoModulo.DataInizio" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Data fine modulo</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="NuovoModulo.DataFine" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Insegnante</label>
+                <select @bind="@NuovoModulo.InsegnanteId" class="form-control" required>
+                    <option value="" selected></option>
+                    @foreach (var Insegnante in ListaInsegnanti)
+                    {
+                        <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Tutor</label>
+                <select @bind="@NuovoModulo.TutorId" class="form-control" required>
+                    <option value="" selected></option>
+                    @foreach (var Tutor in ListaTutor)
+                    {
+                        <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+    </EditForm>
 }
 else
 {
-    <h2>Arrivederci</h2>
+    /*======================================================================================
+
+                         CONDIZIONE PER CONSULTARE E MOFICARE UN MODULO
+
+    ======================================================================================*/
+
+    // Accedendo alla pagina, recupero tutte le informazioni del modulo esistente partendo dal suo id
+    @foreach (var modulo in ListaModuli) // Ciclo la lista
+    {
+        if (Id == modulo.Id) // Confronto l'Id della pagina html cono tutti gli Id della lista
+        {
+            ThisModulo = modulo; // trovato il match copio tutto nella nuova variabile
+        }
+    }
+
+    <h2>Modulo @ThisModulo.Materia</h2>
+   
+    <hr />
+
+    <EditForm Model="ThisModulo" OnSubmit="()=> SaveModulo()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nome Materia</label>
+                <InputText class="form-control" @bind-Value="ThisModulo.Materia">@ThisModulo.Materia</InputText>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
+                <select @bind="ThisModulo.CorsiId" class="form-control">
+                    <option value="@ThisModulo.Corsi.Id"selected>Attualmente Selezionato - @ThisModulo.Corsi.Nome</option>
+                    @foreach (var Corso in ListaCorsi)
+                    {
+
+                        <option value="@Corso.Id">@Corso.Nome</option>
+
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Data inizio modulo</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="ThisModulo.DataInizio"/>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Data fine modulo</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="ThisModulo.DataFine"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Insegnante</label>
+                <select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
+                    <option value="@ThisModulo.Insegnanti.Id" selected>Attualmente Selezionato - @(ThisModulo.Insegnanti.Nome + " " + ThisModulo.Insegnanti.Cognome)</option>
+                    @foreach (var Insegnante in ListaInsegnanti)
+                    {
+                        <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Tutor</label>
+                <select @bind="@ThisModulo.TutorId" class="form-control" required>
+                    <option value="@ThisModulo.Tutor.Id" selected>Attualmente Selezionato - @(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome)</option>
+                    @foreach (var Tutor in ListaTutor)
+                    {
+                        <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
+    </EditForm>
 }
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int Id { get; set; } // var Id che raccoglie il valore dal modulo specificato
+
+    private Corso[] ListaCorsi;
+    private Modulo[] ListaModuli;
+    private Partecipante[] ListaPartecipanti;
+    private Dipendente[] ListaDipendenti;
+    private Insegnante[] ListaInsegnanti;
+    private Tutor[] ListaTutor;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaModuli = await db.Moduli.ToArrayAsync();
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaDipendenti = await db.Dipendente.ToArrayAsync();
+        ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
+        ListaTutor = await db.Tutor.ToArrayAsync();
+    }
+
+    private async Task SaveModulo()
+    {
+        if (Id == 0)
+        {
+            db.Moduli.Add(NuovoModulo);
+            await db.SaveChangesAsync();
+
+            ListaModuli = db.Moduli.ToArray();
+
+            StateHasChanged();
+
+            Navigator.NavigateTo("/AddModulo/" + NuovoModulo.Id);
+        }
+        else
+        {
+            var m = db.Moduli.Find(ThisModulo.Id);
+            m = ThisModulo;
+            await db.SaveChangesAsync();
+
+            ListaModuli = db.Moduli.ToArray();
+
+            StateHasChanged();
+
+            Navigator.NavigateTo("/Moduli");
+        }
+
+    }
+
+    private Modulo NuovoModulo = new Modulo()
+    {
+        DataInizio = DateTime.Now,
+        DataFine = DateTime.Now
+    };
+
+    private Modulo ThisModulo = new Modulo();
 
 }
