@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Corsi
+    public class Corso
     {
         [Key]
         public int Id { get; set; }
@@ -18,9 +18,10 @@ namespace Gestionale.Data
         public DateTime AnnoFineCorso { get; set; }
         [Required]
         public string Sede { get; set; }
-        public List<Partecipanti> Partecipanti { get; set; }
-        public List<Moduli> Moduli { get; set; }
-        public List<Personale> Personale { get; set; }
-        public Corsi() {}
+        public virtual ICollection<Partecipante> Partecipanti { get; set; }
+        public virtual ICollection<Modulo> Moduli { get; set; }
+        public virtual ICollection<Dipendente> Personale { get; set; }
+        public virtual ICollection<Iscrizione> Iscrizioni { get; set; }
+        public Corso() {}
     }
 }

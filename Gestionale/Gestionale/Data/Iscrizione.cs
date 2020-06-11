@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Iscrizioni
+    public class Iscrizione
     {
         [Key]
         public int Id { get; set; }
         public DateTime DataIscrizione { get; set; }
         public int CorsiId { get; set; }
-        public Corsi Corsi { get; set; }//FK
-        public List<Partecipanti> Partecipanti { get; set; }
-        public Iscrizioni() { }
+        public Corso Corsi { get; set; }//FK
+        public int PartecipanteId { get; set; }
+        public Partecipante Partecipante { get; set; }
+        public virtual ICollection<Esame> Esami { get; set; }
+        public Iscrizione() { }
     }
 }

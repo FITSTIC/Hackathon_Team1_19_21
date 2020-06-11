@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Partecipanti
+    public class Partecipante
     {
         [Key]
         public int Id { get; set; }
@@ -27,15 +27,10 @@ namespace Gestionale.Data
         public string Telefono { get; set; }
         public string Diploma { get; set; }
         public DateTime AnnoDiploma { get; set; }
-        public int IscrizioniId { get; set; }
-        public Iscrizioni Iscrizioni { get; set; }//FK
         public int CorsiId { get; set; }
-        public Corsi Corsi { get; set; }//FK
-        public int? EsamiId { get; set; }
-        public Esami Esami { get; set; }//FK
-        [NotMapped]
-        public List<double?> Punteggi { get; set; }
-        public Partecipanti() { }
+        public Corso Corsi { get; set; }//FK
+        public virtual ICollection<Iscrizione> Iscrizioni { get; set; }
+        public Partecipante() { }
     }
 
 }

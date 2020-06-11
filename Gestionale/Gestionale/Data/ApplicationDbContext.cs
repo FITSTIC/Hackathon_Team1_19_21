@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace Gestionale.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public DbSet<Personale> Personale { get; set; }
+        public DbSet<Dipendente> Dipendente { get; set; }
         public DbSet<Coordinatore> Coordinatore { get; set; }
-        public DbSet<Insegnanti> Insegnanti { get; set; }
+        public DbSet<Insegnante> Insegnanti { get; set; }
         public DbSet<Tutor> Tutor { get; set; }
-        public DbSet<Partecipanti> Partecipanti { get; set; }
-        public DbSet<Corsi> Corsi { get; set; }
-        public DbSet<Moduli> Moduli { get; set; }
-        public DbSet<Esami> Esami { get; set; }
-        public DbSet<Iscrizioni> Iscrizioni { get; set; }
+        public DbSet<Partecipante> Partecipanti { get; set; }
+        public DbSet<Corso> Corsi { get; set; }
+        public DbSet<Modulo> Moduli { get; set; }
+        public DbSet<Esame> Esami { get; set; }
+        public DbSet<Iscrizione> Iscrizioni { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             
             base.OnModelCreating(builder);
-            builder.Entity<Corsi>().HasData(
-            new Corsi
+            builder.Entity<Corso>().HasData(
+            new Corso
             {
                 Id = 1,
                 Nome = "Alan Turing",
@@ -37,7 +37,7 @@ namespace Gestionale.Data
                 AnnoFineCorso = new DateTime(2023, 01, 01),
                 Sede = "Cesena",
             },
-            new Corsi
+            new Corso
             {
                 Id = 2,
                 Nome = "Marshall McLuhan",
@@ -46,7 +46,7 @@ namespace Gestionale.Data
                 AnnoFineCorso = new DateTime(2023, 01, 01),
                 Sede = "Bologna",
             },
-            new Corsi
+            new Corso
             {
                 Id = 3,
                 Nome = "Grace Hopper",
@@ -55,7 +55,7 @@ namespace Gestionale.Data
                 AnnoFineCorso = new DateTime(2023, 01, 01),
                 Sede = "Modena"
             },
-            new Corsi
+            new Corso
             {
                 Id = 4,
                 Nome = "Product Manager Fashion",
@@ -64,7 +64,7 @@ namespace Gestionale.Data
                 AnnoFineCorso = new DateTime(2023, 01, 01),
                 Sede = "Carpi"
             },
-            new Corsi
+            new Corso
             {
                 Id = 5,
                 Nome = "Expert Mixed Reality",
@@ -74,45 +74,50 @@ namespace Gestionale.Data
                 Sede = "Casalecchio"
             });
 
-            builder.Entity<Iscrizioni>().HasData(
-            new Iscrizioni
+            builder.Entity<Iscrizione>().HasData(
+            new Iscrizione
             {
                 Id = 1,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 4,
+                PartecipanteId = 1,
 
             },
-            new Iscrizioni
+            new Iscrizione
             {
                 Id = 2,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 5,
+                PartecipanteId = 2,
 
             },
-            new Iscrizioni
+            new Iscrizione
             {
                 Id = 3,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 1,
+                PartecipanteId = 3,
 
             },
-            new Iscrizioni
+            new Iscrizione
             {
                 Id = 4,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 3,
+                PartecipanteId = 4,
 
             },
-            new Iscrizioni
+            new Iscrizione
             {
                 Id = 5,
                 DataIscrizione = DateTime.Parse(DateTime.Now.ToString()),
                 CorsiId = 2,
+                PartecipanteId = 5,
 
             });
             
-            builder.Entity<Partecipanti>().HasData(
-            new Partecipanti
+            builder.Entity<Partecipante>().HasData(
+            new Partecipante
             {
                 Id = 1,
                 Nome = "Marco",
@@ -124,11 +129,10 @@ namespace Gestionale.Data
                 Telefono = "3338614937",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2010, 06, 17),
-                IscrizioniId = 3,
                 CorsiId = 1,
-                Punteggi = new List<double?>() { 0 },
+                
             },
-            new Partecipanti
+            new Partecipante
             {
                 Id = 2,
                 Nome = "Giorgia",
@@ -140,11 +144,9 @@ namespace Gestionale.Data
                 Telefono = "3338895937",
                 Diploma = "Sociale",
                 AnnoDiploma = new DateTime(2016, 06, 17),
-                IscrizioniId = 5,
                 CorsiId = 2,
-                Punteggi = new List<double?>() { 0 },
             },
-            new Partecipanti
+            new Partecipante
             {
                 Id = 3,
                 Nome = "Luigi",
@@ -156,11 +158,9 @@ namespace Gestionale.Data
                 Telefono = "3338678437",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2019, 06, 17),
-                IscrizioniId = 4,
                 CorsiId = 3,
-                Punteggi = new List<double?>() { 0 },
             },
-            new Partecipanti
+            new Partecipante
             {
                 Id = 4,
                 Nome = "Marta",
@@ -172,11 +172,9 @@ namespace Gestionale.Data
                 Telefono = "3458684937",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2018, 06, 17),
-                IscrizioniId = 1,
                 CorsiId = 4,
-                Punteggi = new List<double?>() { 0 },
             },
-            new Partecipanti
+            new Partecipante
             {
                 Id = 5,
                 Nome = "Giorgia",
@@ -188,9 +186,7 @@ namespace Gestionale.Data
                 Telefono = "3338614937",
                 Diploma = "Tecnico",
                 AnnoDiploma = new DateTime(2017, 06, 17),
-                IscrizioniId = 2,
                 CorsiId = 5,
-                Punteggi = new List<double?>() { 0 },
             });
 
             builder.Entity<Coordinatore>().HasData(
@@ -315,8 +311,8 @@ namespace Gestionale.Data
                 Categoria = "Tutor",
                 CorsiId = 5,
             });
-            builder.Entity<Insegnanti>().HasData(
-            new Insegnanti
+            builder.Entity<Insegnante>().HasData(
+            new Insegnante
             {
                 Id = 11,
                 Nome = "Rosalia",
@@ -328,7 +324,7 @@ namespace Gestionale.Data
                 Categoria = "Insegnante",
                 CorsiId = 1,
             },
-            new Insegnanti
+            new Insegnante
             {
                 Id = 12,
                 Nome = "Alessandro",
@@ -340,7 +336,7 @@ namespace Gestionale.Data
                 Categoria = "Insegnante",
                 CorsiId = 2,
             },
-            new Insegnanti
+            new Insegnante
             {
                 Id = 13,
                 Nome = "Sara",
@@ -352,7 +348,7 @@ namespace Gestionale.Data
                 Categoria = "Insegnante",
                 CorsiId = 3,
             },
-            new Insegnanti
+            new Insegnante
             {
                 Id = 14,
                 Nome = "Marco",
@@ -364,7 +360,7 @@ namespace Gestionale.Data
                 Categoria = "Insegnante",
                 CorsiId = 4,
             },
-            new Insegnanti
+            new Insegnante
             {
                 Id = 15,
                 Nome = "Francesca",
@@ -377,83 +373,103 @@ namespace Gestionale.Data
                 CorsiId = 5,
             });
 
-        builder.Entity<Moduli>().HasData(
-            new Moduli
+        builder.Entity<Modulo>().HasData(
+            new Modulo
             {
                 Id = 1,
                 CorsiId = 1,
                 DataFine = new DateTime(2021, 03, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Programmazione OOP",
-                PersonaleId = 11,
+                InsegnanteId = 15,
+                TutorId = 9
             },
-            new Moduli
+            new Modulo
             {
                 Id = 2,
                 CorsiId = 2,
                 DataFine = new DateTime(2021, 10, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "C#",
-                PersonaleId = 1,
+                InsegnanteId = 11,
+                TutorId = 10
 
             },
-            new Moduli
+            new Modulo
             {
                 Id = 3,
                 CorsiId = 3,
                 DataFine = new DateTime(2021, 09, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Inglese",
-                PersonaleId = 5,
+                InsegnanteId = 12,
+                TutorId = 8
             },
-            new Moduli
+            new Modulo
             {
                 Id = 4,
                 CorsiId = 4,
                 DataFine = new DateTime(2021, 05, 02),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Lavorare in team",
-                PersonaleId = 12,
+                InsegnanteId = 13,
+                TutorId = 7
             },
-            new Moduli
+            new Modulo
             {
                 Id = 5,
                 CorsiId = 5,
                 DataFine = new DateTime(2021, 02, 11),
                 DataInizio = new DateTime(2021, 01, 02),
                 Materia = "Relazione con il Cliente",
-                PersonaleId = 15,
+                InsegnanteId = 14,
+                TutorId = 6
             });
-        builder.Entity<Esami>().HasData(
-            new Esami
+        builder.Entity<Esame>().HasData(
+            new Esame
             {
                 Id = 1,
                 ModuliId = 5,
                 DataEsame = new DateTime(2021, 02, 11),
+                Punteggio = null,
+                PartecipanteId = 2,
+                IscrizioniId = 1,
             },
-            new Esami
+            new Esame
             {
                 Id = 2,
                 ModuliId = 4,
                 DataEsame = new DateTime(2021, 05, 02),
+                Punteggio = null,
+                PartecipanteId = 2,
+                IscrizioniId = 2,
             },
-            new Esami
+            new Esame
             {
                 Id = 3,
                 ModuliId = 3,
                 DataEsame = new DateTime(2021, 09, 02),
+                Punteggio = null,
+                PartecipanteId = 3,
+                IscrizioniId = 3,
             },
-            new Esami
+            new Esame
             {
                 Id = 4,
                 ModuliId = 2,
                 DataEsame = new DateTime(2021, 10, 02),
+                Punteggio = null,
+                PartecipanteId = 4,
+                IscrizioniId = 4,
             },
-            new Esami
+            new Esame
             {
                 Id = 5,
                 ModuliId = 1,
                 DataEsame = new DateTime(2021, 03, 02),
+                Punteggio = null,
+                PartecipanteId = 5,
+                IscrizioniId = 5,
             });
         }
     }
