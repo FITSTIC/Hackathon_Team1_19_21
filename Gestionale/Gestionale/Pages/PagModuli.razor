@@ -2,14 +2,13 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
-
+@code{
+    Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
+}
 
 <div class="row mb-2">
     <div class="col align-self-start">
         <h2>Moduli</h2>
-    </div>
-    <div class="mr-4">
-        <a href="/AddModulo" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a>
     </div>
 </div>
 
@@ -30,7 +29,7 @@ else
                 <th>Fine Modulo</th>
                 <th>Insegnante</th>
                 <th></th>
-                <th></th>
+                <th class="text-center" style="width: 1px;"><a href="/AddModulo" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
@@ -56,13 +55,13 @@ else
                 <!-- Riga nascosta degli esami -->
                 <tr>
                     <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                        <div class="table collapse p-3 container accordian-body" id="@("e"+Modulo.Id)" data-parent="#boolAccord">
+                        <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+Modulo.Id)" data-parent="#boolAccord">
                             <div class="row">
                                 <div class="col align-self-start">
                                     <h2>Esami del modulo @Modulo.Materia</h2>
                                 </div>
                                 <div class="mr-3">
-                                    <a href="/AddEsame" class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></a>
+                                    <a href="/Moduli" class="btn btn-danger" title="Chiudi"><b>x</b></a>
                                 </div>
                             </div>
 
@@ -80,6 +79,7 @@ else
                                             <th>Modulo</th>
                                             <th>Data Esame</th>
                                             <th></th>
+                                            <th><a href="/AddEsame" class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></a></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -110,7 +110,7 @@ else
                         </div>
                     </td>
                 </tr>
-             <!-- fine riga nascosta tabella esami -->
+                <!-- fine riga nascosta tabella esami -->
             }
             <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
             <tr>
@@ -140,11 +140,8 @@ else
 
     private async Task DeleteModulo(Modulo modulo)
     {
-        db.Moduli.Remove(modulo);
-        db.SaveChanges();
-
+        await moduloService.Delete(db, modulo);
         await OnInitializedAsync();
-
         StateHasChanged();
     }
 

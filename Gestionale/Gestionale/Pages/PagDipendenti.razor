@@ -174,10 +174,9 @@
     private Dipendente[] ListaPersonale;
     private Corso[] ListaCorsi;
     private Dipendente NewDipendente = new Dipendente() { };
-    private Insegnante NuovoInsegnante = new Insegnante() { };
-    private Tutor NuovoTutor = new Tutor() { };
-    private Coordinatore NuovoCoordinatore = new Coordinatore() { };
-
+    //private Insegnante NuovoInsegnante = new Insegnante() { };
+    //private Tutor NuovoTutor = new Tutor() { };
+    //private Coordinatore NuovoCoordinatore = new Coordinatore() { };
 
     protected override async Task OnInitializedAsync()
     {
@@ -187,9 +186,21 @@
 
     protected async Task BtnSalva(Dipendente d)
     {
+        switch (d.Categoria)
+        {
+            case "Coordinatore":
+                db.Coordinatore.Add(new Coordinatore(d));
+                break;
+            case "Tutor":
+                db.Tutor.Add(new Tutor(d));
+                break;
+            case "Insegnante":
+                db.Insegnanti.Add(new Insegnante(d));
+                break;
+        }
         await personaleService.Create(db, d);
+        ListaCorsi = await db.Corsi.ToArrayAsync();
         StateHasChanged();
-
     }
 
 }

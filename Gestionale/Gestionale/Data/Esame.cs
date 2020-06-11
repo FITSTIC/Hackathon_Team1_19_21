@@ -15,10 +15,7 @@ namespace Gestionale.Data
         public Modulo Moduli { get; set; }//FK
         public DateTime DataEsame { get; set; }
         public double? Punteggio { get; set; }
-        public int PartecipanteId { get; set; }
-        public Partecipante Partecipante { get; set; }//FK
-        public int IscrizioniId { get; set; }
-        public Iscrizione Iscrizioni { get; set; }//FK
+        public virtual ICollection<Punteggio>Punteggi { get; set; }
         public Esame() 
         {
             

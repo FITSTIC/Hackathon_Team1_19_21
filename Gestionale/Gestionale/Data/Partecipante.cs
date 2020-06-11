@@ -29,7 +29,9 @@ namespace Gestionale.Data
         public DateTime AnnoDiploma { get; set; }
         public int CorsiId { get; set; }
         public Corso Corsi { get; set; }//FK
-        public virtual ICollection<Iscrizione> Iscrizioni { get; set; }
+        public int IscrizioneId { get; set; }
+        public Iscrizione Iscrizione { get; set; }
+        public virtual ICollection<Punteggio> Punteggi { get; set; }
         public Partecipante() { }
     }
 

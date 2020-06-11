@@ -13,9 +13,7 @@ namespace Gestionale.Data
         public DateTime DataIscrizione { get; set; }
         public int CorsiId { get; set; }
         public Corso Corsi { get; set; }//FK
-        public int PartecipanteId { get; set; }
-        public Partecipante Partecipante { get; set; }
-        public virtual ICollection<Esame> Esami { get; set; }
+        public virtual ICollection<Partecipante> Partecipanti { get; set; }
         public Iscrizione() { }
     }
 }

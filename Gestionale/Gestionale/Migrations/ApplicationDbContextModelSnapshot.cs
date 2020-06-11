@@ -145,13 +145,7 @@ namespace Gestionale.Migrations
                     b.Property<DateTime>("DataEsame")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("IscrizioniId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ModuliId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PartecipanteId")
                         .HasColumnType("INTEGER");
 
                     b.Property<double?>("Punteggio")
@@ -159,11 +153,7 @@ namespace Gestionale.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IscrizioniId");
-
                     b.HasIndex("ModuliId");
-
-                    b.HasIndex("PartecipanteId");
 
                     b.ToTable("Esami");
 
@@ -172,41 +162,31 @@ namespace Gestionale.Migrations
                         {
                             Id = 1,
                             DataEsame = new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IscrizioniId = 1,
-                            ModuliId = 5,
-                            PartecipanteId = 2
+                            ModuliId = 5
                         },
                         new
                         {
                             Id = 2,
                             DataEsame = new DateTime(2021, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IscrizioniId = 2,
-                            ModuliId = 4,
-                            PartecipanteId = 2
+                            ModuliId = 4
                         },
                         new
                         {
                             Id = 3,
                             DataEsame = new DateTime(2021, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IscrizioniId = 3,
-                            ModuliId = 3,
-                            PartecipanteId = 3
+                            ModuliId = 3
                         },
                         new
                         {
                             Id = 4,
                             DataEsame = new DateTime(2021, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IscrizioniId = 4,
-                            ModuliId = 2,
-                            PartecipanteId = 4
+                            ModuliId = 2
                         },
                         new
                         {
                             Id = 5,
                             DataEsame = new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IscrizioniId = 5,
-                            ModuliId = 1,
-                            PartecipanteId = 5
+                            ModuliId = 1
                         });
                 });
 
@@ -222,14 +202,9 @@ namespace Gestionale.Migrations
                     b.Property<DateTime>("DataIscrizione")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PartecipanteId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CorsiId");
-
-                    b.HasIndex("PartecipanteId");
 
                     b.ToTable("Iscrizioni");
 
@@ -237,37 +212,32 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 1,
-                            CorsiId = 4,
-                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
-                            PartecipanteId = 1
+                            CorsiId = 1,
+                            DataIscrizione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
-                            CorsiId = 5,
-                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
-                            PartecipanteId = 2
+                            CorsiId = 2,
+                            DataIscrizione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
-                            CorsiId = 1,
-                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
-                            PartecipanteId = 3
+                            CorsiId = 3,
+                            DataIscrizione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
-                            CorsiId = 3,
-                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
-                            PartecipanteId = 4
+                            CorsiId = 4,
+                            DataIscrizione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5,
-                            CorsiId = 2,
-                            DataIscrizione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
-                            PartecipanteId = 5
+                            CorsiId = 5,
+                            DataIscrizione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -398,6 +368,9 @@ namespace Gestionale.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("IscrizioneId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -409,6 +382,8 @@ namespace Gestionale.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CorsiId");
+
+                    b.HasIndex("IscrizioneId");
 
                     b.ToTable("Partecipanti");
 
@@ -424,6 +399,7 @@ namespace Gestionale.Migrations
                             Diploma = "Tecnico",
                             Email = "MarcoPolo@gmail.com",
                             Indirizzo = "Via Polo 29°",
+                            IscrizioneId = 1,
                             Nome = "Marco",
                             Telefono = "3338614937"
                         },
@@ -438,6 +414,7 @@ namespace Gestionale.Migrations
                             Diploma = "Sociale",
                             Email = "GiorgiaVenere@gmail.com",
                             Indirizzo = "Via Venere 219°",
+                            IscrizioneId = 2,
                             Nome = "Giorgia",
                             Telefono = "3338895937"
                         },
@@ -452,6 +429,7 @@ namespace Gestionale.Migrations
                             Diploma = "Tecnico",
                             Email = "LuigiDeandè@gmail.com",
                             Indirizzo = "Via Deandè 5°",
+                            IscrizioneId = 3,
                             Nome = "Luigi",
                             Telefono = "3338678437"
                         },
@@ -466,6 +444,7 @@ namespace Gestionale.Migrations
                             Diploma = "Tecnico",
                             Email = "MartaPane@gmail.com",
                             Indirizzo = "Via Pane 15°",
+                            IscrizioneId = 4,
                             Nome = "Marta",
                             Telefono = "3458684937"
                         },
@@ -480,9 +459,34 @@ namespace Gestionale.Migrations
                             Diploma = "Tecnico",
                             Email = "GiorgiaTelo@gmail.com",
                             Indirizzo = "Via Telo 78°",
+                            IscrizioneId = 5,
                             Nome = "Giorgia",
                             Telefono = "3338614937"
                         });
+                });
+
+            modelBuilder.Entity("Gestionale.Data.Punteggio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EsameId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PartecipanteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double?>("Voto")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EsameId");
+
+                    b.HasIndex("PartecipanteId");
+
+                    b.ToTable("Punteggio");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -693,7 +697,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 1,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Frasulli",
                             CorsiId = 1,
@@ -705,7 +709,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 2,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Grud",
                             CorsiId = 2,
@@ -717,7 +721,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 3,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Stella",
                             CorsiId = 3,
@@ -729,7 +733,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 4,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Dadi",
                             CorsiId = 4,
@@ -741,7 +745,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 5,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Coordinatore",
                             Cognome = "Raro",
                             CorsiId = 5,
@@ -765,7 +769,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 11,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Telepatia",
                             CorsiId = 1,
@@ -777,7 +781,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 12,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "De'Martino",
                             CorsiId = 2,
@@ -789,7 +793,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 13,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Martin",
                             CorsiId = 3,
@@ -801,7 +805,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 14,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Terra",
                             CorsiId = 4,
@@ -813,7 +817,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 15,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Insegnante",
                             Cognome = "Rosa",
                             CorsiId = 5,
@@ -837,7 +841,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 6,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Giuseppa",
                             CorsiId = 1,
@@ -849,7 +853,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 7,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Frafra",
                             CorsiId = 2,
@@ -861,7 +865,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 8,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Del Mio",
                             CorsiId = 3,
@@ -873,7 +877,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 9,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Del Capo",
                             CorsiId = 4,
@@ -885,7 +889,7 @@ namespace Gestionale.Migrations
                         new
                         {
                             Id = 10,
-                            Assunzione = new DateTime(2020, 6, 10, 17, 46, 51, 0, DateTimeKind.Unspecified),
+                            Assunzione = new DateTime(2020, 6, 11, 13, 57, 58, 0, DateTimeKind.Unspecified),
                             Categoria = "Tutor",
                             Cognome = "Ortè",
                             CorsiId = 5,
@@ -898,21 +902,9 @@ namespace Gestionale.Migrations
 
             modelBuilder.Entity("Gestionale.Data.Esame", b =>
                 {
-                    b.HasOne("Gestionale.Data.Iscrizione", "Iscrizioni")
-                        .WithMany("Esami")
-                        .HasForeignKey("IscrizioniId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Gestionale.Data.Modulo", "Moduli")
                         .WithMany("Esami")
                         .HasForeignKey("ModuliId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Gestionale.Data.Partecipante", "Partecipante")
-                        .WithMany()
-                        .HasForeignKey("PartecipanteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -922,12 +914,6 @@ namespace Gestionale.Migrations
                     b.HasOne("Gestionale.Data.Corso", "Corsi")
                         .WithMany("Iscrizioni")
                         .HasForeignKey("CorsiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Gestionale.Data.Partecipante", "Partecipante")
-                        .WithMany("Iscrizioni")
-                        .HasForeignKey("PartecipanteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -958,6 +944,27 @@ namespace Gestionale.Migrations
                     b.HasOne("Gestionale.Data.Corso", "Corsi")
                         .WithMany("Partecipanti")
                         .HasForeignKey("CorsiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gestionale.Data.Iscrizione", "Iscrizione")
+                        .WithMany("Partecipanti")
+                        .HasForeignKey("IscrizioneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Gestionale.Data.Punteggio", b =>
+                {
+                    b.HasOne("Gestionale.Data.Esame", "Esami")
+                        .WithMany("Punteggi")
+                        .HasForeignKey("EsameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gestionale.Data.Partecipante", "Partecipanti")
+                        .WithMany("Punteggi")
+                        .HasForeignKey("PartecipanteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

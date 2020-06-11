@@ -4,7 +4,9 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
-
+@code{
+    Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
+}
 @if (Id == 0)
 {
     /*======================================================================================
@@ -88,7 +90,7 @@ else
     }
 
     <h2>Modulo @ThisModulo.Materia</h2>
-   
+
     <hr />
 
     <EditForm Model="ThisModulo" OnSubmit="()=> SaveModulo()">
@@ -100,7 +102,7 @@ else
             <div class="form-group col-md-6">
                 <label>Corso</label>
                 <select @bind="ThisModulo.CorsiId" class="form-control">
-                    <option value="@ThisModulo.Corsi.Id"selected>Attualmente Selezionato - @ThisModulo.Corsi.Nome</option>
+                    <option value="@ThisModulo.Corsi.Id" selected>Attualmente Selezionato - @ThisModulo.Corsi.Nome</option>
                     @foreach (var Corso in ListaCorsi)
                     {
 
@@ -113,11 +115,11 @@ else
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Data inizio modulo</label>
-                <InputDate type="date" class="form-control valid" @bind-Value="ThisModulo.DataInizio"/>
+                <InputDate type="date" class="form-control valid" @bind-Value="ThisModulo.DataInizio" />
             </div>
             <div class="form-group col-md-6">
                 <label>Data fine modulo</label>
-                <InputDate type="date" class="form-control valid" @bind-Value="ThisModulo.DataFine"/>
+                <InputDate type="date" class="form-control valid" @bind-Value="ThisModulo.DataFine" />
             </div>
         </div>
         <div class="form-row">
@@ -172,23 +174,17 @@ else
     {
         if (Id == 0)
         {
-            db.Moduli.Add(NuovoModulo);
-            await db.SaveChangesAsync();
 
+            await moduloService.Create(db, NuovoModulo);
             ListaModuli = db.Moduli.ToArray();
-
             StateHasChanged();
 
             Navigator.NavigateTo("/AddModulo/" + NuovoModulo.Id);
         }
         else
         {
-            var m = db.Moduli.Find(ThisModulo.Id);
-            m = ThisModulo;
-            await db.SaveChangesAsync();
-
+            await moduloService.Update(db, ThisModulo);
             ListaModuli = db.Moduli.ToArray();
-
             StateHasChanged();
 
             Navigator.NavigateTo("/Moduli");

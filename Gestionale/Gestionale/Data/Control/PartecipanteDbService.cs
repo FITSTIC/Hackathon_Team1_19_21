@@ -5,31 +5,33 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 namespace Gestionale.Data.Control
 {
-    public class DipendenteDbService
+    public class PartecipanteDbService
     {
         public ApplicationDbContext db;
-
-        public DipendenteDbService()
+        public PartecipanteDbService()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlite("Data Source=mydb.db");
             db = new ApplicationDbContext(optionsBuilder.Options);
         }
-
-        public async Task Create(ApplicationDbContext db, Dipendente d)
+        public async Task Create(ApplicationDbContext db, Partecipante p)
         {
-
-            db.Dipendente.Add(d);
+            db.Partecipanti.Add(p);
             await db.SaveChangesAsync();
         }
         public async Task Read(ApplicationDbContext db, int id)
         {
-            db.Dipendente.Find(id);
+            db.Partecipanti.Find(id);
             await db.SaveChangesAsync();
         }
-        public async Task Read(ApplicationDbContext db, string nome)
+        public async Task Update(ApplicationDbContext db, Partecipante p)
         {
-            db.Dipendente.First(x => x.Nome == nome);
+            db.Partecipanti.Update(p);
+            await db.SaveChangesAsync();
+        }
+        public async Task Delete(ApplicationDbContext db, Partecipante p)
+        {
+            db.Partecipanti.Remove(p);
             await db.SaveChangesAsync();
         }
     }
