@@ -1,0 +1,77 @@
+﻿@page "/AddEsame"
+@page "/AddEsame/{Id:int}"
+@page "/AddEsame/{Id:int}/List"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+@inject NavigationManager Navigator
+
+@if (Id == 0)
+{
+    /*======================================================================================
+
+                           CONDIZIONE PER INSERIRE UN NUOVO ESAME
+
+    ======================================================================================*/
+
+    <h2>Inserisci un nuovo esame</h2>
+
+    <hr />
+
+}
+else if (Navigator.Uri.Contains("List"))
+{
+    /*======================================================================================
+
+                    CONDIZIONE PER CONSULTARE LA LISTA UTENTI IN UN ESAME
+
+    ======================================================================================*/
+
+    <h2>Lista Studenti all'esame</h2>
+
+    <hr />
+}
+else
+{
+    /*======================================================================================
+
+                     CONDIZIONE PER CONSULTARE E MOFICARE UN ESAME
+
+    ======================================================================================*/
+
+    // Accedendo alla pagina, recupero tutte le informazioni della lista esistente partendo dal suo id
+    @foreach (var esame in ListaEsami) // Ciclo la lista
+    {
+        if (Id == esame.Id) // Confronto l'Id della pagina html cono tutti gli Id della lista
+        {
+            ThisEsame = esame; // trovato il match copio tutto nella nuova variabile
+        }
+    }
+
+    <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
+
+    <hr />
+
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; } // var Id che raccoglie il valore dal modulo specificato
+
+    private Corso[] ListaCorsi;
+    private Modulo[] ListaModuli;
+    private Esame[] ListaEsami;
+    private Partecipante[] ListaPartecipanti;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaModuli = await db.Moduli.ToArrayAsync();
+        ListaEsami = await db.Esami.ToArrayAsync();
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+    }
+
+    private Esame ThisEsame = new Esame();
+
+
+}

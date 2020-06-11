@@ -14,7 +14,7 @@
 </div>
 
 
-@if (ListaModuli == null)
+@if (ListaModuli == null || !ListaModuli.Any())
 {
     <p>Non è presente alcun modulo per questo corso. Aggiungine uno premendo il tasto verde.</p>
 }
@@ -38,20 +38,21 @@ else
             {
                 <tr>
                     <td>
-                        <button class="btn btn-outline-danger" title="Elimina questo modulo"><b>–</b></button> <!-- Aggiungere Funzione -->
+                        <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=> DeleteModulo(Modulo)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
                     <td>@Modulo.Materia</td>
                     <td>@Modulo.Corsi.Nome</td>
                     <td>@Modulo.DataInizio.ToString("dd/MM/yyyy")</td>
                     <td>@Modulo.DataFine.ToString("dd/MM/yyyy")</td>
-                    <td></td>
+                    <td>@(Modulo.Insegnanti.Nome + " " + Modulo.Insegnanti.Cognome)</td>
                     <td style="text-align:center;">
-                        <button class="btn btn-secondary accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+Modulo.Id)">Esami</button>
+                        <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+Modulo.Id)">Esami</button>
                     </td>
                     <td>
-                        <a href="/AddModulo/@Modulo.Id" class="btn btn-link mr-n2 float-right"><img src="/css/gear.ico" width="27" height="32" /></a>
+                        <a href="/AddModulo/@Modulo.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                     </td>
                 </tr>
+
                 <!-- Riga nascosta degli esami -->
                 <tr>
                     <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
@@ -61,11 +62,11 @@ else
                                     <h2>Esami del modulo @Modulo.Materia</h2>
                                 </div>
                                 <div class="mr-3">
-                                    <button class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></button>
+                                    <a href="/AddEsame" class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></a>
                                 </div>
                             </div>
 
-                            @if (ListaEsami == null)
+                            @if (Modulo.Esami == null || !Modulo.Esami.Any())
                             {
                                 <p>Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
                             }
@@ -80,7 +81,6 @@ else
                                             <th>Data Esame</th>
                                             <th></th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -89,19 +89,18 @@ else
                                             <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
                                             <tr>
                                                 <td>
-                                                    <button class="btn btn-outline-danger" title="Elimina questo modulo">
+                                                    <button class="btn btn-danger" title="Elimina questo Esame" @onclick="()=> DeleteEsame(Esame)">
                                                         <b>–</b>
-                                                    </button> <!-- Aggiungere Funzione -->
+                                                    </button>
                                                 </td>
                                                 <td>@Esame.Id</td>
                                                 <td>@Esame.Moduli.Materia</td>
                                                 <td>@Esame.DataEsame.ToString("dd/MM/yy")</td>
-                                                <td></td> <!-- AGGIUNGERE Media punteggio classe -->
                                                 <td style="text-align:center;">
-                                                    <button class="btn btn-secondary">Lista Partecipanti</button>
+                                                    <a href="/AddEsame/@Esame.Id/List" class="btn btn-primary">Lista Partecipanti</a>
                                                 </td>
                                                 <td>
-                                                    <button class="btn mr-n2 float-right"><img src="/css/gear.ico" width="27" height="32" /></button>
+                                                    <a href="/AddEsame/@Esame.Id" class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                                                 </td>
                                             </tr>
                                         }
@@ -111,7 +110,7 @@ else
                         </div>
                     </td>
                 </tr>
- <!-- fine riga nascosta tabella esami -->
+             <!-- fine riga nascosta tabella esami -->
             }
             <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
             <tr>
@@ -125,15 +124,10 @@ else
 
 @code {
 
-    public double? prova = 0;
-    public int recuperoIdPartecipante;
     private Corso[] ListaCorsi;
     private Modulo[] ListaModuli;
     private Esame[] ListaEsami;
-    private Partecipante[] ListaPartecipanti;
-    private Dipendente[] ListaPersonale;
     private Insegnante[] ListaInsegnanti;
-    private Tutor[] ListaTutor;
 
 
     protected override async Task OnInitializedAsync()
@@ -141,52 +135,26 @@ else
         ListaCorsi = await db.Corsi.ToArrayAsync();
         ListaModuli = await db.Moduli.ToArrayAsync();
         ListaEsami = await db.Esami.ToArrayAsync();
-        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
-        ListaPersonale = await db.Dipendente.ToArrayAsync();
         ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
-        ListaTutor = await db.Tutor.ToArrayAsync();
     }
 
-    private async Task UpdateVote()
+    private async Task DeleteModulo(Modulo modulo)
     {
-        var p = db.Partecipanti.Find(recuperoIdPartecipante);
-       // p.punteggio = prova;
-
-        await db.SaveChangesAsync();
-
-        StateHasChanged();
-    }
-
-    private Modulo NuovoModulo = new Modulo()
-    {
-        DataInizio = DateTime.Now,
-        DataFine = DateTime.Now
-    };
-
-    private void SaveNuovoModulo()
-    {
-        db.Moduli.Add(NuovoModulo);
+        db.Moduli.Remove(modulo);
         db.SaveChanges();
 
-        ListaModuli = db.Moduli.ToArray();
+        await OnInitializedAsync();
 
         StateHasChanged();
     }
 
-    private Esame NuovoEsame = new Esame()
+    private async Task DeleteEsame(Esame esame)
     {
-        DataEsame = DateTime.Now
-    };
-
-    private void SaveNuovoEsame()
-    {
-        db.Esami.Add(NuovoEsame);
+        db.Esami.Remove(esame);
         db.SaveChanges();
 
-        ListaEsami = db.Esami.ToArray();
+        await OnInitializedAsync();
 
         StateHasChanged();
     }
-
-
 }
