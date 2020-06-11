@@ -2,120 +2,25 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
-
-<div class="row">
+<div class="row mb-2">
     <div class="col align-self-start">
         <h2>Partecipanti</h2>
     </div>
-    <div class="mr-1">
-        <button class="btn btn-success" data-toggle="modal" title="Aggiungi un nuovo partecipante" data-target="#InsertPartecipanti"><b>+</b></button>
-
-        <!-- Modale inserimento modulo -->
-        <div class="modal fade" id="InsertPartecipanti" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Inserisci un nuovo partecipante</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="exampleFormControlFile1">Inserisci la foto del partecipante</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                            </div>
-                        </form>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Nome</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Cognome</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Data di nascita</label>
-                                <input type="date" class="form-control valid">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Indirizzo</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Città</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Telefono</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>E-Mail</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Diploma</label>
-                                <input class="form-control" id=""> <!-- inserire id -->
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Anno diploma</label>
-                                <input type="date" class="form-control valid">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Data Iscrizione</label>
-                                <input type="date" class="form-control valid">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Corso</label>
-
-                                <select id="" class="form-control">
-                                    <!-- inserire id -->
-                                    @*@foreach (Corsi corso in ListaCorsi)
-                    {
-                        <option selected>
-                            @if (corso.Nome == Corsi.Nome)
-                            {
-                        @corso.Nome;
-                        }
-                      </option>
-                    }*@
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                            <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="mr-4">
-        <button class="btn btn-danger" title="Elimina il partecipante selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
+        <a href="/AggiungiPartecipanti" class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></a>
     </div>
 </div>
-@if (ListaPartecipanti == null)
-{
 
-}
+
+@if (ListaPartecipanti == null || !ListaPartecipanti.Any())
+{
+    <p>Aggiungi un nuovo partecipante con il tasto verde!</p> }
 else
 {
     <table class="table table-hover">
         <thead>
             <tr class="table-secondary">
-
-                <th><input type="checkbox"></th>
-                <!--<th>Foto</th>-->
+                <th></th>
                 <th>Nome</th>
                 <th>Cognome</th>
                 <th>Data di nascita</th>
@@ -127,135 +32,61 @@ else
                 <th>Anno Diploma</th>
                 <th>Data dell'Iscrizione</th>
                 <th>Corso</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
             @foreach (var Partecipante in ListaPartecipanti)
             {
+                <tr>
+                    <td>
+                        <button class="btn btn-danger" title="Elimina questo partecipante" @onclick="()=> DeletePartecipante(Partecipante)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                    </td>
+                    <td>@Partecipante.Nome</td>
+                    <td>@Partecipante.Cognome</td>
+                    <td>@Partecipante.DataNascita.ToString("dd/MM/yyyy")</td>
+                    <td>@Partecipante.Indirizzo</td>
+                    <td>@Partecipante.Citta</td>
+                    <td>@Partecipante.Telefono</td>
+                    <td>@Partecipante.Email</td>
+                    <td>@Partecipante.Diploma</td>
+                    <td>@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")</td>
+                    <td><!-- Partecipante.Iscrizioni.DataIscrizione.ToString("dd/MM/yyyy")--></td>
+                    <td>@Partecipante.Corsi.Nome</td>
+                    <td style="text-align:center;">
+                    </td>
+                    <td>
+                        <a href="/AggiungiPartecipanti/@Partecipante.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                    </td>
+                </tr>
+            }
+            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
             <tr>
-                <td><input type="checkbox"></td>               
-                <td>@Partecipante.Nome</td>
-                <td>@Partecipante.Cognome</td>
-                <td>@Partecipante.DataNascita.ToString("dd/MM/yyyy")</td>
-                <td>@Partecipante.Indirizzo</td>
-                <td>@Partecipante.Citta</td>
-                <td>@Partecipante.Telefono</td>
-                <td>@Partecipante.Email</td>
-                <td>@Partecipante.Diploma</td>
-                <td>@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")</td>
-                <td></td>
-                <td>@Partecipante.Corsi.Nome</td>
-
                 <td>
-                    <button class="btn btn-success" data-toggle="modal" title="Visualizza le informazioni del partecipante" data-target="#InfoPartecipanti"><b>+</b></button>
-
-                    <!-- Modale inserimento modulo -->
-                    <div class="modal fade" id="InfoPartecipanti" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Visualizza le informazioni del partecipante</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Nome</label>
-                                            
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Nome">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Cognome</label>
-                                            
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Cognome">
-
-                                        </div>
-
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Data di nascita</label>
-                                            
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.DataNascita.ToString("dd/MM/yyyy")">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Indirizzo</label>
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Indirizzo">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Città</label>
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Citta">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Telefono</label>
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Telefono">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>E-Mail</label>
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Email">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Diploma</label>
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.Diploma">
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label>Anno diploma</label>
-
-                                           <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Data Iscrizione</label>
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>Corso</label>
-
-                                            <select id="" class="form-control" value="@Partecipante.Corsi.Nome" readonly> 
-                                                <!-- inserire id -->
-                                                @*@foreach (Corsi corso in ListaCorsi)
-                                    {
-                                        <option selected>
-                                            @if (corso.Nome == Corsi.Nome)
-                                            {
-                                        @corso.Nome;
-                                        }
-                                      </option>
-                                    }*@
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                        <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </td>
             </tr>
-    }
         </tbody>
-    </table>
-}
+    </table>}
 
+@code { // private Moduli[] ListaModuli;
+    private Corso[] ListaCorsi; // Da modificare in esami
+    private Partecipante[] ListaPartecipanti;
+    private Iscrizione[] ListaIscrizioni;
+    protected override async Task OnInitializedAsync()
+    {
+        //ListaModuli = await db.Moduli.ToArrayAsync();
 
-    @code { // private Moduli[] ListaModuli;
-        private Corso[] ListaCorsi; // Da modificare in esami
-        private Partecipante[] ListaPartecipanti;
-        private Iscrizione[] ListaIscrizioni;
-        protected override async Task OnInitializedAsync()
-        {
-            //ListaModuli = await db.Moduli.ToArrayAsync();
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
+    }
+    private async Task DeletePartecipante(Partecipante alunno)
+    {
+        db.Partecipanti.Remove(alunno);
+        db.SaveChanges();
 
-            ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
-            ListaCorsi = await db.Corsi.ToArrayAsync();
-            ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
-        }
-          }
+        await OnInitializedAsync();
+
+        StateHasChanged();
+    } }
