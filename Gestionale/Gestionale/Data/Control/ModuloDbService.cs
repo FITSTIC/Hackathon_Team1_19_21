@@ -22,10 +22,9 @@ namespace Gestionale.Data.Control
             await db.SaveChangesAsync();
         }
         
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Modulo> Read(ApplicationDbContext db, int id)
         {
-            db.Moduli.Find(id);
-            await db.SaveChangesAsync();
+            return db.Moduli.Find(id);
         }
         public async Task Read(ApplicationDbContext db, string materia)
         {

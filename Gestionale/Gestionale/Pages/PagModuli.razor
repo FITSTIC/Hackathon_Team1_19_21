@@ -15,6 +15,7 @@
 
 @if (ListaModuli == null || !ListaModuli.Any())
 {
+    <a href="/AddModulo" class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></a>
     <p>Non è presente alcun modulo per questo corso. Aggiungine uno premendo il tasto verde.</p>
 }
 else
@@ -29,7 +30,7 @@ else
                 <th>Fine Modulo</th>
                 <th>Insegnante</th>
                 <th></th>
-                <th class="text-center" style="width: 1px;"><a href="/AddModulo" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
+                <th class="text-center" style="width: 1px;"><a href="/AddModulo" class="btn btn-success float-right" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
@@ -57,16 +58,17 @@ else
                     <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
                         <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+Modulo.Id)" data-parent="#boolAccord">
                             <div class="row">
-                                <div class="col align-self-start">
+                                <div class="col-11 align-self-start">
                                     <h2>Esami del modulo @Modulo.Materia</h2>
                                 </div>
-                                <div class="mr-3">
-                                    <a href="/Moduli" class="btn btn-danger" title="Chiudi"><b>x</b></a>
+                                <div class="col">
+                                    <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+Modulo.Id)"><b>x</b></button>
                                 </div>
                             </div>
 
                             @if (Modulo.Esami == null || !Modulo.Esami.Any())
                             {
+                                <a href="/AddEsame/Create/@Modulo.Id" class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></a>
                                 <p>Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
                             }
                             else
@@ -79,8 +81,7 @@ else
                                             <th>Modulo</th>
                                             <th>Data Esame</th>
                                             <th></th>
-                                            <th><a href="/AddEsame" class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></a></th>
-                                            <th></th>
+                                            <th><a href="/AddEsame/Create/@Modulo.Id" class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></a></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -100,7 +101,7 @@ else
                                                     <a href="/AddEsame/@Esame.Id/List" class="btn btn-primary">Lista Partecipanti</a>
                                                 </td>
                                                 <td>
-                                                    <a href="/AddEsame/@Esame.Id" class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                                                    <a href="/AddEsame/Edit/@Esame.Id" class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                                                 </td>
                                             </tr>
                                         }
@@ -141,6 +142,12 @@ else
     private async Task DeleteModulo(Modulo modulo)
     {
         await moduloService.Delete(db, modulo);
+
+        foreach (var esame in modulo.Esami) // Cancella i relativi esami di quel modulo
+        {
+            db.Esami.Remove(esame);
+        }
+
         await OnInitializedAsync();
         StateHasChanged();
     }
@@ -148,6 +155,13 @@ else
     private async Task DeleteEsame(Esame esame)
     {
         db.Esami.Remove(esame);
+
+        foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+        {
+            db.Punteggi.Remove(voto);
+        }
+
+
         db.SaveChanges();
 
         await OnInitializedAsync();
