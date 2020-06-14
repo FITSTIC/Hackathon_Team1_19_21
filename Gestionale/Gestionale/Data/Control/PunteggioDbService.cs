@@ -20,10 +20,9 @@ namespace Gestionale.Data.Control
             db.Punteggi.Add(p);
             await db.SaveChangesAsync();
         }
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Punteggio> Read(ApplicationDbContext db, int id)
         {
-            db.Punteggi.Find(id);
-            await db.SaveChangesAsync();
+            return db.Punteggi.Find(id);
         }
         public async Task Update(ApplicationDbContext db, Punteggio p)
         {

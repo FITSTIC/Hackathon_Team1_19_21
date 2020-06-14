@@ -22,15 +22,33 @@ namespace Gestionale.Data.Control
             await db.SaveChangesAsync();
         }
         
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Modulo> Read(ApplicationDbContext db, int id)
         {
-            db.Moduli.Find(id);
-            await db.SaveChangesAsync();
+            return db.Moduli.Find(id);
         }
-        public async Task Read(ApplicationDbContext db, string materia)
+        public async Task<Modulo> Read(ApplicationDbContext db, string materia)
         {
-            db.Moduli.First(x => x.Materia == materia);
-            await db.SaveChangesAsync();
+           return db.Moduli.First(x => x.Materia == materia);
+        }
+        public async Task<List<Modulo>> Read(ApplicationDbContext db, Dipendente dip)
+        {
+            var s = new List<Modulo>();
+            if (dip.Categoria == "Tutor")
+            {
+                s = db.Moduli
+               .Include(i => i.Tutor)
+               .Where(m => m.TutorId == dip.Id).ToList();
+                return s;
+            }
+            else if (dip.Categoria == "Insegnante")
+            {
+                s =  db.Moduli
+               .Include(i => i.Insegnanti)
+               .Where(m => m.InsegnanteId == dip.Id).ToList();
+                return s;
+            }
+            return s;
+
         }
         public async Task Update(ApplicationDbContext db, Modulo m)
         {

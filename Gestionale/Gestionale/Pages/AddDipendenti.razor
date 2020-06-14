@@ -1,0 +1,152 @@
+﻿@page "/AddDipendente"
+@page "/AddDipendente/Info/{dipendenteid:int}"
+@page "/AddDipendente/addVoti"
+@page "/AddDipendente/Modifica/{dipendenteid:int}"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+@inject NavigationManager Navigator
+@code{
+        Gestionale.Data.Control.DipendenteDbService personaleService = new Data.Control.DipendenteDbService();
+        Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
+        Gestionale.Data.Control.ModuloDbService moduliService = new Data.Control.ModuloDbService();
+}
+
+    <div class="row">
+        <div class="col-8 ml-3">
+            <h2>@dip.Nome  @dip.Cognome</h2>
+            <h3>@dip.Categoria</h3>
+        </div>
+    </div>
+
+@if (Navigator.Uri.Contains("/AddDipendente/Info"))
+ {
+    // informazioni più dettagliate del dipendente
+    <div class="container-fluid">
+        <table class="table table-hover text-center">
+            <thead>
+                <tr class="table-secondary">
+                    <th>Corso</th>
+                    <th>Data di Nascita</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th>Data Assunzione</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="accordion" id="boolAccord">
+                <tr>
+                    <td>@nomeCorsoDip.Nome</td>
+                    <td>@dip.DataNascita</td>
+                    <td>@dip.Email</td>
+                    <td>@dip.Telefono</td>
+                    <td>@dip.Assunzione</td>
+                    <td class="p-1"><a href="/AddDipendente/@dipendenteid" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        <div class="container-fluid">
+            <h2>Moduli</h2>
+            <table class="table table-hover text-center">
+                <thead>
+                    <tr class="table-secondary">
+                        <th>Materia modulo</th>
+                        <th>Corso</th>
+                        <th>Inizio Modulo</th>
+                        <th>Fine Modulo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="accordion" id="boolAccord">
+                        @if (dip.Categoria == "Coordinatore")
+                        {
+                            @foreach (var m in listTotModuliC)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/Moduli">@m.Materia</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Moduli">@nomeCorsoDip.Nome</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Moduli">@m.DataInizio</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Moduli">@m.DataFine</a>
+                                    </td>
+                                    <td class="p-1"><a href="/AddDipendente/@dipendenteid" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            @foreach (var m in listModuliDip)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/Moduli">@m.Materia</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Moduli">@nomeCorsoDip.Nome</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Moduli">@m.DataInizio</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Moduli">@m.DataFine</a>
+                                    </td>
+                                    <td class="p-1"><a href="/AddDipendente/@dipendenteid" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a></td>
+                                </tr>
+                            }
+                        }
+                </tbody>
+            </table>
+           
+        </div>
+ }
+else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
+{
+    //modifica dipendente
+}
+else if (Navigator.Uri.Contains("/AddDipendente/addVoti"))
+{
+    // aggiungi voti agli esami studenti
+}
+else
+{
+    // Aggiunta nuovo dipendente
+}
+
+
+@code {
+    [Parameter]
+    public int dipendenteid { get; set; }
+    public int idCorsodip { get; set; }
+    public Corso nomeCorsoDip { get; set; }
+    public ICollection<Modulo> listTotModuliC { get; set; }
+    public ICollection<Modulo> listModuliDip { get; set; }
+    public Dipendente dip { get; set; }
+
+    private Corso[] ListaCorsi;
+    private Modulo[] ListaModuli;
+    private Esame[] ListEsami;
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaModuli = await db.Moduli.ToArrayAsync();
+        ListEsami = await db.Esami.ToArrayAsync();
+
+        dip = personaleService.Read(db, dipendenteid).Result;
+        idCorsodip = dip.CorsiId;
+        nomeCorsoDip = corsoService.Read(db, idCorsodip).Result;
+
+        listTotModuliC = corsoService.Read(db, nomeCorsoDip.Nome).Result.Moduli; // lista totale del corso
+
+        listModuliDip = moduliService.Read(db, dip).Result;
+
+
+
+    }
+}

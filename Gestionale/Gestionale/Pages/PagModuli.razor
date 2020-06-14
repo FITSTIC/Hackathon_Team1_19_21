@@ -33,39 +33,39 @@ else
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
-            @foreach (var Modulo in ListaModuli)
+            @foreach (var modulo in ListaModuli)
             {
                 <tr>
                     <td>
-                        <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=> DeleteModulo(Modulo)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                        <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=> DeleteModulo(modulo)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
-                    <td>@Modulo.Materia</td>
-                    <td>@Modulo.Corsi.Nome</td>
-                    <td>@Modulo.DataInizio.ToString("dd/MM/yyyy")</td>
-                    <td>@Modulo.DataFine.ToString("dd/MM/yyyy")</td>
-                    <td>@(Modulo.Insegnanti.Nome + " " + Modulo.Insegnanti.Cognome)</td>
+                    <td>@modulo.Materia</td>
+                    <td>@modulo.Corsi.Nome</td>
+                    <td>@modulo.DataInizio.ToString("dd/MM/yyyy")</td>
+                    <td>@modulo.DataFine.ToString("dd/MM/yyyy")</td>
+                    <td>@(modulo.Insegnanti.Nome + " " + modulo.Insegnanti.Cognome)</td>
                     <td style="text-align:center;">
-                        <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+Modulo.Id)">Esami</button>
+                        <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+modulo.Id)">Esami</button>
                     </td>
                     <td>
-                        <a href="/AddModulo/@Modulo.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                        <a href="/AddModulo/@modulo.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                     </td>
                 </tr>
 
                 <!-- Riga nascosta degli esami -->
                 <tr>
                     <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                        <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+Modulo.Id)" data-parent="#boolAccord">
+                        <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+modulo.Id)" data-parent="#boolAccord">
                             <div class="row">
                                 <div class="col align-self-start">
-                                    <h2>Esami del modulo @Modulo.Materia</h2>
+                                    <h2>Esami del modulo @modulo.Materia</h2>
                                 </div>
                                 <div class="mr-3">
                                     <a href="/Moduli" class="btn btn-danger" title="Chiudi"><b>x</b></a>
                                 </div>
                             </div>
 
-                            @if (Modulo.Esami == null || !Modulo.Esami.Any())
+                            @if (modulo.Esami == null || !modulo.Esami.Any())
                             {
                                 <p>Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
                             }
@@ -84,23 +84,23 @@ else
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var Esame in Modulo.Esami)
+                                        @foreach (var esame in modulo.Esami)
                                         {
                                             <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
                                             <tr>
                                                 <td>
-                                                    <button class="btn btn-danger" title="Elimina questo Esame" @onclick="()=> DeleteEsame(Esame)">
+                                                    <button class="btn btn-danger" title="Elimina questo Esame" @onclick="()=> DeleteEsame(esame)">
                                                         <b>–</b>
                                                     </button>
                                                 </td>
-                                                <td>@Esame.Id</td>
-                                                <td>@Esame.Moduli.Materia</td>
-                                                <td>@Esame.DataEsame.ToString("dd/MM/yy")</td>
+                                                <td>@esame.Id</td>
+                                                <td>@esame.Moduli.Materia</td>
+                                                <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
                                                 <td style="text-align:center;">
-                                                    <a href="/AddEsame/@Esame.Id/List" class="btn btn-primary">Lista Partecipanti</a>
+                                                    <a href="/AddEsame/@esame.Id/List" class="btn btn-primary">Lista Partecipanti</a>
                                                 </td>
                                                 <td>
-                                                    <a href="/AddEsame/@Esame.Id" class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                                                    <a href="/AddEsame/@esame.Id" class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                                                 </td>
                                             </tr>
                                         }
