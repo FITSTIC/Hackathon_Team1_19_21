@@ -81,6 +81,16 @@ else
 
     ======================================================================================*/
 
+    // Accedendo alla pagina, recupero tutte le informazioni della lista esistente partendo dal suo id
+    @foreach (var modulo in ListaModuli) // Ciclo la lista
+    {
+        if (Id == modulo.Id) // Confronto l'Id della pagina html cono tutti gli Id della lista
+        {
+            ThisModulo = modulo; // trovato il match copio tutto nella nuova variabile
+        }
+    }
+
+
     <a href="/Moduli" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
     <h2>Modulo @ThisModulo.Materia</h2>
 
@@ -127,10 +137,7 @@ else
                     <option value="@ThisModulo.Insegnanti.Id" selected>@(ThisModulo.Insegnanti.Nome + " " + ThisModulo.Insegnanti.Cognome) - Attualmente Selezionato</option>
                     @foreach (var Insegnante in ListaInsegnanti)
                     {
-                        if (Insegnante.Id == ThisModulo.InsegnanteId)
-                        {
-
-                        }
+                        if (Insegnante.Id == ThisModulo.InsegnanteId) {}
                         else
                         {
                             <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
@@ -144,10 +151,7 @@ else
                     <option value="@ThisModulo.Tutor.Id" selected>@(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome) - Attualmente Selezionato</option>
                     @foreach (var Tutor in ListaTutor)
                     {
-                        if (Tutor.Id == ThisModulo.TutorId)
-                        {
-
-                        }
+                        if (Tutor.Id == ThisModulo.TutorId) {}
                         else
                         {
                             <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
@@ -174,7 +178,6 @@ else
 
     private Modulo ThisModulo = new Modulo();
 
-
     protected override async Task OnInitializedAsync()
     {
         ListaCorsi = await db.Corsi.OrderBy(c => c.Nome).ToArrayAsync();
@@ -184,14 +187,13 @@ else
         ListaInsegnanti = await db.Insegnanti.OrderBy(i => i.Nome).ToArrayAsync();
         ListaTutor = await db.Tutor.OrderBy(t => t.Nome).ToArrayAsync();
 
-        ThisModulo = await db.Moduli.FindAsync(Id);
+        ThisModulo = await db.Moduli.FindAsync(Id); // Al reindirizzamento della pagina dopo la creazione del modulo (vedi SaveModulo()) non cattura l'Id del modulo appena creato
     }
 
     private async Task SaveModulo()
     {
         if (Id == 0)
         {
-
             await moduloService.Create(db, NuovoModulo);
             ListaModuli = db.Moduli.ToArray();
             StateHasChanged();
@@ -206,7 +208,6 @@ else
 
             Navigator.NavigateTo("/Moduli");
         }
-
     }
 
     private Modulo NuovoModulo = new Modulo()

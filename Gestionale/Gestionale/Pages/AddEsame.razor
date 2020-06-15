@@ -27,7 +27,7 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Modulo</label>
-                <select @bind="NuovoEsame.ModuliId" class="form-control">
+                <select @bind="NuovoEsame.ModuliId" class="form-control" required>
                     <option value="@ThisModulo.Id" selected>@ThisModulo.Materia</option>
                 </select>
             </div>
@@ -100,6 +100,16 @@ else if (Navigator.Uri.Contains("Edit"))
                           CONDIZIONE PER CONSULTARE E MOFICARE UN ESAME
 
     ======================================================================================*/
+
+    // Accedendo alla pagina, recupero tutte le informazioni della lista esistente partendo dal suo id
+    @foreach (var esame in ListaEsami) // Ciclo la lista
+    {
+        if (Id == esame.Id) // Confronto l'Id della pagina html cono tutti gli Id della lista
+        {
+            ThisEsame = esame; // trovato il match copio tutto nella nuova variabile
+        }
+    }
+
 
     <a href="/Moduli" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
     <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
@@ -194,7 +204,7 @@ else if (Navigator.Uri.Contains("Edit"))
 
             StateHasChanged();
 
-            Navigator.NavigateTo("/Moduli");
+            Navigator.NavigateTo("/AddEsame/Edit/" + NuovoEsame.Id);
         }
         else
         {

@@ -68,8 +68,10 @@ else
 
                             @if (modulo.Esami == null || !modulo.Esami.Any())
                             {
-                                <a href="/AddEsame/Create/@modulo.Id" class="btn btn-success" title="Aggiungi un nuovo Esame"><b>+</b></a>
-                                <p>Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
+                                 <div class="row">
+                                    <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
+                                    <a href="/AddEsame/Create/@modulo.Id" class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></a>
+                                 </div>
                             }
                             else
                             {
@@ -143,9 +145,22 @@ else
     {
         await moduloService.Delete(db, modulo);
 
-        foreach (var esame in modulo.Esami) // Cancella i relativi esami di quel modulo
+        if (modulo.Esami == null) {} // Debug: evita il crash se al delete del modulo non sono presenti esami
+        else
         {
-            db.Esami.Remove(esame);
+            foreach (var esame in modulo.Esami) // Cancella i relativi esami di quel modulo
+            {
+                db.Esami.Remove(esame);
+
+                if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
+                else
+                {
+                    foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+                    {
+                        db.Punteggi.Remove(voto);
+                    }
+                }
+            }
         }
 
         await OnInitializedAsync();
@@ -156,11 +171,14 @@ else
     {
         db.Esami.Remove(esame);
 
-        foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+        if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
+        else
         {
-            db.Punteggi.Remove(voto);
+            foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+            {
+                db.Punteggi.Remove(voto);
+            }
         }
-
 
         db.SaveChanges();
 
