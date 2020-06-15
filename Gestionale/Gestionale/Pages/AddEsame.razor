@@ -7,6 +7,7 @@
 @inject NavigationManager Navigator
 @code {
     Gestionale.Data.Control.ModuloDbService mdbservice = new Data.Control.ModuloDbService();
+    Gestionale.Data.Control.PunteggioDbService puntDBservice = new Data.Control.PunteggioDbService();
 }
 
 
@@ -61,32 +62,25 @@ else if (Navigator.Uri.Contains("List"))
                 <th>Cognome</th>
                 <th>Voto</th>
                 <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var Studente in ThisEsame.Moduli.Corsi.Partecipanti) // qui prendo tutti i partecipanti di quell'esame
             {
+                punteggioS = puntDBservice.Read(db,ThisEsame, Studente).Result;
                 <tr>
                     <td>@Studente.Nome</td>
                     <td>@Studente.Cognome</td>
+                    <td>
+                        <select @bind="@punteggioS.Voto" class="form-control">
+                            @for (int i = 0; i <= 100; i += 5)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </td>
+                    <td><button value="Salva" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)">Modifica</button></td>
 
-                    @foreach (var Voto in ThisEsame.Punteggi) // qui tutti i voti selativi e quell'esame
-                    {
-                        if (Voto.PartecipanteId == Studente.Id) // li associo per id di partecipante
-                        {
-                            <td>@Voto.Voto</td>
-                            <td>
-                                <select @bind="@Voto.Voto" class="form-control">
-                                    @for (int i = 0; i <= 100; i += 5)
-                                    {
-                                        <option value="@i">@i</option>
-                                    }
-                                </select>
-                            </td>
-                            <td><button value="Salva" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(Voto)">Modifica</button></td>
-                        }
-                    }
                 </tr>
             }
         </tbody>
@@ -143,7 +137,7 @@ else if (Navigator.Uri.Contains("Edit"))
     private Esame[] ListaEsami;
     private Partecipante[] ListaPartecipanti;
     private Punteggio[] ListaPunteggi;
-
+    Punteggio punteggioS = new Punteggio();
     private Esame NuovoEsame = new Esame()
     {
         DataEsame = DateTime.Now
@@ -159,6 +153,8 @@ else if (Navigator.Uri.Contains("Edit"))
         ListaEsami = await db.Esami.ToArrayAsync();
         ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
         ListaPunteggi = await db.Punteggi.ToArrayAsync();
+
+
 
         if (Navigator.Uri.Contains("Create"))
         {

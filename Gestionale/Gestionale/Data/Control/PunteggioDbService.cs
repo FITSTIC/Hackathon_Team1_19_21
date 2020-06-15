@@ -24,6 +24,13 @@ namespace Gestionale.Data.Control
         {
             return db.Punteggi.Find(id);
         }
+        public async Task<Punteggio> Read(ApplicationDbContext db, Esame e , Partecipante p)
+        {
+            var s = db.Punteggi
+               .Where(d => d.PartecipanteId == p.Id && d.EsameId == e.Id)
+               .FirstOrDefault();
+            return s;
+        }
         public async Task Update(ApplicationDbContext db, Punteggio p)
         {
             db.Punteggi.Update(p);
