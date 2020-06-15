@@ -15,22 +15,20 @@ namespace Gestionale.Data.Control
             optionsBuilder.UseSqlite("Data Source=mydb.db");
             db = new ApplicationDbContext(optionsBuilder.Options);
         }
-
-        public async Task Create(ApplicationDbContext db, Dipendente d)
-        {
-
-            db.Dipendente.Add(d);
-            await db.SaveChangesAsync();
-        }
         public async Task Create(ApplicationDbContext db, Insegnante d)
         {
 
-            db.Dipendente.Add(d);
+            db.Insegnanti.Add(d);
             await db.SaveChangesAsync();
         }
         public async Task Create(ApplicationDbContext db, Tutor d)
         {
-            db.Dipendente.Add(d);
+            db.Tutor.Add(d);
+            await db.SaveChangesAsync();
+        }
+        public async Task Create(ApplicationDbContext db, Coordinatore d)
+        {
+            db.Coordinatore.Add(d);
             await db.SaveChangesAsync();
         }
         public async Task<Dipendente> Read(ApplicationDbContext db, int id)

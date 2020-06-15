@@ -25,7 +25,11 @@ namespace Gestionale.Data
         public string Categoria { get; set; }
         public int CorsiId { get; set; }
         public Corso Corsi { get; set; }
-        public Dipendente() { }
+        public Dipendente()
+        {
+            Assunzione = DateTime.Now;
+            DataNascita = DateTime.Now;
+        }
     }
 }
  

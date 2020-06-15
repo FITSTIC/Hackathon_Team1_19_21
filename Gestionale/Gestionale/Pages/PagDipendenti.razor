@@ -29,7 +29,7 @@ else
                 <th>Categoria</th>
                 <th>Corso</th>
                 <th></th>
-                <th class="text-center" style="width: 1px;"><a href="/AddModulo" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
+                <th class="text-center" style="width: 1px;"><a href="/AddDipendente" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
@@ -48,7 +48,7 @@ else
                         <!--<button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#("e"+p.Id)">Info</button>-->
                     </td>
                     <td>
-                        <a href="/AddDipendente/@p.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                        <a href="/AddDipendente/Modifica/@p.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                     </td>
                 </tr>            
              }
@@ -77,27 +77,9 @@ else
         ListaCorsi = await db.Corsi.ToArrayAsync();
     }
 
-    protected async Task BtnSalva(Dipendente d)
-    {
-        switch (d.Categoria)
-        {
-            case "Coordinatore":
-                db.Coordinatore.Add(new Coordinatore(d));
-                break;
-            case "Tutor":
-                db.Tutor.Add(new Tutor(d));
-                break;
-            case "Insegnante":
-                db.Insegnanti.Add(new Insegnante(d));
-                break;
-        }
-        await personaleService.Create(db, d);
-        ListaCorsi = await db.Corsi.ToArrayAsync();
-        StateHasChanged();
-    }
     protected async Task BtnDelete(Dipendente d)
     {
-
+        await personaleService.Delete(db, d);
     }
 
 }
