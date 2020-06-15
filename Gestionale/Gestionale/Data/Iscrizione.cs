@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gestionale.Pages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,5 +16,13 @@ namespace Gestionale.Data
         public Corso Corsi { get; set; }//FK
         public virtual ICollection<Partecipante> Partecipanti { get; set; }
         public Iscrizione() { }
+        public Iscrizione(  int corsiid )
+        {
+
+            DataIscrizione = DateTime.Now;
+            CorsiId = corsiid;
+        }
+
     }
+    
 }
