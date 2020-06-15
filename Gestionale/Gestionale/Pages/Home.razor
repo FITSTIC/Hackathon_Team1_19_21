@@ -1,31 +1,54 @@
-﻿@page "/Home"
+﻿@page "/"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+    <div class="container-fluid">
+        <h2>IL TUO GESTIONALE A PORTATA DI MANO...</h2>
+    </div>
+    <th></th>
+    <div class="container-fluid">
+        <h3>Dirigiti verso le tabelle con facilità!</h3>
+    </div>
 
-<h1>IL TUO GESTIONALE A PORTATA DI MANO...</h1>
 
 
+    <div class="row"  align="center">
+        <div class="col-10 col-lg-10 mx-auto">
+            <div class="card-deck">
+                <div class="card" vspace="40">
+                    <a href="/Corsi">
+                        <img class="card-img-top" src="corso.jpg" alt="Card image cap">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title" align="center">CORSI</h5>
+                    </div>
+                </div>
+                <div class="card " vspace="40">
+                    <a href="/Moduli">
+                        <img class="card-img-top" src="moduli.jpg" alt="Card image cap" >
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title" align="center">MODULI</h5>
+                    </div>
+                </div>
+                <div class="card" vspace="40">
+                    <a href="/Partecipanti">
+                        <img class="card-img-top" src="partecipante.jpg" alt="Card image cap" >
+                    </a>
+                    <div class="card-body ">
+                        <h5 class="card-title" align="center">PARTECIPANTI</h5>
+                    </div>
+                </div>
+                <div class="card" vspace="40">
+                    <a href="/Personale">
+                        <img class="card-img-top" src="personale.jpg" alt="Card image cap" >
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title" align="center">PERSONALE</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="container-fluid">
-    <a href="/Corsi">
-        <img src="corso.jpg">
-    </a>
-</div>
-<div class="container-fluid">
-    <a href="/Partecipante">
-        <img src="partecipanti.jpg">
-    </a>
-</div>
-<div class="container-fluid">
-    <a href="/Personale">
-        <img src="personale.jpg">
-    </a>
-</div>
-<div class="container-fluid">
-    <a href="/Moduli">
-        <img src="moduli.jpg">
-    </a>
-</div>
-<div class="container-fluid">
-    <a href="/iscrizione">
-        <img src="iscrizione.jpg">
-    </a>
-</div>
+
