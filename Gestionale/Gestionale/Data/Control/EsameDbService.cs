@@ -19,10 +19,9 @@ namespace Gestionale.Data.Control
             db.Esami.Add(e);
             await db.SaveChangesAsync();
         }
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Esame> Read(ApplicationDbContext db, int id)
         {
-            db.Esami.Find(id);
-            await db.SaveChangesAsync();
+            return db.Esami.Find(id);
         }
         public async Task Update(ApplicationDbContext db, Esame e)
         {

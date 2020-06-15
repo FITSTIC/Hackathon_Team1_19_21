@@ -20,10 +20,9 @@ namespace Gestionale.Data.Control
             db.Iscrizioni.Add(i);
             await db.SaveChangesAsync();
         }
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Iscrizione>Read(ApplicationDbContext db, int id)
         {
-            db.Iscrizioni.Find(id);
-            await db.SaveChangesAsync();
+            return db.Iscrizioni.Find(id);
         }
         public async Task Update(ApplicationDbContext db, Iscrizione i)
         {

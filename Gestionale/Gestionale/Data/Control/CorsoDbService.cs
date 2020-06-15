@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,15 +24,21 @@ namespace Gestionale.Data.Control
             db.Corsi.Add(c);
             await db.SaveChangesAsync();
         }
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Corso> Read(ApplicationDbContext db, int id)
         {
-            db.Corsi.Find(id);
-            await db.SaveChangesAsync();
+                 var s = db.Corsi
+                .Include(c => c.Moduli)
+                .Where(c => c.Id == id).FirstOrDefault();
+                 return s;
+
+
         }
-        public async Task Read(ApplicationDbContext db, string nome)
+        public async Task<Corso>Read(ApplicationDbContext db, string nome)
         {
-            db.Corsi.First(x => x.Nome == nome);
-            await db.SaveChangesAsync();
+            var s = db.Corsi
+                .Include(c => c.Moduli)
+                .Where(c => c.Nome == nome).FirstOrDefault();
+            return s; 
         }
         public async Task Update(ApplicationDbContext db, Corso c)
         {

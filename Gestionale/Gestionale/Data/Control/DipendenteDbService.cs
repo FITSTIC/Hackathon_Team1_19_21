@@ -30,19 +30,23 @@ namespace Gestionale.Data.Control
         }
         public async Task Create(ApplicationDbContext db, Tutor d)
         {
-
             db.Dipendente.Add(d);
             await db.SaveChangesAsync();
         }
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Dipendente> Read(ApplicationDbContext db, int id)
         {
-            db.Dipendente.Find(id);
-            await db.SaveChangesAsync();
+            var s = db.Dipendente
+                .Include(d => d.Moduli)
+                .Where(d => d.Id == id)
+                .FirstOrDefault();
+            return s;
         }
-        public async Task Read(ApplicationDbContext db, string nome)
+        public async Task<Dipendente> Read(ApplicationDbContext db, string nome)
         {
-            db.Dipendente.First(x => x.Nome == nome);
-            await db.SaveChangesAsync();
+            var s = db.Dipendente
+               .Include(d => d.Moduli)
+               .Where(d => d.Nome == nome).FirstOrDefault();
+            return s;
         }
        
         public async Task Update(ApplicationDbContext db, Dipendente d)

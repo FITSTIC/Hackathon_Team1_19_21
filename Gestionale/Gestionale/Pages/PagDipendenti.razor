@@ -4,175 +4,68 @@
 @inject ApplicationDbContext db
 @code{
     Gestionale.Data.Control.DipendenteDbService personaleService = new Data.Control.DipendenteDbService();
+    Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
 }
 
-<div class="row">
+<div class="row mb-2">
     <div class="col align-self-start">
-        <h2>Personale</h2>
-    </div>
-    <div class="mr-1">
-        <button class="btn btn-success" data-toggle="modal" title="Aggiungi Personale" data-target="#InsertPersonale"><b>+</b></button>
-    </div>
-    <div class="mr-4">
-        <button class="btn btn-danger" title="Elimina Personale selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
+        <h2>Dipendenti</h2>
     </div>
 </div>
 
 
-
-<!--DIVISOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-->
-<!-- Modale inserimento Personale -->
-<div class="modal fade" id="InsertPersonale" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Inserisci Personale</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <EditForm Model="NewDipendente">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Nome</label>
-                            <input type="text" class="form-control valid" @bind="NewDipendente.Nome" required />
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Cognome</label>
-                            <input type="text" class="form-control valid" @bind="NewDipendente.Cognome" required />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Data di Nascita</label>
-                            <input type="date" class="form-control valid" @bind="NewDipendente.DataNascita" required />
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Email</label>
-                            <input type="email" class="form-control valid" @bind="NewDipendente.Email" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Telefono</label>
-                            <input type="text" class="form-control valid" @bind="NewDipendente.Telefono" required />
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Data Assunzione</label>
-                            <input type="date" class="form-control valid" @bind="NewDipendente.Assunzione" required />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Categoria</label>
-                            <select class="form-control" @bind="NewDipendente.Categoria" required>
-                                <option selected></option>
-                                <option value="Coordinatore">Coordinatore</option>
-                                <option value="Insegnante">Insegnante</option>
-                                <option value="Tutor">Tutor</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Corso</label>
-                            <select class="form-control" @bind="NewDipendente.CorsiId" required>
-                                <option selected></option>
-                                @foreach (var Corso in ListaCorsi)
-                                {
-                                    <option value="@Corso.Id">@Corso.Nome</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button> <!-- AGGIUNGERE FUNZIONE -->
-                        <button type="submit" value="save" @onclick="()=>BtnSalva(NewDipendente)" class="btn btn-primary">Inserisci</button>
-                    </div>
-                </EditForm>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@if (ListaPersonale == null)
- {
-    <p>Non è presente nessun Personale. Aggiungine uno premendo il tasto verde.</p> 
- }
- else
- {
-    <div class="container-fluid">
-        <table class="table table-hover">
-            <thead>
-                <tr class="table-secondary">
-                    <th>Nome</th>
-                    <th>Cognome</th>
-                    <th>Data di Nascita</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Assunzione</th>
-                    <th>Categoria</th>
-                    <th>Corso di appartenenza</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody class="accordion" id="boolAccord">
-                @foreach (var Personale in ListaPersonale)
-                {
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>@Personale.Nome</td>
-                        <td>@Personale.Cognome</td>
-                        <td>@Personale.DataNascita.ToString("dd/MM/yyyy")</td>
-                        <td>@Personale.Email</td>
-                        <td>@Personale.Telefono</td>
-                        <td>@Personale.Assunzione</td>
-                        <td>@Personale.Categoria</td>
-                        <td>@Personale.Corsi.Nome</td>
-                        <td>
-                            <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("i"+Personale.Id)">Modifica</button>
-                            <button class="btn btn-secondary accordion-toggle" data-toggle="collapse" data-target="#@("e"+Personale.Id)">Moduli</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7" class="hiddenRow p-0" style="background-color:white;box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                            <div class="table accordian-body collapse p-3 container-fluid" id="@("i"+Personale.Id)" data-parent="#boolAccord">
-                                <div class="row">
-                                    <!--MODALE INFO PERSONALE AND MODIFICA PERSONALE SELEZIONATO-->
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                            <div class="table accordian-body collapse p-3 container-fluid" id="@("e"+Personale.Id)" data-parent="#boolAccord">
-                                <div class="row">
-                                    <div class="col align-self-start">
-                                        <h2>Moduli di appertenenza @Personale.Nome</h2>
-                                    </div>
-                                    <div class="mr-1">
-                                        <button class="btn btn-success" data-toggle="modal" title="Vai alla pagina Moduli" data-target="#@("InsertModulo"+Personale.Id)" onclick="location.href = 'https://localhost:44376/Moduli'"><b>+/- Modulo</b></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                 }
-
-                <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
+@if (ListaPersonale == null || !ListaPersonale.Any())
+{
+    <p>Non è presente alcun modulo per questo corso. Aggiungine uno premendo il tasto verde.</p>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-secondary">
+                <th></th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Categoria</th>
+                <th>Corso</th>
+                <th></th>
+                <th class="text-center" style="width: 1px;"><a href="/AddModulo" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
+            </tr>
+        </thead>
+        <tbody class="accordion" id="boolAccord">
+            @foreach (var p in ListaPersonale)
+             {
                 <tr>
                     <td>
+                        <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=>BtnDelete(p)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
- }
+                    <td>@p.Nome</td>
+                    <td>@p.Cognome</td>
+                    <td>@p.Categoria</td>
+                    <td>@corsoService.Read(db,p.CorsiId).Result.Nome</td>
+                    <td style="text-align:center;">
+                        <a href="/AddDipendente/Info/@p.Id" class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</a>
+                        <!--<button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#("e"+p.Id)">Info</button>-->
+                    </td>
+                    <td>
+                        <a href="/AddDipendente/@p.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                    </td>
+                </tr>            
+             }
+            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table> <!-- fine tabella Dipendenti -->
+}
 
 @code
-{ 
+{
     private Dipendente[] ListaPersonale;
     private Corso[] ListaCorsi;
+    private Modulo[] ListaModuli;
     private Dipendente NewDipendente = new Dipendente() { };
     //private Insegnante NuovoInsegnante = new Insegnante() { };
     //private Tutor NuovoTutor = new Tutor() { };
@@ -201,6 +94,10 @@
         await personaleService.Create(db, d);
         ListaCorsi = await db.Corsi.ToArrayAsync();
         StateHasChanged();
+    }
+    protected async Task BtnDelete(Dipendente d)
+    {
+
     }
 
 }

@@ -19,10 +19,9 @@ namespace Gestionale.Data.Control
             db.Partecipanti.Add(p);
             await db.SaveChangesAsync();
         }
-        public async Task Read(ApplicationDbContext db, int id)
+        public async Task<Partecipante> Read(ApplicationDbContext db, int id)
         {
-            db.Partecipanti.Find(id);
-            await db.SaveChangesAsync();
+            return db.Partecipanti.Find(id);
         }
         public async Task Update(ApplicationDbContext db, Partecipante p)
         {
