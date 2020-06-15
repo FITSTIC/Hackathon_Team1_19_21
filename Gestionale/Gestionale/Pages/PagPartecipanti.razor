@@ -27,8 +27,9 @@ else
                 <th>E-Mail</th>
                 <th>Diploma</th>
                 <th>Anno Diploma</th>
-                <th>Data dell'Iscrizione</th>
+              <!-- <th>Data dell'Iscrizione</th>-->
                 <th>Corso</th>
+                <th></th>
                 <th></th>
                 <th class="text-center" style="width: 1px;"><a href="/AggiungiPartecipanti" class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></a></th>
             </tr>
@@ -49,7 +50,7 @@ else
                     <td>@Partecipante.Email</td>
                     <td>@Partecipante.Diploma</td>
                     <td>@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")</td>
-                    <td><!-- Partecipante.Iscrizioni.DataIscrizione.ToString("dd/MM/yyyy")--></td>
+                    <!--<td>Partecipante.Iscrizione.DataIscrizione.ToString("dd/MM/yyyy")</td>-->
                     <td>@Partecipante.Corsi.Nome</td>
                     <td style="text-align:center;">
                     </td>
@@ -66,8 +67,8 @@ else
         </tbody>
     </table>}
 
-@code { // private Moduli[] ListaModuli;
-    private Corso[] ListaCorsi; // Da modificare in esami
+@code { 
+    private Corso[] ListaCorsi; 
     private Partecipante[] ListaPartecipanti;
     private Iscrizione[] ListaIscrizioni;
     protected override async Task OnInitializedAsync()
