@@ -17,14 +17,17 @@
 @if (Navigator.Uri.Contains("/AddDipendente/Info"))
 {
     <div class="row">
-        <div class="col-8 ml-3">
+        <div class="col ml-3">
             <h2>@dip.Nome  @dip.Cognome</h2>
             <h3>@dip.Categoria</h3>
         </div>
-        <div class="col-3 mt-3">
+        <div class="col-1 mr-3 mt-3">
             <a href="/Personale" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
         </div>
     </div>
+
+    <hr />
+
     // informazioni più dettagliate del dipendente
     <div class="container-fluid">
         <table class="table table-hover text-center">
@@ -66,10 +69,10 @@
             </thead>
             <tbody class="accordion" id="boolAccord">
                 @if (dip.Categoria == "Coordinatore")
-                 {
+                {
                     @foreach (var m in listTotModuliC)
-                     {
-                           listEsami = esameService.Read(db, m).Result;
+                    {
+                        listEsami = esameService.Read(db, m).Result;
                         <tr>
                             <td>
                                 <a href="/Moduli">@m.Materia</a>
@@ -142,8 +145,8 @@
                                 </div>
                             </td>
                         </tr>
-                     }
-                 }
+                    }
+                }
                 else
                 {
                     @foreach (var m in listModuliDip)
@@ -234,14 +237,16 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
     //modifica dipendente
 
     <div class="row">
-        <div class="col-8 ml-3">
+        <div class="col ml-3">
             <h2>@dip.Nome  @dip.Cognome</h2>
             <h3>@dip.Categoria</h3>
         </div>
-        <div class="col-3 mt-3">
+        <div class="col-1 mr-3 mt-3">
             <a href="/Personale" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
         </div>
     </div>
+
+    <hr />
 
     <EditForm Model="dip" OnSubmit="()=> BtnUpdate(dip)">
         <DataAnnotationsValidator />
@@ -281,38 +286,62 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
             <div class="form-group col-md-6">
                 <label>Categoria</label>
                 <select class="form-control" @bind="dip.Categoria" required>
-                    <option value="@dip.Categoria" selected>@dip.Categoria</option>
-                    <option value="Coordinatore">Coordinatore</option>
-                    <option value="Tutor">Tutor</option>
-                    <option value="Insegnante">Insegnante</option>
+                    <option value="@dip.Categoria" selected>@dip.Categoria - Attualmente Selezionato</option>
+                    @if (dip.Categoria == "Coordinatore")
+                    {
+                        <option value="Insegnante">Insegnante</option>
+                        <option value="Tutor">Tutor</option>
+                    }
+                    else if (dip.Categoria == "Tutor")
+                    {
+                        <option value="Coordinatore">Coordinatore</option>
+                        <option value="Insegnante">Insegnante</option>
+                    }
+                    else if (dip.Categoria == "Insegnante")
+                    {
+                        <option value="Coordinatore">Coordinatore</option>
+                        <option value="Tutor">Tutor</option>
+                    }
+                    else // Lascio tutti e tre i valori per debug
+                    {
+                        <option value="Coordinatore">Coordinatore</option>
+                        <option value="Insegnante">Insegnante</option>
+                        <option value="Tutor">Tutor</option>
+                    }
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Corso</label>
                 <select class="form-control" @bind="dip.CorsiId" required>
-                    <option value="@dip.CorsiId" selected>@corsoDip</option>
+                    <option value="@dip.CorsiId" selected>@corsoDip.Nome - Attualmente Selezionato</option>
                     @foreach (var c in ListaCorsi)
                     {
-                        <option value="@c.Id">@c.Nome</option>
+                        if (c.Id == dip.CorsiId) { }
+                        else
+                        {
+                            <option value="@c.Id">@c.Nome</option>
+                        }
                     }
                 </select>
             </div>
         </div>
         <hr />
-        <button type="submit" value="save" class="btn btn-primary">Modifica</button>
+        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
     </EditForm>
 }
 else
 {
     // Aggiunta nuovo dipendente
     <div class="row">
-        <div class="col-8 ml-3">
+        <div class="col ml-3">
             <h2>Inserisci un nuovo Dipendente</h2>
         </div>
-        <div class="col-3 mt-3">
+        <div class="col-1 mr-3 mt-3">
             <a href="/Personale" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
         </div>
     </div>
+
+    <hr />
 
     <EditForm Model="dip" OnSubmit="()=> BtnSalva(dip)">
         <DataAnnotationsValidator />
@@ -353,8 +382,8 @@ else
                 <label>Categoria</label>
                 <select class="form-control" @bind="dip.Categoria" required>
                     <option value="Coordinatore">Coordinatore</option>
-                    <option value="Tutor">Tutor</option>
                     <option value="Insegnante">Insegnante</option>
+                    <option value="Tutor">Tutor</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
@@ -391,7 +420,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaCorsi = await db.Corsi.OrderBy(c => c.Nome).ToArrayAsync();
 
         if (Navigator.Uri.Contains("/AddDipendente/Info"))
         {
@@ -403,7 +432,8 @@ else
 
             listModuliDip = moduliService.Read(db, dip).Result;
 
-        }else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
+        }
+        else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
         {
             dip = personaleService.Read(db, dipendenteid).Result;
             idCorsodip = dip.CorsiId;

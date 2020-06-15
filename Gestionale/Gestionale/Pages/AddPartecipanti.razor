@@ -11,8 +11,11 @@
 
 @if (Id == 0)
 {
+    <a href="/Partecipanti" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
     <h2>Inserisci un nuovo partecipante</h2>
+
     <hr />
+
     <EditForm Model="P" OnSubmit="() => SaveNuovoPartecipante()">
         <DataAnnotationsValidator />
 
@@ -71,27 +74,21 @@
                 <label>Anno del diploma</label>
                 <InputDate class="form-control" @bind-Value="P.AnnoDiploma" required></InputDate>
             </div>
-            
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Corso</label>
                 <select class="form-control" @bind="P.CorsiId" required>
-                    <option value="">Select a city</option>
+                    <option value=""></option>
                     @foreach (var Corso in ListaCorsi)
                     {
                         <option value="@Corso.Id">@Corso.Nome</option>
                     }
                 </select>
             </div>
-
-
         </div>
-
         <hr />
         <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
-    </EditForm> }
-
+    </EditForm> 
+}
 else
 {
     @foreach (var Alunno in ListaPartecipanti)
@@ -101,6 +98,12 @@ else
             ThisAlunno = Alunno;
         }
     }
+
+    <a href="/Partecipanti" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
+    <h2>Partecipante @ThisAlunno.Nome @ThisAlunno.Cognome</h2>
+
+    <hr />
+
     <EditForm Model="P" OnSubmit="() => SaveNuovoPartecipante()">
         <DataAnnotationsValidator />
 
@@ -158,27 +161,29 @@ else
                 <label>Anno del diploma</label>
                 <InputDate class="form-control" @bind-Value="P.AnnoDiploma" required></InputDate>
             </div>
-            
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Corso</label>
                 <select class="form-control" @bind="P.CorsiId" required>
-                    <option value="">Seleziona un corso.</option>
+                    <option value="@P.Corsi.Id">@P.Corsi.Nome - Attualmente Selezionato</option>
                     @foreach (var Corso in ListaCorsi)
                     {
-                        <option value="@Corso.Id">@Corso.Nome</option>
+                        if (Corso.Id == P.CorsiId) {} // Verifica se il corso attualmente associato non si ripeta nella lista
+                        else
+                        {
+                            <option value="@Corso.Id">@Corso.Nome</option>
+                        }
                     }
                 </select>
             </div>
         </div>
         <hr />
-        <button type="submit" value="save" class="btn btn-primary">Salva</button>
+        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
 
     </EditForm>
 }
 
-@code { [Parameter]
+@code { 
+    [Parameter]
     public int Id { get; set; }
 
     private Corso[] ListaCorsi;
@@ -198,7 +203,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaCorsi = await db.Corsi.OrderBy(c => c.Nome).ToArrayAsync();
 
         ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
         ListaDipendenti = await db.Dipendente.ToArrayAsync();
@@ -223,7 +228,7 @@ else
 
             await IscrizioneDb.Create(db, iscrizione);
             P.IscrizioneId = iscrizione.Id;
-            if (P.Punteggi == null) {}
+            if (P.Punteggi == null) { }
             db.Partecipanti.Add(P);
             await db.SaveChangesAsync();
 
