@@ -5,11 +5,15 @@
 @inject ApplicationDbContext db
 @inject NavigationManager navigationManager
 
+@code{
+    Gestionale.Data.Control.IscrizioneDbService IscrizioneDb = new Data.Control.IscrizioneDbService();
+}
+
 @if (Id == 0)
 {
     <h2>Inserisci un nuovo partecipante</h2>
     <hr />
-    <EditForm Model="P" OnSubmit="()=> SaveNuovoPartecipante()">
+    <EditForm Model="P" OnSubmit="() => SaveNuovoPartecipante()">
         <DataAnnotationsValidator />
 
         <div class="form-row">
@@ -67,10 +71,7 @@
                 <label>Anno del diploma</label>
                 <InputDate class="form-control" @bind-Value="P.AnnoDiploma" required></InputDate>
             </div>
-            <div class="form-group col-md-6">
-                <label>Data d'iscrizione</label>
-                <!--<InputDate class="form-control" bind-Value="P.Iscrizioni.DataIscrizione" required></InputDate>-->
-            </div>
+            
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -90,6 +91,7 @@
         <hr />
         <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
     </EditForm> }
+
 else
 {
     @foreach (var Alunno in ListaPartecipanti)
@@ -99,7 +101,7 @@ else
             ThisAlunno = Alunno;
         }
     }
-    <EditForm Model="P" OnSubmit="()=> SaveNuovoPartecipante()">
+    <EditForm Model="P" OnSubmit="() => SaveNuovoPartecipante()">
         <DataAnnotationsValidator />
 
         <div class="form-row">
@@ -156,10 +158,7 @@ else
                 <label>Anno del diploma</label>
                 <InputDate class="form-control" @bind-Value="P.AnnoDiploma" required></InputDate>
             </div>
-            <div class="form-group col-md-6">
-                <label>Data d'iscrizione</label>
-                <!--<InputDate class="form-control" bind-Value="P.Iscrizioni.DataIscrizione"></InputDate>-->
-            </div>
+            
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -174,7 +173,7 @@ else
             </div>
         </div>
         <hr />
-        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+        <button type="submit" value="save" class="btn btn-primary">Salva</button>
 
     </EditForm>
 }
@@ -188,8 +187,14 @@ else
 
     private Dipendente[] ListaDipendenti;
 
-    private Partecipante P;
+
+    private Partecipante P = new Partecipante()
+    {
+        DataNascita = DateTime.Now,
+        AnnoDiploma = DateTime.Now
+    };
     private Partecipante ThisAlunno = new Partecipante();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -200,11 +205,7 @@ else
 
         if (Id == 0)
         {
-            P = new Partecipante()
-            {
-                DataNascita = DateTime.Now,
-                AnnoDiploma = DateTime.Now
-            };
+
         }
         else
         {
@@ -218,7 +219,11 @@ else
     {
         if (Id == 0)
         {
+            Iscrizione iscrizione = new Iscrizione(P.CorsiId);
 
+            await IscrizioneDb.Create(db, iscrizione);
+            P.IscrizioneId = iscrizione.Id;
+            if (P.Punteggi == null) {}
             db.Partecipanti.Add(P);
             await db.SaveChangesAsync();
 
@@ -228,5 +233,6 @@ else
         {
             await db.SaveChangesAsync();
         }
+
 
     } }

@@ -149,7 +149,6 @@ else if (Navigator.Uri.Contains("Edit"))
         DataEsame = DateTime.Now
     };
 
-    private Punteggio NuovoPunteggio = new Punteggio();
     private Esame ThisEsame = new Esame();
     private Modulo ThisModulo = new Modulo();
 
@@ -191,13 +190,13 @@ else if (Navigator.Uri.Contains("Edit"))
 
             foreach (var s in NuovoEsame.Moduli.Corsi.Partecipanti)
             {
+                Punteggio NuovoPunteggio = new Punteggio();
                 NuovoPunteggio.PartecipanteId = s.Id;
                 NuovoPunteggio.EsameId = NuovoEsame.Id;
                 NuovoPunteggio.Voto = 0;
                 db.Punteggi.Add(NuovoPunteggio);
+                await db.SaveChangesAsync();
             }
-
-            await db.SaveChangesAsync();
 
             ListaEsami = db.Esami.ToArray();
             ListaPunteggi = db.Punteggi.ToArray();

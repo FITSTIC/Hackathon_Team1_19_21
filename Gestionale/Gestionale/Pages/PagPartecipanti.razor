@@ -31,7 +31,7 @@ else
                 <th>Corso</th>
                 <th></th>
                 <th></th>
-                <th class="text-center" style="width: 1px;"><a href="/AggiungiPartecipanti" class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></a></th>
+                <th class="text-center" style="width: 1px;"><a href="/AddPartecipanti" class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></a></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
@@ -49,13 +49,12 @@ else
                     <td>@Partecipante.Telefono</td>
                     <td>@Partecipante.Email</td>
                     <td>@Partecipante.Diploma</td>
-                    <td>@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")</td>
-                    <!--<td>Partecipante.Iscrizione.DataIscrizione.ToString("dd/MM/yyyy")</td>-->
+                    <td>@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")</td>                   
                     <td>@Partecipante.Corsi.Nome</td>
                     <td style="text-align:center;">
                     </td>
                     <td>
-                        <a href="/AggiungiPartecipanti/@Partecipante.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                        <a href="/AddPartecipanti/@Partecipante.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                     </td>
                 </tr>
             }
