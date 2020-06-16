@@ -13,7 +13,11 @@
 
 @if (ListaPartecipanti == null || !ListaPartecipanti.Any())
 {
-    <p>Aggiungi un nuovo partecipante con il tasto verde!</p> }
+    <div class="row">
+        <p class="col">Non è presente alcun partecipante per questo corso. Aggiungine uno premendo il tasto verde.</p>
+        <a href="/AddPartecipanti/Create" class="btn btn-success mr-3" title="Aggiungi un nuovo partecipante"><b>+</b></a>
+    </div>
+}
 else
 {
     <table class="table table-hover">
@@ -22,7 +26,7 @@ else
                 <th></th>
                 <th>Nome</th>
                 <th>Cognome</th>
-                <th>Telefono</th> 
+                <th>Telefono</th>
                 <th>E-Mail</th>
                 <th>Corso</th>
                 <th></th>
@@ -39,9 +43,10 @@ else
                     <td>@Partecipante.Nome</td>
                     <td>@Partecipante.Cognome</td>
                     <td>@Partecipante.Telefono</td>
-                    <td>@Partecipante.Email</td>                
+                    <td>@Partecipante.Email</td>
                     <td>@Partecipante.Corsi.Nome</td>
-                    <td style="text-align:center;"><a href="/AddPartecipanti/Info/@Partecipante.Id" class="btn btn-warning accordion-toggle" title="Info Partecipante">Info</a>
+                    <td style="text-align:center;">
+                        <a href="/AddPartecipanti/Info/@Partecipante.Id" class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</a>
                     </td>
                     <td>
                         <a href="/AddPartecipanti/Edit/@Partecipante.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
@@ -51,8 +56,8 @@ else
         </tbody>
     </table>}
 
-@code { 
-    private Corso[] ListaCorsi; 
+@code {
+    private Corso[] ListaCorsi;
     private Partecipante[] ListaPartecipanti;
     private Iscrizione[] ListaIscrizioni;
     protected override async Task OnInitializedAsync()
