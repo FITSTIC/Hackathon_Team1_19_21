@@ -1,5 +1,170 @@
-﻿<h3>AddCorsi</h3>
+@page "/AddCorsi"
+@page "/AddCorsi/{Id:int}"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+@inject NavigationManager Navigator
+
+
+@if (Id == 0)
+{
+    /*======================================================================================
+
+                           CONDIZIONE PER INSERIRE UN NUOVO MODULO
+
+    ======================================================================================*/
+
+    <h2>Inserisci un nuovo Corso</h2>
+
+    <hr />
+
+    <EditForm Model="NuovoCorso" OnSubmit="()=> SaveCorso()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nome Corso</label>
+                <InputText class="form-control" @bind-Value="NuovoCorso.Nome" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Anno Accademico</label>
+                <InputText @bind-Value="NuovoCorso.AnnoAccademico" class="form-control">
+
+                </InputText>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Anno inizio Corso</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="NuovoCorso.AnnoInizioCorso" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Anno fine Corso</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="NuovoCorso.AnnoFineCorso" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Sede</label>
+                <InputText @bind-Value="@NuovoCorso.Sede" class="form-control" required></InputText>
+            </div>
+
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+    </EditForm>
+}
+else
+{
+    /*======================================================================================
+
+                         CONDIZIONE PER CONSULTARE E MOFICARE UN MODULO
+
+    ======================================================================================*/
+
+    // Accedendo alla pagina, recupero tutte le informazioni del modulo esistente partendo dal suo id
+    @foreach (var corso in ListaCorsi) // Ciclo la lista
+    {
+        if (Id == corso.Id) // Confronto l'Id della pagina html cono tutti gli Id della lista
+        {
+            ThisCorso = corso; // trovato il match copio tutto nella nuova variabile
+        }
+    }
+
+    <h2>Corso @ThisCorso.Nome</h2>
+
+    <hr />
+
+    <EditForm Model="ThisCorso" OnSubmit="()=> SaveCorso()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nome Corso</label>
+                <InputText class="form-control" @bind-Value="ThisCorso.Nome" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Anno Accademico</label>
+                <InputText @bind-Value="ThisCorso.AnnoAccademico" class="form-control">
+
+                </InputText>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Anno inizio Corso</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="ThisCorso.AnnoInizioCorso" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Anno fine Corso</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="ThisCorso.AnnoFineCorso" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Sede</label>
+                <InputText @bind-Value="@ThisCorso.Sede" class="form-control" required></InputText>
+            </div>
+
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+    </EditForm>
+}
 
 @code {
+    [Parameter]
+    public int Id { get; set; } // var Id che raccoglie il valore dal modulo specificato
+
+    private Corso[] ListaCorsi;
+    private Modulo[] ListaModuli;
+    private Partecipante[] ListaPartecipanti;
+    private Dipendente[] ListaDipendenti;
+    private Insegnante[] ListaInsegnanti;
+    private Tutor[] ListaTutor;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaModuli = await db.Moduli.ToArrayAsync();
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaDipendenti = await db.Dipendente.ToArrayAsync();
+        ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
+        ListaTutor = await db.Tutor.ToArrayAsync();
+        ThisCorso = await db.Corsi.FindAsync(Id);
+    }
+
+    private async Task SaveCorso()
+    {
+        if (Id == 0)
+        {
+            db.Corsi.Add(NuovoCorso);
+            await db.SaveChangesAsync();
+
+            ListaCorsi = db.Corsi.ToArray();
+
+            StateHasChanged();
+
+            Navigator.NavigateTo("/Corsi");
+        }
+        else
+        {
+            var c = db.Corsi.Find(ThisCorso.Id);
+            c = ThisCorso;
+            await db.SaveChangesAsync();
+
+            ListaCorsi = db.Corsi.ToArray();
+
+            StateHasChanged();
+
+            Navigator.NavigateTo("/Corsi");
+        }
+
+    }
+
+    private Corso NuovoCorso = new Corso()
+    {
+        AnnoFineCorso = DateTime.Now,
+        AnnoInizioCorso = DateTime.Now
+    };
+
+    private Corso ThisCorso = new Corso();
 
 }
+
