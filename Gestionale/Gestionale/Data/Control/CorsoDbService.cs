@@ -26,18 +26,18 @@ namespace Gestionale.Data.Control
         }
         public async Task<Corso> Read(ApplicationDbContext db, int id)
         {
-                 var s = db.Corsi
-                .Include(c => c.Moduli)
-                .Where(c => c.Id == id).FirstOrDefault();
-                 return s;
+            var s = await db.Corsi
+           .Include(c => c.Moduli)
+           .Where(c => c.Id == id).FirstOrDefaultAsync();
+           return s;
 
 
         }
         public async Task<Corso>Read(ApplicationDbContext db, string nome)
         {
-            var s = db.Corsi
+            var s = await db.Corsi
                 .Include(c => c.Moduli)
-                .Where(c => c.Nome == nome).FirstOrDefault();
+                .Where(c => c.Nome == nome).FirstOrDefaultAsync();
             return s; 
         }
         public async Task Update(ApplicationDbContext db, Corso c)

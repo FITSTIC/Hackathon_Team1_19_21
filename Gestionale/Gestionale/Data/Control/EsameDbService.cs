@@ -21,18 +21,18 @@ namespace Gestionale.Data.Control
         }
         public async Task<Esame> Read(ApplicationDbContext db, int id)
         {
-            var s = db.Esami
+            var s = await db.Esami
                 .Include(d => d.Punteggi)
                 .Where(d => d.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return s;
         }
         public async Task<List<Esame>> Read(ApplicationDbContext db, Modulo m)
         {
             var s = new List<Esame>();
-            s = db.Esami
+            s = await db.Esami
             .Include(d => d.Punteggi)
-            .Where(d => d.ModuliId == m.Id).ToList();
+            .Where(d => d.ModuliId == m.Id).ToListAsync();
             return s;
         }
         public async Task Update(ApplicationDbContext db, Esame e)

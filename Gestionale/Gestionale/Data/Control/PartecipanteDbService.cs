@@ -21,7 +21,7 @@ namespace Gestionale.Data.Control
         }
         public async Task<Partecipante> Read(ApplicationDbContext db, int id)
         {
-            return db.Partecipanti.Find(id);
+            return await db.Partecipanti.FindAsync(id);
         }
         public async Task Update(ApplicationDbContext db, Partecipante p)
         {

@@ -33,17 +33,17 @@ namespace Gestionale.Data.Control
         }
         public async Task<Dipendente> Read(ApplicationDbContext db, int id)
         {
-            var s = db.Dipendente
+            var s = await db.Dipendente
                 .Include(d => d.Moduli)
                 .Where(d => d.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return s;
         }
         public async Task<Dipendente> Read(ApplicationDbContext db, string nome)
         {
-            var s = db.Dipendente
+            var s = await db.Dipendente
                .Include(d => d.Moduli)
-               .Where(d => d.Nome == nome).FirstOrDefault();
+               .Where(d => d.Nome == nome).FirstOrDefaultAsync();
             return s;
         }
        

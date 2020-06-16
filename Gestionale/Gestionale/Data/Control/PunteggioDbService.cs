@@ -22,13 +22,13 @@ namespace Gestionale.Data.Control
         }
         public async Task<Punteggio> Read(ApplicationDbContext db, int id)
         {
-            return db.Punteggi.Find(id);
+            return await db.Punteggi.FindAsync(id);
         }
         public async Task<Punteggio> Read(ApplicationDbContext db, Esame e , Partecipante p)
         {
-            var s = db.Punteggi
+            var s = await db.Punteggi
                .Where(d => d.PartecipanteId == p.Id && d.EsameId == e.Id)
-               .FirstOrDefault();
+               .FirstOrDefaultAsync();
             return s;
         }
         public async Task Update(ApplicationDbContext db, Punteggio p)

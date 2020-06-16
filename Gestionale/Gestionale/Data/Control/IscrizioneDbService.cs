@@ -22,7 +22,7 @@ namespace Gestionale.Data.Control
         }
         public async Task<Iscrizione>Read(ApplicationDbContext db, int id)
         {
-            return db.Iscrizioni.Find(id);
+            return await db.Iscrizioni.FindAsync(id);
         }
         public async Task Update(ApplicationDbContext db, Iscrizione i)
         {

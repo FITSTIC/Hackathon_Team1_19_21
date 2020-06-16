@@ -24,27 +24,27 @@ namespace Gestionale.Data.Control
         
         public async Task<Modulo> Read(ApplicationDbContext db, int id)
         {
-            return db.Moduli.Find(id);
+            return await db.Moduli.FindAsync(id);
         }
         public async Task<Modulo> Read(ApplicationDbContext db, string materia)
         {
-           return db.Moduli.First(x => x.Materia == materia);
+           return await db.Moduli.FirstAsync(x => x.Materia == materia);
         }
         public async Task<List<Modulo>> Read(ApplicationDbContext db, Dipendente dip)
         {
             var s = new List<Modulo>();
             if (dip.Categoria == "Tutor")
             {
-                s = db.Moduli
+                s = await db.Moduli
                .Include(i => i.Tutor)
-               .Where(m => m.TutorId == dip.Id).ToList();
+               .Where(m => m.TutorId == dip.Id).ToListAsync();
                 return s;
             }
             else if (dip.Categoria == "Insegnante")
             {
-                s =  db.Moduli
+                s = await db.Moduli
                .Include(i => i.Insegnanti)
-               .Where(m => m.InsegnanteId == dip.Id).ToList();
+               .Where(m => m.InsegnanteId == dip.Id).ToListAsync();
                 return s;
             }
             return s;
