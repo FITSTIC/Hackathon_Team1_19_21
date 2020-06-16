@@ -31,6 +31,7 @@ else
                 <th>Inizio Modulo</th>
                 <th>Fine Modulo</th>
                 <th>Insegnante</th>
+                <th>Tutor</th>
                 <th></th>
                 <th class="text-center" style="width: 1px;"><a href="/AddModulo" class="btn btn-success float-right" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
             </tr>
@@ -47,6 +48,7 @@ else
                     <td>@modulo.DataInizio.ToString("dd/MM/yyyy")</td>
                     <td>@modulo.DataFine.ToString("dd/MM/yyyy")</td>
                     <td>@(modulo.Insegnanti.Nome + " " + modulo.Insegnanti.Cognome)</td>
+                    <td>@(modulo.Tutor.Nome + " " + modulo.Tutor.Cognome)</td> 
                     <td style="text-align:center;">
                         <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+modulo.Id)">Esami</button>
                     </td>
@@ -57,13 +59,13 @@ else
 
                 <!-- Riga nascosta degli esami -->
                 <tr>
-                    <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
+                    <td colspan="9" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
                         <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+modulo.Id)" data-parent="#boolAccord">
                             <div class="row">
                                 <div class="col align-self-start">
                                     <h2>Esami del modulo @modulo.Materia</h2>
                                 </div>
-                                <div class="col">
+                                <div class="col-1">
                                     <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+modulo.Id)"><b>x</b></button>
                                 </div>
                             </div>
@@ -133,6 +135,7 @@ else
     private Modulo[] ListaModuli;
     private Esame[] ListaEsami;
     private Insegnante[] ListaInsegnanti;
+    private Tutor[] ListaTutor;
 
 
     protected override async Task OnInitializedAsync()
@@ -141,6 +144,7 @@ else
         ListaModuli = await db.Moduli.ToArrayAsync();
         ListaEsami = await db.Esami.ToArrayAsync();
         ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
+        ListaTutor = await db.Tutor.ToArrayAsync();
     }
 
     private async Task DeleteModulo(Modulo modulo)

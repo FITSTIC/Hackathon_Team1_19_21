@@ -22,16 +22,11 @@ else
                 <th></th>
                 <th>Nome</th>
                 <th>Cognome</th>
-                <th>Data di nascita</th>
-                <th>Indirizzo</th>
-                <th>Città</th>
-                <th>Telefono</th>
+                <th>Telefono</th> 
                 <th>E-Mail</th>
-                <th>Diploma</th>
-                <th>Anno Diploma</th>
                 <th>Corso</th>
                 <th></th>
-                <th class="text-center" style="width: 1px;"><a href="/AddPartecipanti" class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></a></th>
+                <th class="text-center" style="width: 1px;"><a href="/AddPartecipanti/Create" class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></a></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
@@ -43,26 +38,16 @@ else
                     </td>
                     <td>@Partecipante.Nome</td>
                     <td>@Partecipante.Cognome</td>
-                    <td>@Partecipante.DataNascita.ToString("dd/MM/yyyy")</td>
-                    <td>@Partecipante.Indirizzo</td>
-                    <td>@Partecipante.Citta</td>
                     <td>@Partecipante.Telefono</td>
-                    <td>@Partecipante.Email</td>
-                    <td>@Partecipante.Diploma</td>
-                    <td>@Partecipante.AnnoDiploma.ToString("dd/MM/yyyy")</td>                   
+                    <td>@Partecipante.Email</td>                
                     <td>@Partecipante.Corsi.Nome</td>
-                    <td style="text-align:center;">
+                    <td style="text-align:center;"><a href="/AddPartecipanti/Info/@Partecipante.Id" class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</a>
                     </td>
                     <td>
-                        <a href="/AddPartecipanti/@Partecipante.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                        <a href="/AddPartecipanti/Edit/@Partecipante.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
                     </td>
                 </tr>
             }
-            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
-            <tr>
-                <td>
-                </td>
-            </tr>
         </tbody>
     </table>}
 
