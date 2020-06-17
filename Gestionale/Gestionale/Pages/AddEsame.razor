@@ -19,7 +19,7 @@
 
     ======================================================================================*/
 
-    <a href="/Moduli" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo esame</h2>
 
     <hr />
@@ -50,7 +50,7 @@ else if (Navigator.Uri.Contains("List"))
 
     ======================================================================================*/
 
-    <a href="/Moduli" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
     <h2>Lista Studenti all'esame</h2>
 
     <hr />
@@ -105,7 +105,7 @@ else if (Navigator.Uri.Contains("Edit"))
     }
 
 
-    <a href="/Moduli" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="/css/back.png" width="35" height="32" /></button>
     <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
 
     <hr />
@@ -212,6 +212,10 @@ else if (Navigator.Uri.Contains("Edit"))
             StateHasChanged();
             Navigator.NavigateTo("/Moduli");
         }
+    }
+    protected void BtnChangedPag(String uri)
+    {
+        Navigator.NavigateTo(uri, true);
     }
 
 }

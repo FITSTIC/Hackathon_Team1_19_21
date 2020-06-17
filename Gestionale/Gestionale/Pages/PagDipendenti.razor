@@ -2,6 +2,7 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
+@inject NavigationManager Navigator
 @code{
     Gestionale.Data.Control.DipendenteDbService personaleService = new Data.Control.DipendenteDbService();
     Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
@@ -15,9 +16,10 @@
 
 
 @if (ListaPersonale == null || !ListaPersonale.Any())
-{
+ {
     <p>Non è presente alcun modulo per questo corso. Aggiungine uno premendo il tasto verde.</p>
-}
+    <button @onclick='() => { BtnChangedPag("/AddDipendente"); }' class="btn btn-success" title="Aggiungi Dipendente"><b>+</b></button>
+ }
 else
 {
     <table class="table table-hover">
@@ -29,12 +31,12 @@ else
                 <th>Categoria</th>
                 <th>Corso</th>
                 <th></th>
-                <th class="text-center" style="width: 1px;"><a href="/AddDipendente" class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></a></th>
+                <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddDipendente"); }' class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></button></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
             @foreach (var p in ListaPersonale)
-             {
+            {
                 <tr>
                     <td>
                         <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=>BtnDelete(p)"><b>–</b></button> <!-- Aggiungere Funzione -->
@@ -42,16 +44,17 @@ else
                     <td>@p.Nome</td>
                     <td>@p.Cognome</td>
                     <td>@p.Categoria</td>
-                    <td>@corsoService.Read(db,p.CorsiId).Result.Nome</td>
+                    <td>@corsoService.Read(db, p.CorsiId).Result.Nome</td>
                     <td style="text-align:center;">
-                        <a href="/AddDipendente/Info/@p.Id" class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</a>
+                        <button @onclick='() => { BtnChangedPag("/AddDipendente/Info/" + p.Id); }' class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</button>
                         <!--<button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#("e"+p.Id)">Info</button>-->
                     </td>
                     <td>
-                        <a href="/AddDipendente/Modifica/@p.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                        <button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + p.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
                     </td>
-                </tr>            
-             }
+                </tr>
+
+            }
             <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
             <tr>
                 <td>
@@ -80,5 +83,8 @@ else
     {
         await personaleService.Delete(db, d);
     }
-
+    protected void BtnChangedPag(string uri)
+    {
+        Navigator.NavigateTo(uri, true);
+    }
 }

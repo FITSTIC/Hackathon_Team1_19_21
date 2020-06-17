@@ -2,6 +2,7 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
+@inject NavigationManager Navigator
 
 
 <div class="row mb-2">
@@ -15,7 +16,7 @@
 {
     <div class="row">
         <p class="col">Non è presente alcun partecipante per questo corso. Aggiungine uno premendo il tasto verde.</p>
-        <a href="/AddPartecipanti/Create" class="btn btn-success mr-3" title="Aggiungi un nuovo partecipante"><b>+</b></a>
+        <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Create"); }' class="btn btn-success mr-3" title="Aggiungi un nuovo partecipante"><b>+</b></button>
     </div>
 }
 else
@@ -30,7 +31,7 @@ else
                 <th>E-Mail</th>
                 <th>Corso</th>
                 <th></th>
-                <th class="text-center" style="width: 1px;"><a href="/AddPartecipanti/Create" class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></a></th>
+                <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddPartecipanti/Create"); }' class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></button></th>
             </tr>
         </thead>
         <tbody class="accordion" id="boolAccord">
@@ -46,15 +47,16 @@ else
                     <td>@Partecipante.Email</td>
                     <td>@Partecipante.Corsi.Nome</td>
                     <td style="text-align:center;">
-                        <a href="/AddPartecipanti/Info/@Partecipante.Id" class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</a>
+                        <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Info/"+ Partecipante.Id); }' class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</button>
                     </td>
                     <td>
-                        <a href="/AddPartecipanti/Edit/@Partecipante.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                        <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Edit/"+ Partecipante.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
                     </td>
                 </tr>
             }
         </tbody>
-    </table>}
+    </table>
+}
 
 @code {
     private Corso[] ListaCorsi;
@@ -76,4 +78,9 @@ else
         await OnInitializedAsync();
 
         StateHasChanged();
-    } }
+    }
+    protected void BtnChangedPag(String uri)
+    {
+        Navigator.NavigateTo(uri, true);
+    }
+}

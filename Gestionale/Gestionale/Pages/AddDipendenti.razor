@@ -22,7 +22,7 @@
             <h3>@dip.Categoria</h3>
         </div>
         <div class="col-1 mt-3">
-            <a href="/Personale" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
                     <td>@dip.Email</td>
                     <td>@dip.Telefono</td>
                     <td>@dip.Assunzione.ToString("dd/MM/yyyy")</td>
-                    <td class="p-1"><a href="/AddDipendente/Modifica/@dipendenteid" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a></td>
+                    <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + dipendenteid); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
                 </tr>
             </tbody>
         </table>
@@ -83,7 +83,7 @@
                             <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
                             <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
                             <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><a href="/AddModulo/@m.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a></td>
+                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
                         </tr>
                         <!--Riga Esami-->
                         <tr>
@@ -102,7 +102,7 @@
                                     {
                                         <div class="row">
                                             <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                                            <a href="/AddEsame/Create/@m.Id" class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></a>
+                                            <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
                                         </div>
                                     }
                                     else
@@ -115,7 +115,7 @@
                                                     <th>Modulo</th>
                                                     <th>Data Esame</th>
                                                     <th></th>
-                                                    <th><a href="/AddEsame/Create/@m.Id" class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></a></th>
+                                                    <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -132,10 +132,10 @@
                                                         <td>@esame.Moduli.Materia</td>
                                                         <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
                                                         <td style="text-align:center;">
-                                                            <a href="/AddEsame/@esame.Id/List" class="btn btn-primary">Lista Partecipanti</a>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id + "/List"); }'  class="btn btn-primary">Lista Partecipanti</button>
                                                         </td>
                                                         <td>
-                                                            <a href="/AddEsame/@esame.Id" class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
                                                         </td>
                                                     </tr>
                                                 }
@@ -154,15 +154,15 @@
                         listEsami = esameService.Read(db, m).Result;
                         <tr>
                             <td>
-                                <a href="/Moduli">@m.Materia</a>
+                                <button @onclick='() => { BtnChangedPag("/Moduli"); }'>@m.Materia</button>
                             </td>
                             <td>
-                                <a href="/Corsi">@corsoDip.Nome</a>
+                                <button @onclick='() => { BtnChangedPag("/Corsi"); }'>@corsoDip.Nome</button>
                             </td>
                             <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
                             <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
                             <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><a href="/AddModulo/@m.Id" class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a></td>
+                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
                         </tr>
                         <!--Riga Esami-->
                         <tr>
@@ -181,7 +181,7 @@
                                     {
                                         <div class="row">
                                             <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                                            <a href="/AddEsame/Create/@m.Id" class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></a>
+                                            <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
                                         </div>
                                     }
                                     else
@@ -194,7 +194,7 @@
                                                     <th>Modulo</th>
                                                     <th>Data Esame</th>
                                                     <th></th>
-                                                    <th><a href="/AddEsame/Create/@m.Id" class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></a></th>
+                                                    <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -211,10 +211,10 @@
                                                         <td>@esame.Moduli.Materia</td>
                                                         <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
                                                         <td style="text-align:center;">
-                                                            <a href="/AddEsame/@esame.Id/List" class="btn btn-primary">Lista Partecipanti</a>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
                                                         </td>
                                                         <td>
-                                                            <a href="/AddEsame/@esame.Id" class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></a>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
                                                         </td>
                                                     </tr>
                                                 }
@@ -242,7 +242,7 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
             <h3>@dip.Categoria</h3>
         </div>
         <div class="col-1 mt-3">
-            <a href="/Personale" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -337,7 +337,7 @@ else
             <h2>Inserisci un nuovo Dipendente</h2>
         </div>
         <div class="col-1 mr-3 mt-3">
-            <a href="/Personale" class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></a>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -474,5 +474,9 @@ else
         await esameService.Delete(db, e);
         ListaEsami = await db.Esami.ToArrayAsync();
         StateHasChanged();
+    }
+    protected void BtnChangedPag(String uri)
+    {
+        Navigator.NavigateTo(uri, true); 
     }
 }
