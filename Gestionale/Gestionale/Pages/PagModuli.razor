@@ -3,15 +3,19 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
+@inject IJSRuntime js
 @code{
     Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
 }
 
-<div class="row mb-2">
-    <div class="col align-self-start">
-        <h2>Moduli</h2>
+    <div class="row mb-2">
+        <div class="col align-self-start">
+            <h2>Moduli</h2>
+        </div>
+        <div class="col-3">
+            <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+        </div>
     </div>
-</div>
 
 
 @if (ListaModuli == null || !ListaModuli.Any())
@@ -37,10 +41,10 @@ else
                 <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddModulo"); }' class="btn btn-success float-right" title="Aggiungi un nuovo modulo"><b>+</b></button></th>
             </tr>
         </thead>
-        <tbody class="accordion" id="boolAccord">
+        <tbody class="accordion bodySearch" id="boolAccord">
             @foreach (var modulo in ListaModuli)
             {
-                <tr>
+                <tr class="trSearch">
                     <td>
                         <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=> DeleteModulo(modulo)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
@@ -75,7 +79,7 @@ else
                             {
                                 <div class="row">
                                     <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                                    <button @onclick='() => { BtnChangedPag("/AddModulo/Create" + modulo.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+                                    <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + modulo.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
                                 </div>
                             }
                             else
@@ -88,7 +92,7 @@ else
                                             <th>Modulo</th>
                                             <th>Data Esame</th>
                                             <th></th>
-                                            <th><button @onclick='() => { BtnChangedPag("/AddModulo/Create" + modulo.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
+                                            <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + modulo.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,6 +142,13 @@ else
     private Insegnante[] ListaInsegnanti;
     private Tutor[] ListaTutor;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Search");
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

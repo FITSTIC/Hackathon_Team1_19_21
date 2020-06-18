@@ -3,13 +3,16 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
+@inject IJSRuntime js
 
-<div class="row mb-2">
-    <div class="col align-self-start">
-        <h2>Corsi</h2>
+    <div class="row mb-2">
+        <div class="col align-self-start">
+            <h2>Corsi</h2>
+        </div>
+        <div class="col-3">
+            <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+        </div>
     </div>
-
-</div>
 
 
 @if (ListaCorsi == null || !ListaCorsi.Any())
@@ -33,15 +36,15 @@ else
                 <th>Anno Fine Corso</th>
                 <th>Sede</th>
                 <th></th>
-                <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddCorsi"); }'class="btn btn-success" title="Aggiungi un nuovo corso."><b>+</b></button></th>
+                <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddCorsi"); }' class="btn btn-success" title="Aggiungi un nuovo corso."><b>+</b></button></th>
 
             </tr>
         </thead>
-        <tbody class="accordion" id="boolAccord">
+        <tbody class="accordion bodySearch" id="boolAccord">
             @foreach (var ThisCorso in ListaCorsi)
             {
 
-                <tr>
+                <tr class="trSearch">
                     <td>
                         <button class="btn btn-danger" title="Elimina questo corso" @onclick="() => DeleteCorso(ThisCorso)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
@@ -60,7 +63,7 @@ else
 
 
                 <tr>
-                    <td colspan="7" class="hiddenRow p-0" style="background-color:white">
+                    <td colspan="8" class="hiddenRow p-0" style="background-color:white">
                         <div class="accordian-body collapse m-3" id="@("i" + ThisCorso.Id)" data-parent="#boolAccord">
                             <div class="card card-body">
                                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
@@ -206,6 +209,14 @@ else
     private Esame[] ListaEsami;
     private Insegnante[] ListaInsegnanti;
     private Dipendente[] ListaPersonale;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Search");
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

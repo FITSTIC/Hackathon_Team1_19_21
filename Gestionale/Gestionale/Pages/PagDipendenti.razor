@@ -3,23 +3,27 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
+@inject IJSRuntime js
 @code{
     Gestionale.Data.Control.DipendenteDbService personaleService = new Data.Control.DipendenteDbService();
     Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
 }
 
-<div class="row mb-2">
-    <div class="col align-self-start">
-        <h2>Dipendenti</h2>
+    <div class="row mb-2">
+        <div class="col align-self-start">
+            <h2>Dipendenti</h2>
+        </div>
+        <div class="col-3">
+            <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+        </div>
     </div>
-</div>
 
 
 @if (ListaPersonale == null || !ListaPersonale.Any())
- {
+{
     <p>Non è presente alcun modulo per questo corso. Aggiungine uno premendo il tasto verde.</p>
     <button @onclick='() => { BtnChangedPag("/AddDipendente"); }' class="btn btn-success" title="Aggiungi Dipendente"><b>+</b></button>
- }
+}
 else
 {
     <table class="table table-hover">
@@ -34,10 +38,10 @@ else
                 <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddDipendente"); }' class="btn btn-success" title="Aggiungi un nuovo modulo"><b>+</b></button></th>
             </tr>
         </thead>
-        <tbody class="accordion" id="boolAccord">
+        <tbody class="accordion bodySearch" id="boolAccord">
             @foreach (var p in ListaPersonale)
             {
-                <tr>
+                <tr class="trSearch">
                     <td>
                         <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=>BtnDelete(p)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
@@ -53,13 +57,7 @@ else
                         <button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + p.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
                     </td>
                 </tr>
-
-            }
-            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
-            <tr>
-                <td>
-                </td>
-            </tr>
+            }            
         </tbody>
     </table> <!-- fine tabella Dipendenti -->
 }
@@ -72,6 +70,14 @@ else
     //private Insegnante NuovoInsegnante = new Insegnante() { };
     //private Tutor NuovoTutor = new Tutor() { };
     //private Coordinatore NuovoCoordinatore = new Coordinatore() { };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Search");
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
