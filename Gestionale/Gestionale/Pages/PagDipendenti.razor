@@ -39,7 +39,7 @@ else
             {
                 <tr>
                     <td>
-                        <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=>BtnDelete(p)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                        <button class="btn btn-danger" title="Elimina @p.Nome" @onclick="()=>BtnDelete(p)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
                     <td>@p.Nome</td>
                     <td>@p.Cognome</td>
@@ -82,9 +82,23 @@ else
     protected async Task BtnDelete(Dipendente d)
     {
         await personaleService.Delete(db, d);
+        ListaPersonale = await db.Dipendente.ToArrayAsync();
+        StateHasChanged();
     }
     protected void BtnChangedPag(string uri)
     {
         Navigator.NavigateTo(uri, true);
     }
+
+    //protected async Task ControlloDelete(string s, Dipendente d)
+    //{
+    //    if(s == "Ok")
+    //    {
+    //        await BtnDelete(d);
+    //    }
+    //    else
+    //    {
+
+    //    }
+    //}
 }

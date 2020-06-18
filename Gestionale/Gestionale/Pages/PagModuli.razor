@@ -75,7 +75,7 @@ else
                             {
                                 <div class="row">
                                     <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                                    <button @onclick='() => { BtnChangedPag("/AddModulo/Create" + modulo.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+                                    <button @onclick='() => { BtnChangedPag("/AddEsame/Create/"+ modulo.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
                                 </div>
                             }
                             else
@@ -88,7 +88,7 @@ else
                                             <th>Modulo</th>
                                             <th>Data Esame</th>
                                             <th></th>
-                                            <th><button @onclick='() => { BtnChangedPag("/AddModulo/Create" + modulo.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
+                                            <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/"+ modulo.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
                                         </tr>
                                     </thead>
                                     <tbody>
