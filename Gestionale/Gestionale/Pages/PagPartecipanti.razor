@@ -3,13 +3,17 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
+@inject IJSRuntime js
 
 
-<div class="row mb-2">
-    <div class="col align-self-start">
-        <h2>Partecipanti</h2>
+    <div class="row mb-2">
+        <div class="col align-self-start">
+            <h2>Partecipanti</h2>
+        </div>
+        <div class="col-3">
+            <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+        </div>
     </div>
-</div>
 
 
 @if (ListaPartecipanti == null || !ListaPartecipanti.Any())
@@ -34,10 +38,10 @@ else
                 <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddPartecipanti/Create"); }' class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></button></th>
             </tr>
         </thead>
-        <tbody class="accordion" id="boolAccord">
+        <tbody class="accordion bodySearch" id="boolAccord">
             @foreach (var Partecipante in ListaPartecipanti)
             {
-                <tr>
+                <tr class="trSearch">
                     <td>
                         <button class="btn btn-danger" title="Elimina questo partecipante" @onclick="()=> DeletePartecipante(Partecipante)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
@@ -62,6 +66,15 @@ else
     private Corso[] ListaCorsi;
     private Partecipante[] ListaPartecipanti;
     private Iscrizione[] ListaIscrizioni;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Search");
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
         //ListaModuli = await db.Moduli.ToArrayAsync();
