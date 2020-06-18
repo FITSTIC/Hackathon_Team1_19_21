@@ -9,14 +9,14 @@
     Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
 }
 
-    <div class="row mb-2">
-        <div class="col align-self-start">
-            <h2>Dipendenti</h2>
-        </div>
-        <div class="col-3">
-            <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
-        </div>
+<div class="row mb-2">
+    <div class="col align-self-start">
+        <h2>Dipendenti</h2>
     </div>
+    <div class="col-3">
+        <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+    </div>
+</div>
 
 
 @if (ListaPersonale == null || !ListaPersonale.Any())
@@ -43,7 +43,7 @@ else
             {
                 <tr class="trSearch">
                     <td>
-                        <button class="btn btn-danger" title="Elimina @p.Nome" @onclick="()=>BtnDelete(p)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                        <button class="btn btn-danger popper" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(p)" title="Elimina @p.Nome"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
                     <td>@p.Nome</td>
                     <td>@p.Cognome</td>
@@ -57,16 +57,42 @@ else
                         <button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + p.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
                     </td>
                 </tr>
-            }            
+            }
         </tbody>
-    </table> <!-- fine tabella Dipendenti -->
+    </table>
+
+    <!-- fine tabella Dipendenti -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare @DipDel.Nome @DipDel.Cognome?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>BtnDelete(DipDel)" data-dismiss="modal"><b>Elimina</b></button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 }
+
 
 @code
 {
     private Dipendente[] ListaPersonale;
     private Corso[] ListaCorsi;
     private Dipendente NewDipendente = new Dipendente() { };
+    private Dipendente DipDel = new Dipendente() { };
     //private Insegnante NuovoInsegnante = new Insegnante() { };
     //private Tutor NuovoTutor = new Tutor() { };
     //private Coordinatore NuovoCoordinatore = new Coordinatore() { };
@@ -96,15 +122,9 @@ else
         Navigator.NavigateTo(uri, true);
     }
 
-    //protected async Task ControlloDelete(string s, Dipendente d)
-    //{
-    //    if(s == "Ok")
-    //    {
-    //        await BtnDelete(d);
-    //    }
-    //    else
-    //    {
 
-    //    }
-    //}
+    protected void ControlloDelete(Dipendente d)
+    {
+        DipDel = d;
+    }
 }
