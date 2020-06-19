@@ -20,7 +20,7 @@
 
     ======================================================================================*/
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo esame</h2>
 
     <hr />
@@ -51,7 +51,7 @@ else if (Navigator.Uri.Contains("List"))
 
     ======================================================================================*/
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Lista Studenti all'esame</h2>
 
     <hr />
@@ -80,7 +80,7 @@ else if (Navigator.Uri.Contains("List"))
                             }
                         </select>
                     </td>
-                    <td><button value="Salva" name="btnChange" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)">Modifica</button></td>
+                    <td><button value="Salva" name="btnChange" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)" style="width:100px;">Modifica</button></td>
 
                 </tr>
             }
@@ -106,7 +106,7 @@ else if (Navigator.Uri.Contains("Edit"))
     }
 
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="/css/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
 
     <hr />

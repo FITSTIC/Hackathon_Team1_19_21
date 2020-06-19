@@ -22,7 +22,7 @@
             <h3>@dip.Categoria</h3>
         </div>
         <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
                     <td>@dip.Email</td>
                     <td>@dip.Telefono</td>
                     <td>@dip.Assunzione.ToString("dd/MM/yyyy")</td>
-                    <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + dipendenteid); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
+                    <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + dipendenteid); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
                 </tr>
             </tbody>
         </table>
@@ -83,7 +83,7 @@
                             <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
                             <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
                             <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
+                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
                         </tr>
                         <!--Riga Esami-->
                         <tr>
@@ -135,7 +135,7 @@
                                                             <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id + "/List"); }'  class="btn btn-primary">Lista Partecipanti</button>
                                                         </td>
                                                         <td>
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
                                                         </td>
                                                     </tr>
                                                 }
@@ -162,7 +162,7 @@
                             <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
                             <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
                             <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
+                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
                         </tr>
                         <!--Riga Esami-->
                         <tr>
@@ -214,7 +214,7 @@
                                                             <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
                                                         </td>
                                                         <td>
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
                                                         </td>
                                                     </tr>
                                                 }
@@ -242,7 +242,7 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
             <h3>@dip.Categoria</h3>
         </div>
         <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -337,7 +337,7 @@ else
             <h2>Inserisci un nuovo Dipendente</h2>
         </div>
         <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
