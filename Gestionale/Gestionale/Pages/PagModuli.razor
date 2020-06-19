@@ -8,14 +8,14 @@
     Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
 }
 
-    <div class="row mb-2">
-        <div class="col align-self-start">
-            <h2>Moduli</h2>
-        </div>
-        <div class="col-3">
-            <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
-        </div>
+<div class="row mb-2">
+    <div class="col align-self-start">
+        <h2>Moduli</h2>
     </div>
+    <div class="col-3">
+        <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+    </div>
+</div>
 
 
 @if (ListaModuli == null || !ListaModuli.Any())
@@ -46,7 +46,7 @@ else
             {
                 <tr class="trSearch">
                     <td>
-                        <button class="btn btn-danger" title="Elimina questo modulo" @onclick="()=> DeleteModulo(modulo)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                        <button class="btn btn-danger" title="Elimina questo modulo" data-toggle="modal" data-target="#myModal" @onclick="()=>ControlloDelete(modulo,null)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
                     <td>@modulo.Materia</td>
                     <td>@modulo.Corsi.Nome</td>
@@ -101,7 +101,7 @@ else
                                             <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
                                             <tr>
                                                 <td>
-                                                    <button class="btn btn-danger" title="Elimina questo Esame" @onclick="()=> DeleteEsame(esame)">
+                                                    <button class="btn btn-danger" title="Elimina questo Esame" data-toggle="modal" data-target="#myModal" @onclick="()=> ControlloDelete(null,esame)">
                                                         <b>–</b>
                                                     </button>
                                                 </td>
@@ -132,6 +132,40 @@ else
         </tbody>
     </table> <!-- fine tabella moduli -->
 }
+<!-- Modal Conferma Delete-->
+<div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @if (esam == null)
+            {
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare il Modulo: @mod.Materia?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>DeleteModulo(mod)" data-dismiss="modal"><b>Elimina</b></button>
+                </div>
+            }
+            else
+            {
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare questo Esame?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>DeleteEsame(esam)" data-dismiss="modal"><b>Elimina</b></button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
 
 
 @code {
@@ -141,6 +175,8 @@ else
     private Esame[] ListaEsami;
     private Insegnante[] ListaInsegnanti;
     private Tutor[] ListaTutor;
+    private Modulo mod = new Modulo();
+    private Esame esam = new Esame();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -207,5 +243,19 @@ else
     protected void BtnChangedPag(String uri)
     {
         Navigator.NavigateTo(uri, true);
+    }
+    protected void ControlloDelete(Modulo m, Esame e)
+    {
+        if(m == null)
+        {
+            esam = e;
+            mod = null;
+        }
+        else
+        {
+            mod = m;
+            esam = null;
+        }
+
     }
 }

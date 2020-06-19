@@ -43,7 +43,7 @@ else
             {
                 <tr class="trSearch">
                     <td>
-                        <button class="btn btn-danger popper" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(p)" title="Elimina @p.Nome"><b>–</b></button> <!-- Aggiungere Funzione -->
+                        <button class="btn btn-danger " data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(p)" title="Elimina @p.Nome"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
                     <td>@p.Nome</td>
                     <td>@p.Cognome</td>
@@ -63,7 +63,8 @@ else
 
     <!-- fine tabella Dipendenti -->
 
-    <!-- Modal -->
+
+    <!-- Modal Conferma Eliminazione -->
     <div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
