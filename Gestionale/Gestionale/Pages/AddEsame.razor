@@ -5,6 +5,7 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
+@inject IJSRuntime js
 @code {
     Gestionale.Data.Control.ModuloDbService mdbservice = new Data.Control.ModuloDbService();
     Gestionale.Data.Control.PunteggioDbService puntDBservice = new Data.Control.PunteggioDbService();
@@ -19,7 +20,7 @@
 
     ======================================================================================*/
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo esame</h2>
 
     <hr />
@@ -50,7 +51,7 @@ else if (Navigator.Uri.Contains("List"))
 
     ======================================================================================*/
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Lista Studenti all'esame</h2>
 
     <hr />
@@ -67,19 +68,19 @@ else if (Navigator.Uri.Contains("List"))
         <tbody>
             @foreach (var Studente in ThisEsame.Moduli.Corsi.Partecipanti) // qui prendo tutti i partecipanti di quell'esame
             {
-                punteggioS = puntDBservice.Read(db,ThisEsame, Studente).Result;
+                punteggioS = puntDBservice.Read(db, ThisEsame, Studente).Result;
                 <tr>
                     <td>@Studente.Nome</td>
                     <td>@Studente.Cognome</td>
                     <td>
-                        <select @bind="@punteggioS.Voto" class="form-control">
+                        <select @bind="@punteggioS.Voto" class="form-control" name="selecThis" disabled>
                             @for (int i = 0; i <= 100; i += 5)
                             {
                                 <option value="@i">@i</option>
                             }
                         </select>
                     </td>
-                    <td><button value="Salva" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)">Modifica</button></td>
+                    <td><button value="Salva" name="btnChange" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)" style="width:100px;">Modifica</button></td>
 
                 </tr>
             }
@@ -105,7 +106,7 @@ else if (Navigator.Uri.Contains("Edit"))
     }
 
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="/css/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
 
     <hr />
@@ -145,6 +146,14 @@ else if (Navigator.Uri.Contains("Edit"))
 
     private Esame ThisEsame = new Esame();
     private Modulo ThisModulo = new Modulo();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Global");
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

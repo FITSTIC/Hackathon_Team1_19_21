@@ -8,7 +8,7 @@
 
 @if (Id == 0)
 {
-    <button @onclick='() => { BtnChangedPag("/Corsi"); }' class="btn mr-n2 float-right" title="Pagina Corsi"><img src="/css/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Corsi"); }' class="btn mr-n2 float-right" title="Pagina Corsi"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo Corso</h2>
 
     <hr />
@@ -58,6 +58,7 @@ else
         }
     }
 
+    <button @onclick='() => { BtnChangedPag("/Corsi"); }' class="btn mr-n2 float-right" title="Pagina Corsi"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Corso @ThisCorso.Nome</h2>
 
     <hr />
