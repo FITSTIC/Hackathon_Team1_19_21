@@ -22,7 +22,7 @@
             <h3>@dip.Categoria</h3>
         </div>
         <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
                     <td>@dip.Email</td>
                     <td>@dip.Telefono</td>
                     <td>@dip.Assunzione.ToString("dd/MM/yyyy")</td>
-                    <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + dipendenteid); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
+                    <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddDipendente/Modifica/" + dipendenteid); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
                 </tr>
             </tbody>
         </table>
@@ -83,7 +83,7 @@
                             <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
                             <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
                             <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
+                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
                         </tr>
                         <!--Riga Esami-->
                         <tr>
@@ -124,18 +124,16 @@
                                                     <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
                                                     <tr>
                                                         <td>
-                                                            <button class="btn btn-danger" title="Elimina questo Esame" @onclick="()=> BtnDeleteEsame(esame)">
-                                                                <b>–</b>
-                                                            </button>
+                                                            <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(esame)" title="Elimina"><b>–</b></button>
                                                         </td>
                                                         <td>@esame.Id</td>
                                                         <td>@esame.Moduli.Materia</td>
                                                         <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
                                                         <td style="text-align:center;">
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id + "/List"); }'  class="btn btn-primary">Lista Partecipanti</button>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
                                                         </td>
                                                         <td>
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
                                                         </td>
                                                     </tr>
                                                 }
@@ -154,15 +152,15 @@
                         listEsami = esameService.Read(db, m).Result;
                         <tr>
                             <td>
-                                <button @onclick='() => { BtnChangedPag("/Moduli"); }'>@m.Materia</button>
+                                <a href="/Moduli" @onclick='() => { BtnChangedPag("/Moduli"); }'>@m.Materia</a>
                             </td>
                             <td>
-                                <button @onclick='() => { BtnChangedPag("/Corsi"); }'>@corsoDip.Nome</button>
+                                <a href="/Corsi" @onclick='() => { BtnChangedPag("/Corsi"); }'>@corsoDip.Nome</a>
                             </td>
                             <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
                             <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
                             <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button></td>
+                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
                         </tr>
                         <!--Riga Esami-->
                         <tr>
@@ -203,9 +201,7 @@
                                                     <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
                                                     <tr>
                                                         <td>
-                                                            <button class="btn btn-danger" title="Elimina questo Esame" @onclick="()=> BtnDeleteEsame(esame)">
-                                                                <b>–</b>
-                                                            </button>
+                                                            <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(esame)" title="Elimina"><b>–</b></button>
                                                         </td>
                                                         <td>@esame.Id</td>
                                                         <td>@esame.Moduli.Materia</td>
@@ -214,7 +210,7 @@
                                                             <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
                                                         </td>
                                                         <td>
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="/css/gear.ico" width="27" height="32" /></button>
+                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
                                                         </td>
                                                     </tr>
                                                 }
@@ -231,6 +227,28 @@
         </table>
 
     </div>
+    <!-- Modal Conferma Delete-->
+    <div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare questo esame?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>BtnDeleteEsame(esam)" data-dismiss="modal"><b>Elimina</b></button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 }
 else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
 {
@@ -242,7 +260,7 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
             <h3>@dip.Categoria</h3>
         </div>
         <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -337,7 +355,7 @@ else
             <h2>Inserisci un nuovo Dipendente</h2>
         </div>
         <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="/css/back.png" width="35" height="32" /></button>
+            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
         </div>
     </div>
 
@@ -412,7 +430,7 @@ else
     public ICollection<Modulo> listModuliDip { get; set; }
     public Dipendente dip = new Dipendente();
     public ICollection<Esame> listEsami { get; set; }
-
+    public Esame esam = new Esame();
 
     private Corso[] ListaCorsi;
     private Dipendente[] ListaDip;
@@ -477,6 +495,10 @@ else
     }
     protected void BtnChangedPag(String uri)
     {
-        Navigator.NavigateTo(uri, true); 
+        Navigator.NavigateTo(uri, true);
+    }
+    protected void ControlloDelete(Esame e)
+    {
+        esam = e;
     }
 }
