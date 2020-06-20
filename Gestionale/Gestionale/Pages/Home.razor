@@ -2,19 +2,16 @@
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
-<div class="container-fluid">
-    <h2>IL TUO GESTIONALE A PORTATA DI MANO...</h2>
+
+<div class="banner rounded">
+    <div class="container-fluid mb-5 ml-2" style="color: ghostwhite; text-shadow: 0px 0px 5px black;">
+        <h2 style="font-size: 3.5rem"><b>Il tuo gestionale a portata di mano</b></h2>
+    </div>
 </div>
-<th></th>
-<div class="container-fluid">
-    <h3>Dirigiti verso le tabelle con facilità!</h3>
-</div>
 
-
-
-<div class="row mx-5 mt-5" align="center">
+<div class="row mx-5 mt-n5" align="center">
     <div class="col-3">
-        <div class="card">
+        <div class="card border border-primary">
             <a href="/Corsi">
                 <img class="card-img-top" src="images/corsi.jpg">
             </a>
@@ -32,8 +29,9 @@
                 </div>
             </p>
         </div>
-    </div><div class="col-3">
-        <div class="card">
+    </div>
+    <div class="col-3">
+        <div class="card border border-info">
             <a href="/Moduli">
                 <img class="card-img-top" src="images/moduli.jpg">
             </a>
@@ -53,7 +51,7 @@
         </div>
     </div>
     <div class="col-3">
-        <div class="card">
+        <div class="card border border-warning">
             <a href="/Personale">
                 <img class="card-img-top" src="images/personale.jpg">
             </a>
@@ -73,7 +71,7 @@
         </div>
     </div>
     <div class="col-3">
-        <div class="card">
+        <div class="card border border-danger">
             <a href="/Partecipanti">
                 <img class="card-img-top" src="images/partecipanti.jpg">
             </a>
