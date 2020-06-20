@@ -3,46 +3,50 @@
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
+    <div>
+        <img align="right" rel="shortcut icon" src="images/Logo.png" width="40" height="40" />
+    </div>
+    
+    </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="Corsi">
-                <span class="oi oi-layers" aria-hidden="true"></span> Corsi
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="Moduli">
-                <span class="oi oi-book" aria-hidden="true"></span> Moduli
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="Personale">
-                <span class="oi oi-person" aria-hidden="true"></span> Dipendenti
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="Partecipanti">
-                <span class="oi oi-people" aria-hidden="true"></span> Partecipanti
-            </NavLink>
-        </li>
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Corsi">
+                    <span class="oi oi-layers" aria-hidden="true"></span> Corsi
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Moduli">
+                    <span class="oi oi-book" aria-hidden="true"></span> Moduli
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Personale">
+                    <span class="oi oi-person" aria-hidden="true"></span> Dipendenti
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Partecipanti">
+                    <span class="oi oi-people" aria-hidden="true"></span> Partecipanti
+                </NavLink>
+            </li>
 
-    </ul>
-</div>
+        </ul>
+    </div>
 
-@code {
-    private bool collapseNavMenu = true;
+    @code {
+        private bool collapseNavMenu = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
+        private void ToggleNavMenu()
+        {
+            collapseNavMenu = !collapseNavMenu;
+        }
     }
-}

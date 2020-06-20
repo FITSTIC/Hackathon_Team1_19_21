@@ -54,7 +54,7 @@ else
                     <td>@ThisCorso.AnnoFineCorso.ToString("dd/MM/yyyy")</td>
                     <td>@ThisCorso.Sede</td>
                     <td style="text-align:center;">
-                        <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e" + ThisCorso.Id)">Moduli</button>
+                        <button @onclick='() => { BtnChangedPag("/AddCorsi/moduli/" + ThisCorso.Id);}' class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e" + ThisCorso.Id)">Moduli</button>
                     </td>
                     <td>
                         <button @onclick='() => { BtnChangedPag("/AddCorsi/" + ThisCorso.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
@@ -62,142 +62,7 @@ else
                 </tr>
 
 
-                <tr>
-                    <td colspan="8" class="hiddenRow p-0" style="background-color:white">
-                        <div class="accordian-body collapse m-3" id="@("i" + ThisCorso.Id)" data-parent="#boolAccord">
-                            <div class="card card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                        <div class="table accordian-body collapse p-3 container" id="@("e" + ThisCorso.Id)" data-parent="#boolAccord">
-                            <div class="row">
-                                <div class="col align-self-start">
-                                    <h2> Moduli del corso @ThisCorso.Nome</h2>
-                                </div>
-                                <div class="mr-1">
-                                    <button class="btn btn-success" data-toggle="modal" title="Aggiungi un nuovo modulo" data-target="#InsertModuli"><b>+</b></button>
-
-                                    <!-- Modale inserimento modulo -->
-                                    <div class="modal fade" id="InsertModuli" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Inserisci un nuovo modulo</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>Nome Modulo</label>
-                                                            <input class="form-control" id=""> <!-- inserire id -->
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Corso</label>
-                                                            <select id="" class="form-control" disabled>
-                                                                <!-- inserire id -->
-                                                                <option selected> @ThisCorso.Nome</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>Data inizio modulo</label>
-                                                            <input type="date" class="form-control valid">
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Data fine modulo</label>
-                                                            <input type="date" class="form-control valid">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <label>Insegnante</label>
-                                                            <select id="" class="form-control">
-                                                                <!-- inserire id -->
-                                                                @foreach (Dipendente personale in ListaPersonale)
-                                                                {
-                                                                    <option selected>
-                                                                        @if (personale.Categoria == "Insegnante")
-                                                                        {
-                                                                            @personale.Cognome @personale.Nome;
-                                                                        }
-                                                                    </option>
-                                                                }
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group col-md-6">
-                                                            <label>Tutor</label>
-                                                            <select id="" class="form-control">
-                                                                <!-- inserire id -->
-                                                                <option selected></option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                                        <button type="button" class="btn btn-primary">Inserisci</button> <!-- AGGIUNGERE FUNZIONE -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mr-4">
-                                    <button class="btn btn-danger" title="Elimina l'esame selezionato"><b>–</b></button> <!-- Aggiungere Funzione -->
-                                </div>
-                            </div>
-
-                            <!-- DA CAMBIARE IN ESAMI -->
-                            @if (ListaCorsi == null)
-                            {
-                                <p>Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                            }
-                            else
-                            {
-                                <table class="table table-hover table-sm">
-                                    <thead>
-                                        <tr class="table-secondary">
-                                            <td><input type="checkbox"></td>
-                                            <th>Nome</th>
-                                            <th>Anno Accademico</th>
-                                            <th>Inizio corso</th>
-                                            <th>Fine corso</th>
-                                            <th>Sede</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- DA CAMBIARE IN ESAMI -->
-                                        @foreach (var Modulo in ListaModuli)
-                                        {
-                                            <tr>
-                                                <td><input type="checkbox"></td>
-                                                <td>@Modulo.Materia</td>
-                                                <td></td>
-                                                <td>@Modulo.DataInizio.ToString("MM/yyyy")</td>
-                                                <td>@Modulo.DataFine.ToString("yyyy")</td>
-                                                <td>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            }
-                        </div>
-                    </td>
-                </tr>
             }
-            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
-            <tr>
-                <td>
-                </td>
-            </tr>
         </tbody>
     </table>
 }
