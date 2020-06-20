@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Moduli
+    public class Modulo
     {
         [Key]
         public int Id { get; set; }
         [Required]
         public string Materia { get; set; }
-        public Corsi Corsi { get; set; }//FK
+        public int CorsiId { get; set; }
+        public Corso Corsi { get; set; }//FK
         public DateTime DataInizio { get; set; }
         public DateTime DataFine { get; set; }
-        public Personale Personale { get; set; }//FK
-        public List<Partecipanti> Partecipanti { get; set; }
-        public List<Esami> Esami { get; set; }
-        public Moduli() { }
+        public int? InsegnanteId { get; set; }
+        public Insegnante Insegnanti{ get; set; }//FK
+        public int? TutorId { get; set; }
+        public Tutor Tutor { get; set; }//FK
+        public virtual ICollection<Esame> Esami { get; set; }
+        public Modulo() { }
     }
 }

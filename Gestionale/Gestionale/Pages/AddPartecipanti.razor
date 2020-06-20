@@ -1,0 +1,399 @@
+﻿@page "/AddPartecipanti/Create"
+@page "/AddPartecipanti/Edit/{Id:int}"
+@page "/AddPartecipanti/Info/{Id:int}"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+@inject NavigationManager navigationManager
+
+@code{
+    Gestionale.Data.Control.IscrizioneDbService IscrizioneDb = new Data.Control.IscrizioneDbService();
+}
+
+@if (navigationManager.Uri.Contains("Create")) // Creazione di un nuovo partecipante
+{
+    <button @onclick='() => { BtnChangedPag("/Partecipanti"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <h2>Inserisci un nuovo partecipante</h2>
+
+    <hr />
+
+    <EditForm Model="P" OnSubmit="() => SaveNuovoPartecipante()">
+        <DataAnnotationsValidator />
+
+        <div class="form-row">
+            @*<form>
+                    <div class="form-group">
+                        <label>Inserisci la foto del partecipante</label>
+                        <input type="file" class="form-control-file">
+                    </div>
+                </form>*@
+            <div class="form-group col-md-6">
+                <label>Nome</label>
+                <InputText class="form-control" @bind-Value="P.Nome" required />
+
+            </div>
+            <div class="form-group col-md-6">
+                <label>Cognome</label>
+                <InputText class="form-control" @bind-Value="P.Cognome" required />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Data di nascita</label>
+                <InputDate class="form-control" @bind-Value="P.DataNascita" required></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="P.Email" required />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Indirizzo</label>
+                <InputText class="form-control" @bind-Value="P.Indirizzo" required />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Città</label>
+                <InputText class="form-control" @bind-Value="P.Citta" required />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Telefono</label>
+                <InputText class="form-control" @bind-Value="P.Telefono" required />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Diploma</label>
+                <InputText class="form-control" @bind-Value="P.Diploma" required />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Anno del diploma</label>
+                <InputDate class="form-control" @bind-Value="P.AnnoDiploma" required></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
+                <select class="form-control" @bind="P.CorsiId" required>
+                    <option value=""></option>
+                    @foreach (var Corso in ListaCorsi)
+                    {
+                        <option value="@Corso.Id">@Corso.Nome</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+    </EditForm>
+}
+else if (navigationManager.Uri.Contains("Info")) // Visualizzazione info
+{
+    <button @onclick='() => { BtnChangedPag("/Partecipanti"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <h2>@P.Nome @P.Cognome</h2>
+
+    <hr />
+
+    <table class="table table-hover text-center">
+        <thead>
+            <tr class="table-secondary">
+                <th>Data di nascita</th>
+                <th>Indirizzo</th>
+                <th>Città</th>
+                <th>Telefono</th>
+                <th>E-Mail</th>
+                <th>Diploma</th>
+                <th>Anno Diploma</th>
+                <th>Corso</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@P.DataNascita.ToString("dd/MM/yyyy")</td>
+                <td>@P.Indirizzo</td>
+                <td>@P.Citta</td>
+                <td>@P.Telefono</td>
+                <td>@P.Email</td>
+                <td>@P.Diploma</td>
+                <td>@P.AnnoDiploma.ToString("dd/MM/yyyy")</td>
+                <td>@P.Corsi.Nome</td>
+                <td style="text-align:center;">
+                </td>
+                <td>
+                    <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Edit/" + P.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Moduli</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-secondary">
+                <th>Materia modulo</th>
+                <th>Inizio Modulo</th>
+                <th>Fine Modulo</th>
+                <th>Insegnante</th>
+                <th>Tutor</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="accordion" id="boolAccord">
+            @foreach (var modulo in P.Corsi.Moduli)
+            {
+                <tr>
+                    <td>@modulo.Materia</td>
+                    <td>@modulo.DataInizio.ToString("dd/MM/yyyy")</td>
+                    <td>@modulo.DataFine.ToString("dd/MM/yyyy")</td>
+                    <td>@(modulo.Insegnanti.Nome + " " + modulo.Insegnanti.Cognome)</td>
+                    <td>@(modulo.Tutor.Nome + " " + modulo.Tutor.Cognome)</td>
+                    <td style="text-align:center;">
+                        <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+modulo.Id)">Esami</button>
+                    </td>
+                    <td>
+                        <button @onclick='() => { BtnChangedPag("/AddModulo/" + modulo.Id); }'  class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                    </td>
+                </tr>
+
+                <!-- Riga nascosta degli esami -->
+                <tr>
+                    <td colspan="7" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
+                        <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+modulo.Id)" data-parent="#boolAccord">
+                            <div class="row">
+                                <div class="col align-self-start">
+                                    <h2>Esami del modulo @modulo.Materia</h2>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+modulo.Id)"><b>x</b></button>
+                                </div>
+                            </div>
+
+                            @if (modulo.Esami == null || !modulo.Esami.Any())
+                            {
+                                <div class="row">
+                                    <p class="col">Non è presente alcun esame per questo modulo.</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <table class="table table-hover table-sm">
+                                    <thead>
+                                        <tr class="table-secondary">
+                                            <th>Data Esame</th>
+                                            <th>Voto</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var esame in modulo.Esami)
+                                        {
+                                            <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
+                                            <tr>
+                                                <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
+                                                <td>
+                                                    @if (esame.Punteggi == null) { }
+                                                    else
+                                                    {
+                                                        @foreach (var Voto in esame.Punteggi)
+                                                        {
+                                                            if (Voto.PartecipanteId == P.Id)
+                                                            {
+                                                                @Voto.Voto
+                                                            }
+                                                        }
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table> <!-- fine tabella esami -->
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <!-- fine riga nascosta tabella esami -->
+            }
+            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+ <!-- fine tabella moduli -->
+}
+else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
+{
+    @foreach (var Alunno in ListaPartecipanti)
+    {
+        if (Id == Alunno.Id)
+        {
+            ThisAlunno = Alunno;
+        }
+    }
+
+    <a href="/Partecipanti" class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></a>
+    <h2>@ThisAlunno.Nome @ThisAlunno.Cognome</h2>
+
+    <hr />
+
+    <EditForm Model="P" OnSubmit="() => SaveNuovoPartecipante()">
+        <DataAnnotationsValidator />
+
+        <div class="form-row">
+            @*<form>
+                    <div class="form-group">
+                        <label>Inserisci la foto del partecipante</label>
+                        <input type="file" class="form-control-file">
+                    </div>
+                </form>*@
+            <div class="form-group col-md-6">
+                <label>Nome</label>
+                <InputText class="form-control" @bind-Value="P.Nome" required />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Cognome</label>
+                <InputText class="form-control" @bind-Value="P.Cognome" required />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Data di nascita</label>
+                <InputDate class="form-control" @bind-Value="P.DataNascita" required></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="P.Email" required />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Indirizzo</label>
+                <InputText class="form-control" @bind-Value="P.Indirizzo" required />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Città</label>
+                <InputText class="form-control" @bind-Value="P.Citta" required />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Telefono</label>
+                <InputText class="form-control" @bind-Value="P.Telefono" required />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Diploma</label>
+                <InputText class="form-control" @bind-Value="P.Diploma" required />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Anno del diploma</label>
+                <InputDate class="form-control" @bind-Value="P.AnnoDiploma" required></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
+                <select class="form-control" @bind="P.CorsiId" required>
+                    <option value="@P.Corsi.Id">@P.Corsi.Nome - Attualmente Selezionato</option>
+                    @foreach (var Corso in ListaCorsi)
+                    {
+                        if (Corso.Id == P.CorsiId) { } // Verifica se il corso attualmente associato non si ripeta nella lista
+                        else
+                        {
+                            <option value="@Corso.Id">@Corso.Nome</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
+
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Corso[] ListaCorsi;
+
+    private Partecipante[] ListaPartecipanti;
+
+    private Dipendente[] ListaDipendenti;
+    private Modulo[] ListaModuli;
+    private Esame[] ListaEsami;
+    private Insegnante[] ListaInsegnanti;
+    private Tutor[] ListaTutor;
+    private Punteggio[] ListaPunteggi;
+
+    private Partecipante P = new Partecipante()
+    {
+        DataNascita = DateTime.Now,
+        AnnoDiploma = DateTime.Now
+    };
+    private Partecipante ThisAlunno = new Partecipante();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.OrderBy(c => c.Nome).ToArrayAsync();
+
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaDipendenti = await db.Dipendente.ToArrayAsync();
+        ListaModuli = await db.Moduli.ToArrayAsync();
+        ListaEsami = await db.Esami.ToArrayAsync();
+        ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
+        ListaTutor = await db.Tutor.ToArrayAsync();
+        ListaPunteggi = await db.Punteggi.ToArrayAsync();
+
+        if (navigationManager.Uri.Contains("Create"))
+        {
+
+        }
+        else
+        {
+            P = await db.Partecipanti.FindAsync(Id);
+        }
+    }
+
+
+    private async Task SaveNuovoPartecipante()
+
+    {
+        if (navigationManager.Uri.Contains("Create"))
+        {
+            Iscrizione iscrizione = new Iscrizione(P.CorsiId);
+
+            await IscrizioneDb.Create(db, iscrizione);
+            P.IscrizioneId = iscrizione.Id;
+            if (P.Punteggi == null) { }
+            db.Partecipanti.Add(P);
+            await db.SaveChangesAsync();
+
+            navigationManager.NavigateTo("/Partecipanti");
+        }
+        else if (navigationManager.Uri.Contains("Edit"))
+        {
+            await db.SaveChangesAsync();
+        }
+    }
+    protected void BtnChangedPag(string uri)
+    {
+        navigationManager.NavigateTo(uri, true);
+    }
+
+}

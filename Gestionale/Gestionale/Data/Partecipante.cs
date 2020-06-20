@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gestionale.Data
 {
-    public class Partecipanti
+    public class Partecipante
     {
         [Key]
         public int Id { get; set; }
@@ -26,11 +27,12 @@ namespace Gestionale.Data
         public string Telefono { get; set; }
         public string Diploma { get; set; }
         public DateTime AnnoDiploma { get; set; }
-        public Iscrizioni Iscrizioni { get; set; }//FK
-        public Moduli Moduli { get; set; }//FK
-        public Esami Esame { get; set; }//FK
-        public Corsi Corsi { get; set; }//FK
-        public Partecipanti() { }
+        public int CorsiId { get; set; }
+        public Corso Corsi { get; set; }//FK
+        public int IscrizioneId { get; set; }
+        public Iscrizione Iscrizione { get; set; }
+        public virtual ICollection<Punteggio> Punteggi { get; set; }
+        public Partecipante() { }
     }
 
 }

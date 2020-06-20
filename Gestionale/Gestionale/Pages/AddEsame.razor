@@ -1,0 +1,230 @@
+﻿@page "/AddEsame/Create/{Id:int}"
+@page "/AddEsame/Edit/{Id:int}"
+@page "/AddEsame/{Id:int}/List"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+@inject NavigationManager Navigator
+@inject IJSRuntime js
+@code {
+    Gestionale.Data.Control.ModuloDbService mdbservice = new Data.Control.ModuloDbService();
+    Gestionale.Data.Control.PunteggioDbService puntDBservice = new Data.Control.PunteggioDbService();
+}
+
+
+@if (Navigator.Uri.Contains("Create"))
+{
+    /*======================================================================================
+
+                           CONDIZIONE PER INSERIRE UN NUOVO ESAME
+
+    ======================================================================================*/
+
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <h2>Inserisci un nuovo esame</h2>
+
+    <hr />
+
+    <EditForm Model="NuovoEsame" OnSubmit="()=> SaveEsame()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Modulo</label>
+                <select @bind="NuovoEsame.ModuliId" class="form-control" required>
+                    <option value="@ThisModulo.Id" selected>@ThisModulo.Materia</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Data esame</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="NuovoEsame.DataEsame"></InputDate>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+    </EditForm>
+
+}
+else if (Navigator.Uri.Contains("List"))
+{
+    /*======================================================================================
+
+                    CONDIZIONE PER CONSULTARE LA LISTA UTENTI IN UN ESAME
+
+    ======================================================================================*/
+
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <h2>Lista Studenti all'esame</h2>
+
+    <hr />
+
+    <table class="table table-hover table">
+        <thead>
+            <tr class="table-secondary">
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Voto</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Studente in ThisEsame.Moduli.Corsi.Partecipanti) // qui prendo tutti i partecipanti di quell'esame
+            {
+                punteggioS = puntDBservice.Read(db, ThisEsame, Studente).Result;
+                <tr>
+                    <td>@Studente.Nome</td>
+                    <td>@Studente.Cognome</td>
+                    <td>
+                        <select @bind="@punteggioS.Voto" class="form-control" name="selecThis" disabled>
+                            @for (int i = 0; i <= 100; i += 5)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </td>
+                    <td><button value="Salva" name="btnChange" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)" style="width:100px;">Modifica</button></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else if (Navigator.Uri.Contains("Edit"))
+{
+    /*======================================================================================
+
+                          CONDIZIONE PER CONSULTARE E MOFICARE UN ESAME
+
+    ======================================================================================*/
+
+    // Accedendo alla pagina, recupero tutte le informazioni della lista esistente partendo dal suo id
+    @foreach (var esame in ListaEsami) // Ciclo la lista
+    {
+        if (Id == esame.Id) // Confronto l'Id della pagina html cono tutti gli Id della lista
+        {
+            ThisEsame = esame; // trovato il match copio tutto nella nuova variabile
+        }
+    }
+
+
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
+
+    <hr />
+
+    <EditForm Model="ThisEsame" OnSubmit="()=> SaveEsame()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Modulo</label>
+                <select @bind="@ThisEsame.ModuliId" class="form-control" disabled>
+                    <option value="@ThisEsame.ModuliId" selected>@ThisEsame.Moduli.Materia</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Data esame</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="ThisEsame.DataEsame"></InputDate>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; } // var Id che raccoglie il valore dal modulo specificato
+
+    private Corso[] ListaCorsi;
+    private Modulo[] ListaModuli;
+    private Esame[] ListaEsami;
+    private Partecipante[] ListaPartecipanti;
+    private Punteggio[] ListaPunteggi;
+    Punteggio punteggioS = new Punteggio();
+    private Esame NuovoEsame = new Esame()
+    {
+        DataEsame = DateTime.Now
+    };
+
+    private Esame ThisEsame = new Esame();
+    private Modulo ThisModulo = new Modulo();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Global");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaModuli = await db.Moduli.ToArrayAsync();
+        ListaEsami = await db.Esami.ToArrayAsync();
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaPunteggi = await db.Punteggi.ToArrayAsync();
+
+
+
+        if (Navigator.Uri.Contains("Create"))
+        {
+            ThisModulo = await db.Moduli.FindAsync(Id);
+        }
+        else if (Navigator.Uri.Contains("Edit") || Navigator.Uri.Contains("List"))
+        {
+            ThisEsame = await db.Esami.FindAsync(Id);
+        }
+    }
+
+    private async Task Change(Punteggio p)
+    {
+        var m = db.Punteggi.Find(p.Id);
+        m = p;
+        await db.SaveChangesAsync();
+
+        StateHasChanged();
+    }
+
+
+    private async Task SaveEsame()
+    {
+        if (Navigator.Uri.Contains("Create"))
+        {
+            db.Esami.Add(NuovoEsame);
+
+            await db.SaveChangesAsync();
+
+            foreach (var s in NuovoEsame.Moduli.Corsi.Partecipanti)
+            {
+                Punteggio NuovoPunteggio = new Punteggio();
+                NuovoPunteggio.PartecipanteId = s.Id;
+                NuovoPunteggio.EsameId = NuovoEsame.Id;
+                NuovoPunteggio.Voto = 0;
+                db.Punteggi.Add(NuovoPunteggio);
+                await db.SaveChangesAsync();
+            }
+
+            ListaEsami = db.Esami.ToArray();
+            ListaPunteggi = db.Punteggi.ToArray();
+
+            StateHasChanged();
+
+            Navigator.NavigateTo("/AddEsame/Edit/" + NuovoEsame.Id);
+        }
+        else
+        {
+            var m = db.Esami.Find(ThisEsame.Id);
+            m = ThisEsame;
+            await db.SaveChangesAsync();
+
+            ListaModuli = db.Moduli.ToArray();
+
+            StateHasChanged();
+            Navigator.NavigateTo("/Moduli");
+        }
+    }
+    protected void BtnChangedPag(String uri)
+    {
+        Navigator.NavigateTo(uri, true);
+    }
+
+}

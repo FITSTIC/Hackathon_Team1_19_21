@@ -1,0 +1,124 @@
+﻿@page "/Partecipanti"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+@inject NavigationManager Navigator
+@inject IJSRuntime js
+
+
+<div class="row mb-2">
+    <div class="col align-self-start">
+        <h2>Partecipanti</h2>
+    </div>
+    <div class="col-3">
+        <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+    </div>
+</div>
+
+
+@if (ListaPartecipanti == null || !ListaPartecipanti.Any())
+{
+    <div class="row">
+        <p class="col">Non è presente alcun partecipante per questo corso. Aggiungine uno premendo il tasto verde.</p>
+        <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Create"); }' class="btn btn-success mr-3" title="Aggiungi un nuovo partecipante"><b>+</b></button>
+    </div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-secondary">
+                <th></th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Telefono</th>
+                <th>E-Mail</th>
+                <th>Corso</th>
+                <th></th>
+                <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddPartecipanti/Create"); }' class="btn btn-success" title="Aggiungi un nuovo partecipante"><b>+</b></button></th>
+            </tr>
+        </thead>
+        <tbody class="accordion bodySearch" id="boolAccord">
+            @foreach (var Partecipante in ListaPartecipanti)
+            {
+                <tr class="trSearch">
+                    <td>
+                        <button class="btn btn-danger" title="Elimina questo partecipante" data-toggle="modal" data-target="#myModal" @onclick="()=> ControlloDelete(Partecipante)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                    </td>
+                    <td>@Partecipante.Nome</td>
+                    <td>@Partecipante.Cognome</td>
+                    <td>@Partecipante.Telefono</td>
+                    <td>@Partecipante.Email</td>
+                    <td>@Partecipante.Corsi.Nome</td>
+                    <td style="text-align:center;">
+                        <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Info/"+ Partecipante.Id); }' class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</button>
+                    </td>
+                    <td>
+                        <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Edit/"+ Partecipante.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<!-- Modal Conferma Delete-->
+<div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class=" modal-body divConferma border">
+                <p><strong>Sei sicuro di voler eliminare @Part.Nome @Part.Cognome?</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                <button class="btn btn-danger" title="Elimina" @onclick="()=>DeletePartecipante(Part)" data-dismiss="modal"><b>Elimina</b></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Corso[] ListaCorsi;
+    private Partecipante[] ListaPartecipanti;
+    private Iscrizione[] ListaIscrizioni;
+    private Partecipante Part = new Partecipante();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Global");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //ListaModuli = await db.Moduli.ToArrayAsync();
+
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
+    }
+    private async Task DeletePartecipante(Partecipante alunno)
+    {
+        db.Partecipanti.Remove(alunno);
+        db.SaveChanges();
+
+        await OnInitializedAsync();
+
+        StateHasChanged();
+    }
+    protected void BtnChangedPag(String uri)
+    {
+        Navigator.NavigateTo(uri, true);
+    }
+    protected void ControlloDelete(Partecipante p)
+    {
+        Part = p;
+    }
+}

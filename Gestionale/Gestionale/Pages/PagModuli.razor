@@ -1,0 +1,266 @@
+﻿@page "/Moduli"
+@using Gestionale.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext db
+@inject NavigationManager Navigator
+@inject IJSRuntime js
+@code{
+    Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
+}
+
+<div class="row mb-2">
+    <div class="col align-self-start">
+        <h2>Moduli</h2>
+    </div>
+    <div class="col-3">
+        <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+    </div>
+</div>
+
+
+@if (ListaModuli == null || !ListaModuli.Any())
+{
+    <div class="row">
+        <p class="col">Non è presente alcun modulo per questo corso. Aggiungine uno premendo il tasto verde.</p>
+        <button @onclick='() => { BtnChangedPag("/AddModulo"); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+    </div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-secondary">
+                <th></th>
+                <th>Materia modulo</th>
+                <th>Corso</th>
+                <th>Inizio Modulo</th>
+                <th>Fine Modulo</th>
+                <th>Insegnante</th>
+                <th>Tutor</th>
+                <th></th>
+                <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddModulo"); }' class="btn btn-success float-right" title="Aggiungi un nuovo modulo"><b>+</b></button></th>
+            </tr>
+        </thead>
+        <tbody class="accordion bodySearch" id="boolAccord">
+            @foreach (var modulo in ListaModuli)
+            {
+                <tr class="trSearch">
+                    <td>
+                        <button class="btn btn-danger" title="Elimina questo modulo" data-toggle="modal" data-target="#myModal" @onclick="()=>ControlloDelete(modulo,null)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                    </td>
+                    <td>@modulo.Materia</td>
+                    <td>@modulo.Corsi.Nome</td>
+                    <td>@modulo.DataInizio.ToString("dd/MM/yyyy")</td>
+                    <td>@modulo.DataFine.ToString("dd/MM/yyyy")</td>
+                    <td>@if (modulo.Insegnanti == null) { @("n.d."); } // gestione eccezione se al modulo non è assegnato alcun insegnante
+                    else { @(modulo.Insegnanti.Nome +" " + modulo.Insegnanti.Cognome); }
+                    </td>
+                    <td>
+                        @if (modulo.Tutor == null) {@("n.d.");} // gestione eccezione se al modulo non è assegnato alcun tutor
+                        else {@(modulo.Tutor.Nome + " " + modulo.Tutor.Cognome);}
+                    </td>
+                    <td style="text-align:center;">
+                        <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+modulo.Id)">Esami</button>
+                    </td>
+                    <td>
+                        <button @onclick='() => { BtnChangedPag("/AddModulo/" + modulo.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                    </td>
+                </tr>
+
+                <!-- Riga nascosta degli esami -->
+                <tr>
+                    <td colspan="9" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
+                        <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+modulo.Id)" data-parent="#boolAccord">
+                            <div class="row">
+                                <div class="col align-self-start">
+                                    <h2>Esami del modulo @modulo.Materia</h2>
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+modulo.Id)"><b>x</b></button>
+                                </div>
+                            </div>
+
+                            @if (modulo.Esami == null || !modulo.Esami.Any())
+                            {
+                                <div class="row">
+                                    <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
+                                    <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + modulo.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+                                </div>
+                            }
+                            else
+                            {
+                                <table class="table table-hover table-sm">
+                                    <thead>
+                                        <tr class="table-secondary">
+                                            <td></td>
+                                            <th>N.</th>
+                                            <th>Modulo</th>
+                                            <th>Data Esame</th>
+                                            <th></th>
+                                            <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + modulo.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var esame in modulo.Esami)
+                                        {
+                                            <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
+                                            <tr>
+                                                <td>
+                                                    <button class="btn btn-danger" title="Elimina questo Esame" data-toggle="modal" data-target="#myModal" @onclick="()=> ControlloDelete(null,esame)">
+                                                        <b>–</b>
+                                                    </button>
+                                                </td>
+                                                <td>@esame.Id</td>
+                                                <td>@esame.Moduli.Materia</td>
+                                                <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
+                                                <td style="text-align:center;">
+                                                    <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
+                                                </td>
+                                                <td>
+                                                    <button @onclick='() => { BtnChangedPag("/AddEsame/Edit/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table> <!-- fine tabella esami -->
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <!-- fine riga nascosta tabella esami -->
+            }
+            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table> <!-- fine tabella moduli -->
+}
+<!-- Modal Conferma Delete-->
+<div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @if (esam == null)
+            {
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare il Modulo: @mod.Materia?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>DeleteModulo(mod)" data-dismiss="modal"><b>Elimina</b></button>
+                </div>
+            }
+            else
+            {
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare questo Esame?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>DeleteEsame(esam)" data-dismiss="modal"><b>Elimina</b></button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    private Corso[] ListaCorsi;
+    private Modulo[] ListaModuli;
+    private Esame[] ListaEsami;
+    private Insegnante[] ListaInsegnanti;
+    private Tutor[] ListaTutor;
+    private Modulo mod = new Modulo();
+    private Esame esam = new Esame();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Global");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaModuli = await db.Moduli.ToArrayAsync();
+        ListaEsami = await db.Esami.ToArrayAsync();
+        ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
+        ListaTutor = await db.Tutor.ToArrayAsync();
+    }
+
+    private async Task DeleteModulo(Modulo modulo)
+    {
+        await moduloService.Delete(db, modulo);
+
+        if (modulo.Esami == null) { } // Debug: evita il crash se al delete del modulo non sono presenti esami
+        else
+        {
+            foreach (var esame in modulo.Esami) // Cancella i relativi esami di quel modulo
+            {
+                db.Esami.Remove(esame);
+
+                if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
+                else
+                {
+                    foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+                    {
+                        db.Punteggi.Remove(voto);
+                    }
+                }
+            }
+        }
+
+        await OnInitializedAsync();
+        StateHasChanged();
+    }
+
+    private async Task DeleteEsame(Esame esame)
+    {
+        db.Esami.Remove(esame);
+
+        if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
+        else
+        {
+            foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+            {
+                db.Punteggi.Remove(voto);
+            }
+        }
+
+        db.SaveChanges();
+
+        await OnInitializedAsync();
+
+        StateHasChanged();
+    }
+    protected void BtnChangedPag(String uri)
+    {
+        Navigator.NavigateTo(uri, true);
+    }
+    protected void ControlloDelete(Modulo m, Esame e)
+    {
+        if(m == null)
+        {
+            esam = e;
+            mod = null;
+        }
+        else
+        {
+            mod = m;
+            esam = null;
+        }
+
+    }
+}

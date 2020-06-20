@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,7 +39,9 @@ namespace Gestionale
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-            services.AddSingleton<WeatherForecastService>();
+
+            services.AddDbContext<GestionaleContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("GestionaleContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
