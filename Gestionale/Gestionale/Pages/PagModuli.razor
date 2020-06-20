@@ -52,8 +52,13 @@ else
                     <td>@modulo.Corsi.Nome</td>
                     <td>@modulo.DataInizio.ToString("dd/MM/yyyy")</td>
                     <td>@modulo.DataFine.ToString("dd/MM/yyyy")</td>
-                    <td>@(modulo.Insegnanti.Nome + " " + modulo.Insegnanti.Cognome)</td>
-                    <td>@(modulo.Tutor.Nome + " " + modulo.Tutor.Cognome)</td>
+                    <td>@if (modulo.Insegnanti == null) { @("n.d."); } // gestione eccezione se al modulo non è assegnato alcun insegnante
+                    else { @(modulo.Insegnanti.Nome +" " + modulo.Insegnanti.Cognome); }
+                    </td>
+                    <td>
+                        @if (modulo.Tutor == null) {@("n.d.");} // gestione eccezione se al modulo non è assegnato alcun tutor
+                        else {@(modulo.Tutor.Nome + " " + modulo.Tutor.Cognome);}
+                    </td>
                     <td style="text-align:center;">
                         <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+modulo.Id)">Esami</button>
                     </td>

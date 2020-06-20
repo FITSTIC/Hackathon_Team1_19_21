@@ -108,13 +108,17 @@ else
                     <option value="@ThisModulo.Corsi.Id" selected>@ThisModulo.Corsi.Nome - Attualmente Selezionato</option>
                     @foreach (var Corso in ListaCorsi)
                     {
-                        if (Corso.Id == ThisModulo.CorsiId)
-                        {
-
-                        }
+                        if (Corso.Insegnanti == null || Corso.Tutor == null || Corso.Partecipanti == null) { } // Gestione eccezione eventuale lista vuote
                         else
                         {
-                            <option value="@Corso.Id">@Corso.Nome</option>
+                            if (Corso.Id == ThisModulo.CorsiId)
+                            {
+
+                            }
+                            else
+                            {
+                                <option value="@Corso.Id">@Corso.Nome</option>
+                            }
                         }
                     }
                 </select>
@@ -133,7 +137,17 @@ else
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Insegnante</label>
-                <select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
+                @if (ThisModulo.Insegnanti == null) // Gestisce l'eccezione se viene caricata la pagina e non sono presenti insegnanti
+                {
+                    <select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
+                    <option value="" selected></option>
+                    @foreach (var Insegnante in ListaInsegnanti)
+                    {
+                        <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                    }
+                    </select>
+                }
+                else {<select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
                     <option value="@ThisModulo.Insegnanti.Id" selected>@(ThisModulo.Insegnanti.Nome + " " + ThisModulo.Insegnanti.Cognome) - Attualmente Selezionato</option>
                     @foreach (var Insegnante in ListaInsegnanti)
                     {
@@ -143,21 +157,35 @@ else
                             <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
                         }
                     }
-                </select>
+                </select> 
+                }                
             </div>
             <div class="form-group col-md-6">
                 <label>Tutor</label>
-                <select @bind="@ThisModulo.TutorId" class="form-control" required>
-                    <option value="@ThisModulo.Tutor.Id" selected>@(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome) - Attualmente Selezionato</option>
-                    @foreach (var Tutor in ListaTutor)
-                    {
-                        if (Tutor.Id == ThisModulo.TutorId) {}
-                        else
+                @if (ThisModulo.Tutor == null) // Gestisce l'eccezione se viene caricata la pagina e non sono presenti tutor
+                {
+                    <select @bind="@ThisModulo.TutorId" class="form-control" required>
+                        <option value="" selected></option>
+                        @foreach (var Tutor in ListaTutor)
                         {
                             <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
                         }
-                    }
-                </select>
+                    </select>
+                }
+                else
+                {
+                    <select @bind="@ThisModulo.TutorId" class="form-control" required>
+                        <option value="@ThisModulo.Tutor.Id" selected>@(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome) - Attualmente Selezionato</option>
+                        @foreach (var Tutor in ListaTutor)
+                        {
+                            if (Tutor.Id == ThisModulo.TutorId) { }
+                            else
+                            {
+                                <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                            }
+                        }
+                    </select>
+                }
             </div>
         </div>
         <hr />
