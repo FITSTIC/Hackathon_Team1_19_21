@@ -67,7 +67,7 @@ else if (navigator.Uri.Contains("moduli"))
     {
         <div class="row">
             <p class="col">Non è presente alcun modulo per questo corso. Aggiungine uno premendo il tasto verde.</p>
-            <button @onclick='() => { BtnChangedPag("/AddModulo"); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+            <button @onclick='() => { BtnChangedPag("/AddModulo/FromCorsi/" + ThisCorso.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo modulo"><b>+</b></button>
         </div>
     }
     else
@@ -83,7 +83,7 @@ else if (navigator.Uri.Contains("moduli"))
                     <th>Insegnante</th>
                     <th>Tutor</th>
                     <th></th>
-                    <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddModulo"); }' class="btn btn-success float-right" title="Aggiungi un nuovo modulo"><b>+</b></button></th>
+                    <th class="text-center" style="width: 1px;"><button @onclick='() => { BtnChangedPag("/AddModulo/FromCorsi/" + ThisCorso.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo modulo"><b>+</b></button></th>
                 </tr>
             </thead>
             <tbody class="accordion bodySearch" id="boolAccord">
