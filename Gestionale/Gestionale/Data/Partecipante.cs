@@ -27,7 +27,7 @@ namespace Gestionale.Data
         public string Telefono { get; set; }
         public string Diploma { get; set; }
         public DateTime AnnoDiploma { get; set; }
-        public int CorsiId { get; set; }
+        public int? CorsiId { get; set; }
         public Corso Corsi { get; set; }//FK
         public int IscrizioneId { get; set; }
         public Iscrizione Iscrizione { get; set; }

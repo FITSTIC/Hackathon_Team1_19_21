@@ -48,7 +48,13 @@ else
                     <td>@p.Nome</td>
                     <td>@p.Cognome</td>
                     <td>@p.Categoria</td>
-                    <td>@corsoService.Read(db, p.CorsiId).Result.Nome</td>
+                    <td>
+                            @if (corsoService.Read(db, p.CorsiId).Result == null)
+                            {@("n.d.");
+                            } // gestione eccezione se al dipendente non è assegnto alcun corso
+                            else
+                            {@corsoService.Read(db, p.CorsiId).Result.Nome}
+                    </td>
                     <td style="text-align:center;">
                         <button @onclick='() => { BtnChangedPag("/AddDipendente/Info/" + p.Id); }' class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</button>
                         <!--<button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#("e"+p.Id)">Info</button>-->

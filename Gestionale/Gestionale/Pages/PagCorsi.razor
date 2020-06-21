@@ -52,7 +52,7 @@ else
                     <td>@ThisCorso.AnnoAccademico</td>
                     <td>@ThisCorso.AnnoInizioCorso.ToString("dd/MM/yyyy")</td>
                     <td>@ThisCorso.AnnoFineCorso.ToString("dd/MM/yyyy")</td>
-                    <td>@ThisCorso.Sede</td>
+                    <td>@ThisCorso.Sede</td>                    
                     <td style="text-align:center;">
                         <button @onclick='() => { BtnChangedPag("/AddCorsi/moduli/" + ThisCorso.Id);}' class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e" + ThisCorso.Id)">Moduli</button>
                     </td>
@@ -74,6 +74,7 @@ else
     private Esame[] ListaEsami;
     private Insegnante[] ListaInsegnanti;
     private Dipendente[] ListaPersonale;
+    private Coordinatore[] ListaCoordinatori;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -89,7 +90,7 @@ else
         ListaModuli = await db.Moduli.ToArrayAsync();
         ListaEsami = await db.Esami.ToArrayAsync();
         ListaPersonale = await db.Dipendente.ToArrayAsync();
-
+        ListaCoordinatori = await db.Coordinatori.ToArrayAsync();
     }
 
     private async Task DeleteCorso(Corso corso)

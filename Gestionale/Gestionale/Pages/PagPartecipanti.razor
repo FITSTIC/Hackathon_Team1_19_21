@@ -49,7 +49,10 @@ else
                     <td>@Partecipante.Cognome</td>
                     <td>@Partecipante.Telefono</td>
                     <td>@Partecipante.Email</td>
-                    <td>@Partecipante.Corsi.Nome</td>
+                    <td>
+                        @if (Partecipante.Corsi == null){@("n.d.");} // gestione eccezione se al partecipante non è assegnato alcun corso
+                        else {@Partecipante.Corsi.Nome}                    
+                    </td>
                     <td style="text-align:center;">
                         <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Info/"+ Partecipante.Id); }' class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</button>
                     </td>
