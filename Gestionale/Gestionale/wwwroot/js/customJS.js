@@ -13,12 +13,12 @@
     $('button[name="btnChange"]').on('click', function () {
         var isDisabled = $(this).closest("div").find(select).prop('disabled');
         if (isDisabled == true) {
-            $(this).closest("div").find(select).prop('disabled', false);
+            $(this).closest("tr").find(select).prop('disabled', false);
             this.setAttribute("class", "btn btn-success");
             this.innerHTML = "Salva";
         }
         else {
-            $(this).closest("div").find(select).prop('disabled', true);
+            $(this).closest("tr").find(select).prop('disabled', true);
             this.setAttribute("class", "btn btn-primary");
             this.innerHTML = "Modifica";
         }

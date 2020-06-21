@@ -28,10 +28,10 @@ namespace Gestionale.Data.Control
         }
         public async Task Create(ApplicationDbContext db, Coordinatore d)
         {
-            db.Coordinatore.Add(d);
+            db.Coordinatori.Add(d);
             await db.SaveChangesAsync();
         }
-        public async Task<Dipendente> Read(ApplicationDbContext db, int id)
+        public async Task<Dipendente> Read(ApplicationDbContext db, int? id)
         {
             var s = await db.Dipendente
                 .Include(d => d.Moduli)

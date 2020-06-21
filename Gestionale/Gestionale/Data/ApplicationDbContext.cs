@@ -10,7 +10,7 @@ namespace Gestionale.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Dipendente> Dipendente { get; set; }
-        public DbSet<Coordinatore> Coordinatore { get; set; }
+        public DbSet<Coordinatore> Coordinatori { get; set; }
         public DbSet<Insegnante> Insegnanti { get; set; }
         public DbSet<Tutor> Tutor { get; set; }
         public DbSet<Partecipante> Partecipanti { get; set; }
@@ -63,7 +63,7 @@ namespace Gestionale.Data
                 AnnoAccademico = "21/23",
                 AnnoInizioCorso = new DateTime(2021, 01, 01),
                 AnnoFineCorso = new DateTime(2023, 01, 01),
-                Sede = "Carpi", 
+                Sede = "Carpi",
             },
             new Corso
             {

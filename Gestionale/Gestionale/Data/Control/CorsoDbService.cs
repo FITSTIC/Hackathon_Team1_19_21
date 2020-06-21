@@ -24,7 +24,7 @@ namespace Gestionale.Data.Control
             db.Corsi.Add(c);
             await db.SaveChangesAsync();
         }
-        public async Task<Corso> Read(ApplicationDbContext db, int id)
+        public async Task<Corso> Read(ApplicationDbContext db, int? id)
         {
             var s = await db.Corsi
            .Include(c => c.Moduli)

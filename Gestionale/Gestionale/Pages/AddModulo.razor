@@ -1,11 +1,13 @@
 ﻿@page "/AddModulo"
 @page "/AddModulo/{Id:int}"
+@page "/AddModulo/FromCorsi/{Id:int}"
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
 @code{
     Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
+    Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
 }
 @if (Id == 0)
 {
@@ -52,9 +54,84 @@
                 <label>Insegnante</label>
                 <select @bind="@NuovoModulo.InsegnanteId" class="form-control" required>
                     <option value="" selected></option>
-                    @foreach (var Insegnante in ListaInsegnanti)
+                    @if (NuovoModulo.CorsiId != 0)
                     {
-                        <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                        InsegnantiThisCorso = corsoService.Read(db, NuovoModulo.CorsiId).Result.Insegnanti;
+                        @foreach (var Insegnante in InsegnantiThisCorso)
+                        {
+                            <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                        }
+                    }
+
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Tutor</label>
+                <select @bind="@NuovoModulo.TutorId" class="form-control" required>
+                    <option value="" selected></option>
+                    @if (NuovoModulo.CorsiId != 0)
+                    {
+                        TutorThisCorso = corsoService.Read(db, NuovoModulo.CorsiId).Result.Tutor;
+                        @foreach (var Tutor in TutorThisCorso)
+                        {
+                            <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <hr />
+        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+    </EditForm>
+}
+else if (Navigator.Uri.Contains("FromCorsi"))
+{
+    /*======================================================================================
+
+                   CONDIZIONE PER INSERIRE UN NUOVO MODULO DALLA PAGINA CORSI
+
+    ======================================================================================*/
+
+    <button @onclick='() => { BtnChangedPag("/AddCorsi/moduli/" + ThisCorso.Id); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <h2>Inserisci un nuovo modulo nel corso di @ThisCorso.Nome</h2>
+
+    <hr />
+
+    <EditForm Model="NuovoModulo" OnSubmit="()=> SaveModulo()">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nome Materia</label>
+                <InputText class="form-control" @bind-Value="NuovoModulo.Materia" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
+                <select @bind="NuovoModulo.CorsiId" class="form-control">
+                    <option value="@ThisCorso.Id" selected>@ThisCorso.Nome</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Data inizio modulo</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="NuovoModulo.DataInizio" />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Data fine modulo</label>
+                <InputDate type="date" class="form-control valid" @bind-Value="NuovoModulo.DataFine" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Insegnante</label>
+                <select @bind="@NuovoModulo.InsegnanteId" class="form-control" required>
+                    <option value="" selected></option>
+                    @if (NuovoModulo.CorsiId != 0)
+                    {
+                        InsegnantiThisCorso = corsoService.Read(db, NuovoModulo.CorsiId).Result.Insegnanti;
+                        @foreach (var Insegnante in InsegnantiThisCorso)
+                        {
+                            <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                        }
                     }
                 </select>
             </div>
@@ -62,9 +139,13 @@
                 <label>Tutor</label>
                 <select @bind="@NuovoModulo.TutorId" class="form-control" required>
                     <option value="" selected></option>
-                    @foreach (var Tutor in ListaTutor)
+                    @if (NuovoModulo.CorsiId != 0)
                     {
-                        <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                        TutorThisCorso = corsoService.Read(db, NuovoModulo.CorsiId).Result.Tutor;
+                        @foreach (var Tutor in TutorThisCorso)
+                        {
+                            <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                        }
                     }
                 </select>
             </div>
@@ -91,7 +172,7 @@ else
     }
 
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }'class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Modulo @ThisModulo.Materia</h2>
 
     <hr />
@@ -111,14 +192,9 @@ else
                         if (Corso.Insegnanti == null || Corso.Tutor == null || Corso.Partecipanti == null) { } // Gestione eccezione eventuale lista vuote
                         else
                         {
-                            if (Corso.Id == ThisModulo.CorsiId)
-                            {
-
-                            }
-                            else
-                            {
+                           
                                 <option value="@Corso.Id">@Corso.Nome</option>
-                            }
+                           
                         }
                     }
                 </select>
@@ -140,25 +216,33 @@ else
                 @if (ThisModulo.Insegnanti == null) // Gestisce l'eccezione se viene caricata la pagina e non sono presenti insegnanti
                 {
                     <select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
-                    <option value="" selected></option>
-                    @foreach (var Insegnante in ListaInsegnanti)
-                    {
-                        <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
-                    }
+                        <option value="" selected></option>
+                        @if (ThisModulo.CorsiId != 0)
+                        {
+                            InsegnantiThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Insegnanti;
+                            @foreach (var Insegnante in InsegnantiThisCorso)
+                            {
+                                <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                            }
+                        }
                     </select>
                 }
-                else {<select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
-                    <option value="@ThisModulo.Insegnanti.Id" selected>@(ThisModulo.Insegnanti.Nome + " " + ThisModulo.Insegnanti.Cognome) - Attualmente Selezionato</option>
-                    @foreach (var Insegnante in ListaInsegnanti)
-                    {
-                        if (Insegnante.Id == ThisModulo.InsegnanteId) {}
-                        else
+                else
+                {<select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
+                        <option value="@ThisModulo.Insegnanti.Id" selected>@(ThisModulo.Insegnanti.Nome + " " + ThisModulo.Insegnanti.Cognome) - Attualmente Selezionato</option>
+                        
+                        @if (ThisModulo.CorsiId != 0)
                         {
-                            <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                            InsegnantiThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Insegnanti;
+                            @foreach (var Insegnante in InsegnantiThisCorso)
+                            {
+
+                                <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                                                         
+                            }
                         }
-                    }
-                </select> 
-                }                
+                    </select>
+                }
             </div>
             <div class="form-group col-md-6">
                 <label>Tutor</label>
@@ -166,24 +250,30 @@ else
                 {
                     <select @bind="@ThisModulo.TutorId" class="form-control" required>
                         <option value="" selected></option>
-                        @foreach (var Tutor in ListaTutor)
-                        {
-                            <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
-                        }
+                         @if (ThisModulo.CorsiId != 0)
+                         {
+                                TutorThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Tutor;
+                                @foreach (var tutor in TutorThisCorso)
+                                {
+                                    <option value="@tutor.Id">@(tutor.Nome + " " + tutor.Cognome)</option>
+                                }
+                         }
                     </select>
                 }
                 else
                 {
                     <select @bind="@ThisModulo.TutorId" class="form-control" required>
-                        <option value="@ThisModulo.Tutor.Id" selected>@(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome) - Attualmente Selezionato</option>
-                        @foreach (var Tutor in ListaTutor)
-                        {
-                            if (Tutor.Id == ThisModulo.TutorId) { }
-                            else
-                            {
-                                <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
-                            }
-                        }
+                        <option value="@ThisModulo.Tutor.Id" selected>@(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome) - Attualmente Selezionato</option>                        
+                        @if (ThisModulo.CorsiId != 0)
+                         {
+                                TutorThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Tutor;
+                                @foreach (var tutor in TutorThisCorso)
+                                {
+
+                                        <option value="@tutor.Id">@(tutor.Nome + " " + tutor.Cognome)</option>
+
+                                }
+                         }
                     </select>
                 }
             </div>
@@ -197,14 +287,18 @@ else
     [Parameter]
     public int Id { get; set; } // var Id che raccoglie il valore dal modulo specificato
 
+    public int corsoId { get; set; }
     private Corso[] ListaCorsi;
     private Modulo[] ListaModuli;
     private Partecipante[] ListaPartecipanti;
     private Dipendente[] ListaDipendenti;
     private Insegnante[] ListaInsegnanti;
     private Tutor[] ListaTutor;
+    private ICollection<Insegnante> InsegnantiThisCorso;
+    private ICollection<Tutor> TutorThisCorso;
 
     private Modulo ThisModulo = new Modulo();
+    private Corso ThisCorso = new Corso();
 
     protected override async Task OnInitializedAsync()
     {
@@ -215,12 +309,20 @@ else
         ListaInsegnanti = await db.Insegnanti.OrderBy(i => i.Nome).ToArrayAsync();
         ListaTutor = await db.Tutor.OrderBy(t => t.Nome).ToArrayAsync();
 
-        ThisModulo = await db.Moduli.FindAsync(Id); // Al reindirizzamento della pagina dopo la creazione del modulo (vedi SaveModulo()) non cattura l'Id del modulo appena creato
+
+        if (Navigator.Uri.Contains("FromCorsi"))
+        {
+            ThisCorso = await db.Corsi.FindAsync(Id);
+        }
+        else
+        {
+            ThisModulo = await db.Moduli.FindAsync(Id); // Al reindirizzamento della pagina dopo la creazione del modulo (vedi SaveModulo()) non cattura l'Id del modulo appena creato
+        }
     }
 
     private async Task SaveModulo()
     {
-        if (Id == 0)
+        if (Id == 0 || Navigator.Uri.Contains("FromCorsi"))
         {
             await moduloService.Create(db, NuovoModulo);
             ListaModuli = db.Moduli.ToArray();

@@ -23,7 +23,7 @@ namespace Gestionale.Data
         [Required]
         public virtual ICollection<Modulo> Moduli { get; set; }
         public string Categoria { get; set; }
-        public int CorsiId { get; set; }
+        public int? CorsiId { get; set; }
         public Corso Corsi { get; set; }
         public Dipendente()
         {
