@@ -2,15 +2,56 @@
 @using Microsoft.AspNetCore.Identity
 @attribute [IgnoreAntiforgeryToken]
 @inject SignInManager<IdentityUser> SignInManager
-@functions {
-    public async Task<IActionResult> OnPost()
-    {
-        if (SignInManager.IsSignedIn(User))
-        {
-            await SignInManager.SignOutAsync();
-        }
-        return Redirect("~/");
+@functions { public async Task<IActionResult> OnPost()
+            {
+                if (SignInManager.IsSignedIn(User))
+                {
+                    await SignInManager.SignOutAsync();
+                }
+                return Redirect("~/");
+            } }
+<style>
+    .btnSubmit {
+        width: 50%;
+        border-radius: 1rem;
+        padding: 1.5%;
+        border: none;
+        cursor: pointer;
+        transition-duration: 0.4s;
+        background-color: white;
+        border: 2px solid #e7e7e7;
     }
-}
-<p>PAGINA LOG OUT</p>
+
+        .btnSubmit:hover {
+            background-color: #e7e7e7;
+            border: 2px solid #97d2ec;
+        }
+    .btnLogOut {
+        width: 50%;
+        border-radius: 1rem;
+        padding: 1.5%;
+        border: none;
+        cursor: default !important;
+        transition-duration: 0.4s;
+        background-color: #e7e7e7;
+        border: 2px solid #97d2ec;
+    }
+</style>
+
+
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-12 login-form-2">
+            <h3>Sei sicuro di Scollegarti?</h3>
+            <hr />
+            <div class="form-group text-center">
+                <p type="submit" class="btn btnLogOut">Per scollegarti clicca su Logout in alto</p>
+            </div>
+            <div class="form-group text-center">
+                <a href="/" class="btn btnSubmit">Indietro</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
