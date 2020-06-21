@@ -43,7 +43,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>@corsoDip.Nome</td>
+                    <td>
+                        @if (corsoDip == null)
+                        {@("n.d.");
+                        }
+                        else
+                        {@corsoDip.Nome}
+                    </td>
                     <td>@dip.DataNascita.ToString("dd/MM/yyyy")</td>
                     <td>@dip.Email</td>
                     <td>@dip.Telefono</td>
@@ -53,9 +59,17 @@
             </tbody>
         </table>
     </div>
+
     //Moduli del dipendente selezionato
     <div class="container-fluid">
         <h2>Moduli</h2>
+
+        @if (listTotModuliC == null) // Gestione eccezione nell'eventualità l'associazione di un corso sia mancante
+        {
+            <p>Non sono disponibili moduli per questo dipendente poichè non sono esistenti o non è associato ad alcun corso.</p>
+        }
+        else
+        {
         <table class="table table-hover text-center">
             <thead>
                 <tr class="table-secondary">
@@ -147,189 +161,210 @@
                 }
                 else
                 {
-                    @foreach (var m in listModuliDip)
+                    if (listModuliDip == null) // Gestione eccezione nell'eventualità l'associazione di un corso sia mancante
                     {
-                        listEsami = esameService.Read(db, m).Result;
-                        <tr>
-                            <td>
-                                <a href="/Moduli" @onclick='() => { BtnChangedPag("/Moduli"); }'>@m.Materia</a>
-                            </td>
-                            <td>
-                                <a href="/Corsi" @onclick='() => { BtnChangedPag("/Corsi"); }'>@corsoDip.Nome</a>
-                            </td>
-                            <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
-                            <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
-                            <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
-                        </tr>
-                        <!--Riga Esami-->
-                        <tr>
-                            <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                                <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+m.Id)" data-parent="#boolAccord">
-                                    <div class="row">
-                                        <div class="col align-self-start">
-                                            <h2>Esami del modulo @m.Materia</h2>
-                                        </div>
-                                        <div class="col">
-                                            <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+m.Id)"><b>x</b></button>
-                                        </div>
-                                    </div>
-
-                                    @if (listEsami == null || !listEsami.Any())
-                                    {
+                        <p>Non sono disponibili moduli per questo dipendente poichè non sono esistenti o non è associato ad alcun corso.</p>
+                    }
+                    else
+                    {
+                        @foreach (var m in listModuliDip)
+                        {
+                            listEsami = esameService.Read(db, m).Result;
+                            <tr>
+                                <td>
+                                    <a href="/Moduli" @onclick='() => { BtnChangedPag("/Moduli"); }'>@m.Materia</a>
+                                </td>
+                                <td>
+                                    <a href="/Corsi" @onclick='() => { BtnChangedPag("/Corsi"); }'>@corsoDip.Nome</a>
+                                </td>
+                                <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
+                                <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
+                                <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
+                                <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
+                            </tr>
+                            <!--Riga Esami-->
+                            <tr>
+                                <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
+                                    <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+m.Id)" data-parent="#boolAccord">
                                         <div class="row">
-                                            <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                                            <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+                                            <div class="col align-self-start">
+                                                <h2>Esami del modulo @m.Materia</h2>
+                                            </div>
+                                            <div class="col">
+                                                <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+m.Id)"><b>x</b></button>
+                                            </div>
                                         </div>
-                                    }
-                                    else
-                                    {
-                                        <table class="table table-hover table-sm">
-                                            <thead>
-                                                <tr class="table-secondary">
-                                                    <td></td>
-                                                    <th>N.</th>
-                                                    <th>Modulo</th>
-                                                    <th>Data Esame</th>
-                                                    <th></th>
-                                                    <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var esame in listEsami)
-                                                {
-                                                    <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
-                                                    <tr>
-                                                        <td>
-                                                            <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(esame)" title="Elimina"><b>–</b></button>
-                                                        </td>
-                                                        <td>@esame.Id</td>
-                                                        <td>@esame.Moduli.Materia</td>
-                                                        <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
-                                                        <td style="text-align:center;">
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
-                                                        </td>
-                                                        <td>
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
-                                                        </td>
+
+                                        @if (listEsami == null || !listEsami.Any())
+                                        {
+                                            <div class="row">
+                                                <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
+                                                <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <table class="table table-hover table-sm">
+                                                <thead>
+                                                    <tr class="table-secondary">
+                                                        <td></td>
+                                                        <th>N.</th>
+                                                        <th>Modulo</th>
+                                                        <th>Data Esame</th>
+                                                        <th></th>
+                                                        <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table> <!-- fine tabella esami -->
-                                    }
-                                </div>
-                            </td>
-                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var esame in listEsami)
+                                                    {
+                                                        <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
+                                                        <tr>
+                                                            <td>
+                                                                <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(esame)" title="Elimina"><b>–</b></button>
+                                                            </td>
+                                                            <td>@esame.Id</td>
+                                                            <td>@esame.Moduli.Materia</td>
+                                                            <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
+                                                            <td style="text-align:center;">
+                                                                <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
+                                                            </td>
+                                                            <td>
+                                                                <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table> <!-- fine tabella esami -->
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
                 }
-
             </tbody>
         </table>
-
+        }
     </div>
-    <!-- Modal Conferma Delete-->
-    <div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class=" modal-body divConferma border">
-                    <p><strong>Sei sicuro di voler eliminare questo esame?</strong></p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
-                    <button class="btn btn-danger" title="Elimina" @onclick="()=>BtnDeleteEsame(esam)" data-dismiss="modal"><b>Elimina</b></button>
 
-                </div>
+
+
+<!-- Modal Conferma Delete-->
+<div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class=" modal-body divConferma border">
+                <p><strong>Sei sicuro di voler eliminare questo esame?</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                <button class="btn btn-danger" title="Elimina" @onclick="()=>BtnDeleteEsame(esam)" data-dismiss="modal"><b>Elimina</b></button>
+
             </div>
         </div>
     </div>
+</div>
 
 }
 else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
 {
     //modifica dipendente
 
-    <div class="row">
-        <div class="col">
-            <h2>@dip.Nome  @dip.Cognome</h2>
-            <h3>@dip.Categoria</h3>
+<div class="row">
+    <div class="col">
+        <h2>@dip.Nome  @dip.Cognome</h2>
+        <h3>@dip.Categoria</h3>
+    </div>
+    <div class="col-1 mt-3">
+        <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    </div>
+</div>
+
+<hr />
+
+<EditForm Model="dip" OnSubmit="()=> BtnUpdate(dip)">
+    <DataAnnotationsValidator />
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Nome</label>
+            <InputText class="form-control" @bind-Value="dip.Nome">@dip.Nome</InputText>
         </div>
-        <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+        <div class="form-group col-md-6">
+            <label>Cognome</label>
+            <InputText class="form-control" @bind-Value="dip.Cognome" required>@dip.Cognome</InputText>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Data di nascita</label>
+            <InputDate class="form-control" @bind-Value="dip.DataNascita" required>@dip.DataNascita</InputDate>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Email</label>
+            <InputText class="form-control" @bind-Value="dip.Email" required>@dip.Email</InputText>
         </div>
     </div>
 
-    <hr />
-
-    <EditForm Model="dip" OnSubmit="()=> BtnUpdate(dip)">
-        <DataAnnotationsValidator />
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Nome</label>
-                <InputText class="form-control" @bind-Value="dip.Nome">@dip.Nome</InputText>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Cognome</label>
-                <InputText class="form-control" @bind-Value="dip.Cognome" required>@dip.Cognome</InputText>
-            </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Telefono</label>
+            <InputText class="form-control" @bind-Value="dip.Telefono" required>@dip.Telefono</InputText>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Data di nascita</label>
-                <InputDate class="form-control" @bind-Value="dip.DataNascita" required>@dip.DataNascita</InputDate>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Email</label>
-                <InputText class="form-control" @bind-Value="dip.Email" required>@dip.Email</InputText>
-            </div>
+        <div class="form-group col-md-6">
+            <label>Assunzione</label>
+            <InputDate class="form-control" @bind-Value="dip.Assunzione" required>@dip.Assunzione</InputDate>
         </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Telefono</label>
-                <InputText class="form-control" @bind-Value="dip.Telefono" required>@dip.Telefono</InputText>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Assunzione</label>
-                <InputDate class="form-control" @bind-Value="dip.Assunzione" required>@dip.Assunzione</InputDate>
-            </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Categoria</label>
+            <select class="form-control" @bind="dip.Categoria" required>
+                <option value="@dip.Categoria" selected>@dip.Categoria - Attualmente Selezionato</option>
+                @if (dip.Categoria == "Coordinatore")
+                {
+                    <option value="Insegnante">Insegnante</option>
+                    <option value="Tutor">Tutor</option>
+                }
+                else if (dip.Categoria == "Tutor")
+                {
+                    <option value="Coordinatore">Coordinatore</option>
+                    <option value="Insegnante">Insegnante</option>
+                }
+                else if (dip.Categoria == "Insegnante")
+                {
+                    <option value="Coordinatore">Coordinatore</option>
+                    <option value="Tutor">Tutor</option>
+                }
+                else // Lascio tutti e tre i valori per gestire eventuale eccezione
+                {
+                    <option value="Coordinatore">Coordinatore</option>
+                    <option value="Insegnante">Insegnante</option>
+                    <option value="Tutor">Tutor</option>
+                }
+            </select>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Categoria</label>
-                <select class="form-control" @bind="dip.Categoria" required>
-                    <option value="@dip.Categoria" selected>@dip.Categoria - Attualmente Selezionato</option>
-                    @if (dip.Categoria == "Coordinatore")
+        <div class="form-group col-md-6">
+            <label>Corso</label>
+            @if (dip.Corsi == null)
+            {
+                <select class="form-control" @bind="dip.CorsiId" required>
+                    <option value="" selected></option>
+                    @foreach (var c in ListaCorsi)
                     {
-                        <option value="Insegnante">Insegnante</option>
-                        <option value="Tutor">Tutor</option>
-                    }
-                    else if (dip.Categoria == "Tutor")
-                    {
-                        <option value="Coordinatore">Coordinatore</option>
-                        <option value="Insegnante">Insegnante</option>
-                    }
-                    else if (dip.Categoria == "Insegnante")
-                    {
-                        <option value="Coordinatore">Coordinatore</option>
-                        <option value="Tutor">Tutor</option>
-                    }
-                    else // Lascio tutti e tre i valori per debug
-                    {
-                        <option value="Coordinatore">Coordinatore</option>
-                        <option value="Insegnante">Insegnante</option>
-                        <option value="Tutor">Tutor</option>
+                        <option value="@c.Id">@c.Nome</option>
                     }
                 </select>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Corso</label>
+            }
+            else
+            {
                 <select class="form-control" @bind="dip.CorsiId" required>
                     <option value="@dip.CorsiId" selected>@corsoDip.Nome - Attualmente Selezionato</option>
                     @foreach (var c in ListaCorsi)
@@ -341,82 +376,83 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
                         }
                     }
                 </select>
-            </div>
+            }
         </div>
-        <hr />
-        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
-    </EditForm>
+    </div>
+    <hr />
+    <button type="submit" value="save" class="btn btn-warning">Modifica</button>
+</EditForm>
 }
 else
 {
     // Aggiunta nuovo dipendente
-    <div class="row">
-        <div class="col">
-            <h2>Inserisci un nuovo Dipendente</h2>
+<div class="row">
+    <div class="col">
+        <h2>Inserisci un nuovo Dipendente</h2>
+    </div>
+    <div class="col-1 mt-3">
+        <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    </div>
+</div>
+
+<hr />
+
+<EditForm Model="dip" OnSubmit="()=> BtnSalva(dip)">
+    <DataAnnotationsValidator />
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Nome</label>
+            <InputText class="form-control" @bind-Value="dip.Nome" required />
         </div>
-        <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+        <div class="form-group col-md-6">
+            <label>Cognome</label>
+            <InputText class="form-control" @bind-Value="dip.Cognome" required />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Data di nascita</label>
+            <InputDate class="form-control" @bind-Value="dip.DataNascita" required></InputDate>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Email</label>
+            <InputText class="form-control" @bind-Value="dip.Email" required />
         </div>
     </div>
 
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Telefono</label>
+            <InputText class="form-control" @bind-Value="dip.Telefono" required />
+        </div>
+        <div class="form-group col-md-6">
+            <label>Assunzione</label>
+            <InputDate class="form-control" @bind-Value="dip.Assunzione" required></InputDate>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Categoria</label>
+            <select class="form-control" @bind="dip.Categoria" required>
+                <option value="Coordinatore">Coordinatore</option>
+                <option value="Insegnante">Insegnante</option>
+                <option value="Tutor">Tutor</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Corso</label>
+            <select class="form-control" @bind="dip.CorsiId" required>
+                @foreach (var c in ListaCorsi)
+                {
+                    <option value="@c.Id">@c.Nome</option>
+                }
+            </select>
+        </div>
+    </div>
     <hr />
-
-    <EditForm Model="dip" OnSubmit="()=> BtnSalva(dip)">
-        <DataAnnotationsValidator />
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Nome</label>
-                <InputText class="form-control" @bind-Value="dip.Nome" required />
-            </div>
-            <div class="form-group col-md-6">
-                <label>Cognome</label>
-                <InputText class="form-control" @bind-Value="dip.Cognome" required />
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Data di nascita</label>
-                <InputDate class="form-control" @bind-Value="dip.DataNascita" required></InputDate>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Email</label>
-                <InputText class="form-control" @bind-Value="dip.Email" required />
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Telefono</label>
-                <InputText class="form-control" @bind-Value="dip.Telefono" required />
-            </div>
-            <div class="form-group col-md-6">
-                <label>Assunzione</label>
-                <InputDate class="form-control" @bind-Value="dip.Assunzione" required></InputDate>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Categoria</label>
-                <select class="form-control" @bind="dip.Categoria" required>
-                    <option value="Coordinatore">Coordinatore</option>
-                    <option value="Insegnante">Insegnante</option>
-                    <option value="Tutor">Tutor</option>
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <label>Corso</label>
-                <select class="form-control" @bind="dip.CorsiId" required>
-                    @foreach (var c in ListaCorsi)
-                    {
-                        <option value="@c.Id">@c.Nome</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <hr />
-        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
-    </EditForm>
+    <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+</EditForm>
 }
 
 

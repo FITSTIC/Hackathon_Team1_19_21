@@ -108,6 +108,7 @@ else if (navigationManager.Uri.Contains("Info")) // Visualizzazione info
                 <th>Diploma</th>
                 <th>Anno Diploma</th>
                 <th>Corso</th>
+                <th>Data iscrizione</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -121,7 +122,14 @@ else if (navigationManager.Uri.Contains("Info")) // Visualizzazione info
                 <td>@P.Email</td>
                 <td>@P.Diploma</td>
                 <td>@P.AnnoDiploma.ToString("dd/MM/yyyy")</td>
-                <td>@P.Corsi.Nome</td>
+                <td>
+                    @if (P.Corsi == null)
+                    {@("n.d.");
+                    } // gestione eccezione se al partecipante non è assegnato alcun corso
+                    else
+                    {@P.Corsi.Nome}
+                </td>
+                <td>@P.Iscrizione.DataIscrizione.ToString("dd/MM/yyyy")</td>
                 <td style="text-align:center;">
                 </td>
                 <td>
@@ -133,104 +141,111 @@ else if (navigationManager.Uri.Contains("Info")) // Visualizzazione info
 
     <h2>Moduli</h2>
 
-    <table class="table table-hover">
-        <thead>
-            <tr class="table-secondary">
-                <th>Materia modulo</th>
-                <th>Inizio Modulo</th>
-                <th>Fine Modulo</th>
-                <th>Insegnante</th>
-                <th>Tutor</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody class="accordion" id="boolAccord">
-            @foreach (var modulo in P.Corsi.Moduli)
-            {
-                <tr>
-                    <td>@modulo.Materia</td>
-                    <td>@modulo.DataInizio.ToString("dd/MM/yyyy")</td>
-                    <td>@modulo.DataFine.ToString("dd/MM/yyyy")</td>
-                    <td>@(modulo.Insegnanti.Nome + " " + modulo.Insegnanti.Cognome)</td>
-                    <td>@(modulo.Tutor.Nome + " " + modulo.Tutor.Cognome)</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+modulo.Id)">Esami</button>
-                    </td>
-                    <td>
-                        <button @onclick='() => { BtnChangedPag("/AddModulo/" + modulo.Id); }'  class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
-                    </td>
+    if (P.Corsi.Moduli == null)
+    {
+        <p>Non sono disponibili moduli per questo partecipante poichè non sono esistenti o non è associato ad alcun corso.</p>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-secondary">
+                    <th>Materia modulo</th>
+                    <th>Inizio Modulo</th>
+                    <th>Fine Modulo</th>
+                    <th>Insegnante</th>
+                    <th>Tutor</th>
+                    <th></th>
+                    <th></th>
                 </tr>
+            </thead>
+            <tbody class="accordion" id="boolAccord">
+                @foreach (var modulo in P.Corsi.Moduli)
+                {
+                    <tr>
+                        <td>@modulo.Materia</td>
+                        <td>@modulo.DataInizio.ToString("dd/MM/yyyy")</td>
+                        <td>@modulo.DataFine.ToString("dd/MM/yyyy")</td>
+                        <td>@(modulo.Insegnanti.Nome + " " + modulo.Insegnanti.Cognome)</td>
+                        <td>@(modulo.Tutor.Nome + " " + modulo.Tutor.Cognome)</td>
+                        <td style="text-align:center;">
+                            <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+modulo.Id)">Esami</button>
+                        </td>
+                        <td>
+                            <button @onclick='() => { BtnChangedPag("/AddModulo/" + modulo.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                        </td>
+                    </tr>
 
-                <!-- Riga nascosta degli esami -->
-                <tr>
-                    <td colspan="7" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                        <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+modulo.Id)" data-parent="#boolAccord">
-                            <div class="row">
-                                <div class="col align-self-start">
-                                    <h2>Esami del modulo @modulo.Materia</h2>
-                                </div>
-                                <div class="col-1">
-                                    <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+modulo.Id)"><b>x</b></button>
-                                </div>
-                            </div>
-
-                            @if (modulo.Esami == null || !modulo.Esami.Any())
-                            {
+                    <!-- Riga nascosta degli esami -->
+                    <tr>
+                        <td colspan="7" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
+                            <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+modulo.Id)" data-parent="#boolAccord">
                                 <div class="row">
-                                    <p class="col">Non è presente alcun esame per questo modulo.</p>
+                                    <div class="col align-self-start">
+                                        <h2>Esami del modulo @modulo.Materia</h2>
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+modulo.Id)"><b>x</b></button>
+                                    </div>
                                 </div>
-                            }
-                            else
-                            {
-                                <table class="table table-hover table-sm">
-                                    <thead>
-                                        <tr class="table-secondary">
-                                            <th>Data Esame</th>
-                                            <th>Voto</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var esame in modulo.Esami)
-                                        {
-                                            <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
-                                            <tr>
-                                                <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
-                                                <td>
-                                                    @if (esame.Punteggi == null) { }
-                                                    else
-                                                    {
-                                                        @foreach (var Voto in esame.Punteggi)
+
+                                @if (modulo.Esami == null || !modulo.Esami.Any())
+                                {
+                                    <div class="row">
+                                        <p class="col">Non è presente alcun esame per questo modulo.</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <table class="table table-hover table-sm">
+                                        <thead>
+                                            <tr class="table-secondary">
+                                                <th>Data Esame</th>
+                                                <th>Voto</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var esame in modulo.Esami)
+                                            {
+                                                <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
+                                                <tr>
+                                                    <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
+                                                    <td>
+                                                        @if (esame.Punteggi == null) { }
+                                                        else
                                                         {
-                                                            if (Voto.PartecipanteId == P.Id)
+                                                            @foreach (var Voto in esame.Punteggi)
                                                             {
-                                                                @Voto.Voto
+                                                                if (Voto.PartecipanteId == P.Id)
+                                                                {
+                                                                    @Voto.Voto
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                </td>
-                                                <td>
-                                                    <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table> <!-- fine tabella esami -->
-                            }
-                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table> <!-- fine tabella esami -->
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- fine riga nascosta tabella esami -->
+                }
+                <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
+                <tr>
+                    <td>
                     </td>
                 </tr>
-                <!-- fine riga nascosta tabella esami -->
-            }
-            <!-- Riga vuota per debug del collapse, senza l'ultima riga non riesce ad aprire collapse -->
-            <tr>
-                <td>
-                </td>
-            </tr>
-        </tbody>
-    </table>
- <!-- fine tabella moduli -->
+            </tbody>
+        </table>
+        <!-- fine tabella moduli -->
+    }
 }
 else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
 {
@@ -339,6 +354,7 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
     private Insegnante[] ListaInsegnanti;
     private Tutor[] ListaTutor;
     private Punteggio[] ListaPunteggi;
+    private Iscrizione[] ListaIscrizioni;
 
     private Partecipante P = new Partecipante()
     {
@@ -359,6 +375,7 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
         ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
         ListaTutor = await db.Tutor.ToArrayAsync();
         ListaPunteggi = await db.Punteggi.ToArrayAsync();
+        ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
 
         if (navigationManager.Uri.Contains("Create"))
         {
