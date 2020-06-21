@@ -12,11 +12,11 @@ namespace Gestionale.Data
         [Key]
         public int Id { get; set; }
         public DateTime DataIscrizione { get; set; }
-        public int CorsiId { get; set; }
+        public int? CorsiId { get; set; }
         public Corso Corsi { get; set; }//FK
         public virtual ICollection<Partecipante> Partecipanti { get; set; }
         public Iscrizione() { }
-        public Iscrizione(  int corsiid )
+        public Iscrizione(  int? corsiid )
         {
 
             DataIscrizione = DateTime.Now;

@@ -365,17 +365,20 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
             }
             else
             {
-                <select class="form-control" @bind="dip.CorsiId" required>
-                    <option value="@dip.CorsiId" selected>@corsoDip.Nome - Attualmente Selezionato</option>
-                    @foreach (var c in ListaCorsi)
-                    {
-                        if (c.Id == dip.CorsiId) { }
-                        else
+
+
+                    <select class="form-control" @bind="dip.CorsiId" required>
+                        <option value="@dip.CorsiId" selected>@corsoDip.Nome - Attualmente Selezionato</option>
+                        @foreach (var c in ListaCorsi)
                         {
-                            <option value="@c.Id">@c.Nome</option>
+                            if (c.Id == dip.CorsiId) { }
+                            else
+                            {
+                                <option value="@c.Id">@c.Nome</option>
+                            }
                         }
-                    }
-                </select>
+                    </select>
+
             }
         </div>
     </div>
@@ -435,6 +438,7 @@ else
         <div class="form-group col-md-6">
             <label>Categoria</label>
             <select class="form-control" @bind="dip.Categoria" required>
+                <option value="" selected></option>
                 <option value="Coordinatore">Coordinatore</option>
                 <option value="Insegnante">Insegnante</option>
                 <option value="Tutor">Tutor</option>
@@ -442,12 +446,15 @@ else
         </div>
         <div class="form-group col-md-6">
             <label>Corso</label>
-            <select class="form-control" @bind="dip.CorsiId" required>
-                @foreach (var c in ListaCorsi)
-                {
-                    <option value="@c.Id">@c.Nome</option>
-                }
-            </select>
+
+                <select class="form-control" @bind="dip.CorsiId">
+                    <option value="">Nessun corso</option>
+                    @foreach (var c in ListaCorsi)
+                    {
+                        <option value="@c.Id">@c.Nome</option>
+                    }
+                </select>
+
         </div>
     </div>
     <hr />
@@ -459,7 +466,7 @@ else
 @code {
     [Parameter]
     public int dipendenteid { get; set; }
-    public int idCorsodip { get; set; }
+    public int? idCorsodip { get; set; }
     public int idmodulo { get; set; }
     public Corso corsoDip { get; set; }
     public ICollection<Modulo> listTotModuliC { get; set; }
@@ -482,59 +489,62 @@ else
             idCorsodip = dip.CorsiId;
             corsoDip = corsoService.Read(db, idCorsodip).Result;
 
-            listTotModuliC = corsoService.Read(db, corsoDip.Nome).Result.Moduli; // lista totale del corso
+            if (corsoDip != null) 
+            {
+                listTotModuliC = corsoService.Read(db, corsoDip.Nome).Result.Moduli; // lista totale del corso 
+            }
 
-            listModuliDip = moduliService.Read(db, dip).Result;
+                if (dip != null) { listModuliDip = moduliService.Read(db, dip).Result; }
 
+            }
+            else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
+            {
+                dip = personaleService.Read(db, dipendenteid).Result;
+                idCorsodip = dip.CorsiId;
+                corsoDip = corsoService.Read(db, idCorsodip).Result;
+
+            }
         }
-        else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
+        protected async Task BtnSalva(Dipendente d)
         {
-            dip = personaleService.Read(db, dipendenteid).Result;
-            idCorsodip = dip.CorsiId;
-            corsoDip = corsoService.Read(db, idCorsodip).Result;
+            switch (d.Categoria)
+            {
+                case "Coordinatore":
+                    await personaleService.Create(db, new Coordinatore(d));
+                    break;
+                case "Tutor":
+                    await personaleService.Create(db, new Tutor(d));
+                    break;
+                case "Insegnante":
+                    await personaleService.Create(db, new Insegnante(d));
+                    break;
+            }
 
+            ListaCorsi = await db.Corsi.ToArrayAsync();
+            ListaDip = await db.Dipendente.ToArrayAsync();
+            StateHasChanged();
+
+            Navigator.NavigateTo("/Personale");
         }
-    }
-    protected async Task BtnSalva(Dipendente d)
-    {
-        switch (d.Categoria)
+        protected async Task BtnUpdate(Dipendente d)
         {
-            case "Coordinatore":
-                await personaleService.Create(db, new Coordinatore(d));
-                break;
-            case "Tutor":
-                await personaleService.Create(db, new Tutor(d));
-                break;
-            case "Insegnante":
-                await personaleService.Create(db, new Insegnante(d));
-                break;
+            await personaleService.Update(db, dip);
+            ListaDip = await db.Dipendente.ToArrayAsync();
+            StateHasChanged();
+            Navigator.NavigateTo("/Personale");
         }
-
-        ListaCorsi = await db.Corsi.ToArrayAsync();
-        ListaDip = await db.Dipendente.ToArrayAsync();
-        StateHasChanged();
-
-        Navigator.NavigateTo("/Personale");
-    }
-    protected async Task BtnUpdate(Dipendente d)
-    {
-        await personaleService.Update(db, dip);
-        ListaDip = await db.Dipendente.ToArrayAsync();
-        StateHasChanged();
-        Navigator.NavigateTo("/Personale");
-    }
-    protected async Task BtnDeleteEsame(Esame e)
-    {
-        await esameService.Delete(db, e);
-        ListaEsami = await db.Esami.ToArrayAsync();
-        StateHasChanged();
-    }
-    protected void BtnChangedPag(String uri)
-    {
-        Navigator.NavigateTo(uri, true);
-    }
-    protected void ControlloDelete(Esame e)
-    {
-        esam = e;
-    }
+        protected async Task BtnDeleteEsame(Esame e)
+        {
+            await esameService.Delete(db, e);
+            ListaEsami = await db.Esami.ToArrayAsync();
+            StateHasChanged();
+        }
+        protected void BtnChangedPag(String uri)
+        {
+            Navigator.NavigateTo(uri, true);
+        }
+        protected void ControlloDelete(Esame e)
+        {
+            esam = e;
+        }
 }

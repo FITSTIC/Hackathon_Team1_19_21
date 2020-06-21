@@ -42,7 +42,6 @@
                 <label>Sede</label>
                 <InputText @bind-Value="@NuovoCorso.Sede" class="form-control" required></InputText>
             </div>
-
         </div>
         <hr />
         <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
@@ -239,10 +238,9 @@ else
                 <label>Sede</label>
                 <InputText @bind-Value="@ThisCorso.Sede" class="form-control" required></InputText>
             </div>
-
         </div>
-        <hr />
-        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
+    <hr />
+    <button type="submit" value="save" class="btn btn-warning">Modifica</button>
     </EditForm>
 }
 
@@ -257,6 +255,7 @@ else
     private Insegnante[] ListaInsegnanti;
     private Tutor[] ListaTutor;
     private Esame[] ListaEsami;
+    private Coordinatore[] ListaCoordinatori;
     private Modulo mod = new Modulo();
     private Esame esam = new Esame();
 
@@ -269,6 +268,7 @@ else
         ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
         ListaTutor = await db.Tutor.ToArrayAsync();
         ListaEsami = await db.Esami.ToArrayAsync();
+        ListaCoordinatori = await db.Coordinatori.ToArrayAsync();
         ThisCorso = await db.Corsi.FindAsync(Id);
     }
 
