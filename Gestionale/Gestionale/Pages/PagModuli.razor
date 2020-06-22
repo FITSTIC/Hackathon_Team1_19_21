@@ -5,8 +5,10 @@
 @inject NavigationManager Navigator
 @inject IJSRuntime js
 @code{
+    
     Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
 }
+
 
 <div class="row mb-2">
     <div class="col align-self-start">
@@ -46,6 +48,7 @@ else
             {
                 <tr class="trSearch">
                     <td>
+                       
                         <button class="btn btn-danger" title="Elimina questo modulo" data-toggle="modal" data-target="#myModal" @onclick="()=>ControlloDelete(modulo,null)"><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
                     <td>@modulo.Materia</td>
@@ -199,7 +202,7 @@ else
         ListaInsegnanti = await db.Insegnanti.ToArrayAsync();
         ListaTutor = await db.Tutor.ToArrayAsync();
     }
-
+   
     private async Task DeleteModulo(Modulo modulo)
     {
         await moduloService.Delete(db, modulo);
