@@ -66,23 +66,30 @@ else if (Navigator.Uri.Contains("List"))
             </tr>
         </thead>
         <tbody>
-            @foreach (var Studente in ThisEsame.Moduli.Corsi.Partecipanti) // qui prendo tutti i partecipanti di quell'esame
+            @if (ThisEsame.Moduli.Corsi.Partecipanti == null)
             {
-                punteggioS = puntDBservice.Read(db, ThisEsame, Studente).Result;
-                <tr>
-                    <td>@Studente.Nome</td>
-                    <td>@Studente.Cognome</td>
-                    <td>
-                        <select @bind="@punteggioS.Voto" class="form-control" name="selecThis" disabled>
-                            @for (int i = 0; i <= 100; i += 5)
-                            {
-                                <option value="@i">@i</option>
-                            }
-                        </select>
-                    </td>
-                    <td><button value="Salva" name="btnChange" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)" style="width:100px;">Modifica</button></td>
+                <p>Non sono ancora presenti degli studenti per questo corso</p>
+            }
+            else
+            {
+                @foreach (var Studente in ThisEsame.Moduli.Corsi.Partecipanti) // qui prendo tutti i partecipanti di quell'esame
+                {
+                    punteggioS = puntDBservice.Read(db, ThisEsame, Studente).Result;
+                    <tr>
+                        <td>@Studente.Nome</td>
+                        <td>@Studente.Cognome</td>
+                        <td>
+                            <select @bind="@punteggioS.Voto" class="form-control" name="selecThis" disabled>
+                                @for (int i = 0; i <= 100; i += 5)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </td>
+                        <td><button value="Salva" name="btnChange" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)" style="width:100px;">Modifica</button></td>
 
-                </tr>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -193,14 +200,17 @@ else if (Navigator.Uri.Contains("Edit"))
 
             await db.SaveChangesAsync();
 
-            foreach (var s in NuovoEsame.Moduli.Corsi.Partecipanti)
+            if (NuovoEsame.Moduli.Corsi.Partecipanti != null)
             {
-                Punteggio NuovoPunteggio = new Punteggio();
-                NuovoPunteggio.PartecipanteId = s.Id;
-                NuovoPunteggio.EsameId = NuovoEsame.Id;
-                NuovoPunteggio.Voto = 0;
-                db.Punteggi.Add(NuovoPunteggio);
-                await db.SaveChangesAsync();
+                foreach (var s in NuovoEsame.Moduli.Corsi.Partecipanti)
+                {
+                    Punteggio NuovoPunteggio = new Punteggio();
+                    NuovoPunteggio.PartecipanteId = s.Id;
+                    NuovoPunteggio.EsameId = NuovoEsame.Id;
+                    NuovoPunteggio.Voto = 0;
+                    db.Punteggi.Add(NuovoPunteggio);
+                    await db.SaveChangesAsync();
+                }
             }
 
             ListaEsami = db.Esami.ToArray();

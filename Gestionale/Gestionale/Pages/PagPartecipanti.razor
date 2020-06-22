@@ -4,6 +4,9 @@
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
 @inject IJSRuntime js
+@code{
+    Gestionale.Data.Control.PunteggioDbService PunteggioDb = new Data.Control.PunteggioDbService();
+}
 
 
 <div class="row mb-2">
@@ -50,8 +53,11 @@ else
                     <td>@Partecipante.Telefono</td>
                     <td>@Partecipante.Email</td>
                     <td>
-                        @if (Partecipante.Corsi == null){@("n.d.");} // gestione eccezione se al partecipante non è assegnato alcun corso
-                        else {@Partecipante.Corsi.Nome}                    
+                        @if (Partecipante.Corsi == null)
+                        {@("n.d.");
+                        } // gestione eccezione se al partecipante non è assegnato alcun corso
+                        else
+                        {@Partecipante.Corsi.Nome}
                     </td>
                     <td style="text-align:center;">
                         <button @onclick='() => { BtnChangedPag("/AddPartecipanti/Info/"+ Partecipante.Id); }' class="btn btn-warning accordion-toggle" title="Info Dipendente">Info</button>
@@ -89,6 +95,7 @@ else
     private Corso[] ListaCorsi;
     private Partecipante[] ListaPartecipanti;
     private Iscrizione[] ListaIscrizioni;
+    private Punteggio[] ListaPunteggi;
     private Partecipante Part = new Partecipante();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -106,14 +113,22 @@ else
         ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
         ListaCorsi = await db.Corsi.ToArrayAsync();
         ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
+        ListaPunteggi = await db.Punteggi.ToArrayAsync();
     }
     private async Task DeletePartecipante(Partecipante alunno)
     {
+        if (alunno.Punteggi != null)
+        {
+            foreach (var punteggio in alunno.Punteggi)
+            {
+                db.Punteggi.Remove(punteggio);
+            }
+        }
+
         db.Partecipanti.Remove(alunno);
         db.SaveChanges();
 
         await OnInitializedAsync();
-
         StateHasChanged();
     }
     protected void BtnChangedPag(String uri)

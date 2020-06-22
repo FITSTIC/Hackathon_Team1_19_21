@@ -128,9 +128,13 @@ else if (Navigator.Uri.Contains("FromCorsi"))
                     @if (NuovoModulo.CorsiId != 0)
                     {
                         InsegnantiThisCorso = corsoService.Read(db, NuovoModulo.CorsiId).Result.Insegnanti;
-                        @foreach (var Insegnante in InsegnantiThisCorso)
+                        if (InsegnantiThisCorso == null) {<option value="">Non sono presenti insegnanti per questo corso</option> }
+                        else
                         {
-                            <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                            @foreach (var Insegnante in InsegnantiThisCorso)
+                            {
+                                    <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                            }
                         }
                     }
                 </select>
@@ -142,12 +146,19 @@ else if (Navigator.Uri.Contains("FromCorsi"))
                     @if (NuovoModulo.CorsiId != 0)
                     {
                         TutorThisCorso = corsoService.Read(db, NuovoModulo.CorsiId).Result.Tutor;
-                        @foreach (var Tutor in TutorThisCorso)
+                        if (TutorThisCorso == null)
                         {
-                            <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                            <option value="">Non sono presenti tutor per questo corso</option>
+                        }
+                        else
+                        {
+                            @foreach (var Tutor in TutorThisCorso)
+                            {
+                                <option value="@Tutor.Id">@(Tutor.Nome + " " + Tutor.Cognome)</option>
+                            }
                         }
                     }
-                </select>
+                    </select>
             </div>
         </div>
         <hr />
