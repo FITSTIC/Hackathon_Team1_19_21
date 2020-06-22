@@ -117,10 +117,12 @@ else
     }
     private async Task DeletePartecipante(Partecipante alunno)
     {
-
-        foreach (var punteggio in alunno.Punteggi)
+        if (alunno.Punteggi != null)
         {
-            db.Punteggi.Remove(punteggio);
+            foreach (var punteggio in alunno.Punteggi)
+            {
+                db.Punteggi.Remove(punteggio);
+            }
         }
 
         db.Partecipanti.Remove(alunno);
