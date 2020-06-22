@@ -329,10 +329,10 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
             <select class="form-control" @bind="dip.Categoria" required>
                 <option value="@dip.Categoria" selected>@dip.Categoria - Attualmente Selezionato</option>
                 @if (dip.Categoria == "Coordinatore")
-                {
+                 {
                     <option value="Insegnante">Insegnante</option>
                     <option value="Tutor">Tutor</option>
-                }
+                 }
                 else if (dip.Categoria == "Tutor")
                 {
                     <option value="Coordinatore">Coordinatore</option>
