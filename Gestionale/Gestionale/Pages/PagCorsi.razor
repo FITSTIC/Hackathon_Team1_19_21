@@ -101,6 +101,9 @@ else
     private Insegnante[] ListaInsegnanti;
     private Dipendente[] ListaPersonale;
     private Coordinatore[] ListaCoordinatori;
+    private Partecipante[] ListaPartecipanti;
+    private Punteggio[] ListaPunteggi;
+    private Iscrizione[] ListaIscrizioni;
     private Corso cdel = new Corso();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -118,67 +121,55 @@ else
         ListaEsami = await db.Esami.ToArrayAsync();
         ListaPersonale = await db.Dipendente.ToArrayAsync();
         ListaCoordinatori = await db.Coordinatori.ToArrayAsync();
+        ListaPunteggi = await db.Punteggi.ToArrayAsync();
+        ListaPartecipanti = await db.Partecipanti.ToArrayAsync();
+        ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
     }
 
     private async Task DeleteCorso(Corso corso)
     {
+
+
+        if (corso.Moduli != null)
+        {
+
+
+            foreach (var modulo in corso.Moduli)
+            {
+                db.Moduli.Remove(modulo);
+
+                if (modulo.Esami == null) { } // Debug: evita il crash se al delete del modulo non sono presenti esami
+                else
+                {
+                    foreach (var esame in modulo.Esami) // Cancella i relativi esami di quel modulo
+                    {
+                        db.Esami.Remove(esame);
+
+                        if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
+                        else
+                        {
+                            foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+                            {
+                                db.Punteggi.Remove(voto);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         db.Corsi.Remove(corso);
-        db.SaveChanges();
-
+        await db.SaveChangesAsync();
         await OnInitializedAsync();
-
         StateHasChanged();
+
     }
     protected void BtnChangedPag(string uri)
     {
         Navigator.NavigateTo(uri, true);
     }
 
-    private async Task DeleteModulo(Modulo modulo)
-    {
-        await moduloService.Delete(db, modulo);
-
-        if (modulo.Esami == null) { } // Debug: evita il crash se al delete del modulo non sono presenti esami
-        else
-        {
-            foreach (var esame in modulo.Esami) // Cancella i relativi esami di quel modulo
-            {
-                db.Esami.Remove(esame);
-
-                if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
-                else
-                {
-                    foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
-                    {
-                        db.Punteggi.Remove(voto);
-                    }
-                }
-            }
-        }
-
-        await OnInitializedAsync();
-        StateHasChanged();
-    }
-
-    private async Task DeleteEsame(Esame esame)
-    {
-        db.Esami.Remove(esame);
-
-        if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
-        else
-        {
-            foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
-            {
-                db.Punteggi.Remove(voto);
-            }
-        }
-
-        db.SaveChanges();
-
-        await OnInitializedAsync();
-
-        StateHasChanged();
-    }
 
     protected void ControlloDelete(Corso c)
     {

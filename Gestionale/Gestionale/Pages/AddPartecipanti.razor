@@ -325,15 +325,27 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
             <div class="form-group col-md-6">
                 <label>Corso</label>
                 <select class="form-control" @bind="P.CorsiId" required>
-                    <option value="@P.Corsi.Id">@P.Corsi.Nome - Attualmente Selezionato</option>
-                    @foreach (var Corso in ListaCorsi)
+                    @if (P.CorsiId == null)
                     {
-                        if (Corso.Id == P.CorsiId) { } // Verifica se il corso attualmente associato non si ripeta nella lista
-                        else
+                        <option value=" " selected></option>
+                        @foreach (var Corso in ListaCorsi)
                         {
+
                             <option value="@Corso.Id">@Corso.Nome</option>
+
                         }
                     }
+                    else
+                    {
+                        @foreach (var Corso in ListaCorsi)
+                        {
+
+                            <option value="@Corso.Id">@Corso.Nome</option>
+
+                        }
+                    }
+
+
                 </select>
             </div>
         </div>
@@ -438,6 +450,7 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
         }
         else if (navigationManager.Uri.Contains("Edit"))
         {
+            P.Iscrizione.CorsiId = P.CorsiId;
             await db.SaveChangesAsync();
         }
     }
