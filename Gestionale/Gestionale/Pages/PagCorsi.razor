@@ -4,15 +4,20 @@
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
 @inject IJSRuntime js
+@code
+{
+    Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
+}
+  
 
-    <div class="row mb-2">
-        <div class="col align-self-start">
-            <h2>Corsi</h2>
-        </div>
-        <div class="col-3">
-            <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
-        </div>
+<div class="row mb-2">
+    <div class="col align-self-start">
+        <h2>Corsi</h2>
     </div>
+    <div class="col-3">
+        <input id="SearchBar" type="search" class="form-control" placeholder="Cerca...">
+    </div>
+</div>
 
 
 @if (ListaCorsi == null || !ListaCorsi.Any())
@@ -46,13 +51,13 @@ else
 
                 <tr class="trSearch">
                     <td>
-                        <button class="btn btn-danger" title="Elimina questo corso" @onclick="() => DeleteCorso(ThisCorso)"><b>–</b></button> <!-- Aggiungere Funzione -->
+                        <button class="btn btn-danger" title="Elimina questo corso" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(ThisCorso)"   ><b>–</b></button> <!-- Aggiungere Funzione -->
                     </td>
                     <td>@ThisCorso.Nome</td>
                     <td>@ThisCorso.AnnoAccademico</td>
                     <td>@ThisCorso.AnnoInizioCorso.ToString("dd/MM/yyyy")</td>
                     <td>@ThisCorso.AnnoFineCorso.ToString("dd/MM/yyyy")</td>
-                    <td>@ThisCorso.Sede</td>                    
+                    <td>@ThisCorso.Sede</td>
                     <td style="text-align:center;">
                         <button @onclick='() => { BtnChangedPag("/AddCorsi/moduli/" + ThisCorso.Id);}' class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e" + ThisCorso.Id)">Moduli</button>
                     </td>
@@ -66,6 +71,31 @@ else
         </tbody>
     </table>
 }
+<!-- Modale Conferma Delete dei Corsi-->
+<div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+           
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare il Corso: @cdel.Nome?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>DeleteCorso(cdel)" data-dismiss="modal"><b>Elimina</b></button>
+                </div>
+            
+               
+            
+
+        </div>
+    </div>
+</div>
 
 @code {
 
@@ -75,6 +105,7 @@ else
     private Insegnante[] ListaInsegnanti;
     private Dipendente[] ListaPersonale;
     private Coordinatore[] ListaCoordinatori;
+    private Corso cdel = new Corso();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -105,5 +136,57 @@ else
     protected void BtnChangedPag(string uri)
     {
         Navigator.NavigateTo(uri, true);
+    }
+
+    private async Task DeleteModulo(Modulo modulo)
+    {
+        await moduloService.Delete(db, modulo);
+
+        if (modulo.Esami == null) { } // Debug: evita il crash se al delete del modulo non sono presenti esami
+        else
+        {
+            foreach (var esame in modulo.Esami) // Cancella i relativi esami di quel modulo
+            {
+                db.Esami.Remove(esame);
+
+                if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
+                else
+                {
+                    foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+                    {
+                        db.Punteggi.Remove(voto);
+                    }
+                }
+            }
+        }
+
+        await OnInitializedAsync();
+        StateHasChanged();
+    }
+
+    private async Task DeleteEsame(Esame esame)
+    {
+        db.Esami.Remove(esame);
+
+        if (esame.Punteggi == null) { } // Debug: evita il crash se al delete dell'esame non sono presenti punteggi
+        else
+        {
+            foreach (var voto in esame.Punteggi) // Cancella i relativi voti di quel'esame
+            {
+                db.Punteggi.Remove(voto);
+            }
+        }
+
+        db.SaveChanges();
+
+        await OnInitializedAsync();
+
+        StateHasChanged();
+    }
+
+    protected void ControlloDelete(Corso c)
+    {
+        cdel = c;
+
     }
 }
