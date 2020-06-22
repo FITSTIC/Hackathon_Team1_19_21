@@ -8,6 +8,9 @@
 
 @code{
     Gestionale.Data.Control.IscrizioneDbService IscrizioneDb = new Data.Control.IscrizioneDbService();
+    Gestionale.Data.Control.CorsoDbService CorsiDb = new Data.Control.CorsoDbService();
+    Gestionale.Data.Control.EsameDbService EsamiDb = new Data.Control.EsameDbService();
+    Gestionale.Data.Control.PunteggioDbService PunteggioDb = new Data.Control.PunteggioDbService();
 }
 
 @if (navigationManager.Uri.Contains("Create")) // Creazione di un nuovo partecipante
@@ -355,6 +358,8 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
     private Tutor[] ListaTutor;
     private Punteggio[] ListaPunteggi;
     private Iscrizione[] ListaIscrizioni;
+    private List<Esame> EsamePartecipante = new List<Esame>();
+    private ICollection<Modulo> ModuliPartecipante;
 
     private Partecipante P = new Partecipante()
     {
@@ -397,8 +402,36 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
 
             await IscrizioneDb.Create(db, iscrizione);
             P.IscrizioneId = iscrizione.Id;
-            if (P.Punteggi == null) { }
+
             db.Partecipanti.Add(P);
+
+            await db.SaveChangesAsync();
+
+            if (P.Punteggi == null)
+            {
+                ModuliPartecipante = CorsiDb.Read(db, P.CorsiId).Result.Moduli;
+                foreach (var modulo in ModuliPartecipante)
+                {
+                    //EsamePartecipante.Add(EsamiDb.Read(db, modulo.Id).Result);
+                    foreach (var esame in modulo.Esami)
+                    {
+                        EsamePartecipante.Add(esame);
+                    }
+                }
+
+                foreach (var esame in EsamePartecipante)
+                {
+                    Punteggio puntNuovo = new Punteggio()
+                    {
+                        PartecipanteId = P.Id,
+                        EsameId = esame.Id,
+                        Voto = 0,
+                    };
+
+                    await PunteggioDb.Create(db, puntNuovo);
+                }
+            }
+
             await db.SaveChangesAsync();
 
             navigationManager.NavigateTo("/Partecipanti");
