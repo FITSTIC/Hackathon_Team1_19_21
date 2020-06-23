@@ -10,18 +10,39 @@
 
     var select = document.getElementsByName("selecThis");
 
-    $('button[name="btnChange"]').on('click', function () {
-        var isDisabled = $(this).closest("div").find(select).prop('disabled');
+    $('.btnChange').on('click', function () {
+        var isDisabled = $(this).closest("tr").find(select).prop('disabled');
         if (isDisabled == true) {
             $(this).closest("tr").find(select).prop('disabled', false);
-            this.setAttribute("class", "btn btn-success");
+            this.setAttribute("class", "btn btn-success .btnChange");
             this.innerHTML = "Salva";
         }
         else {
             $(this).closest("tr").find(select).prop('disabled', true);
-            this.setAttribute("class", "btn btn-primary");
+            this.setAttribute("class", "btn btn-primary .btnChange");
             this.innerHTML = "Modifica";
         }
     });
+
+
+    //$('.btnChange').on('click', function () {
+    //    $(this).css({
+    //        "display": "none",
+    //    })
+    //    $("#selectDisabled").removeAttr('disabled');
+    //    $("#btnsave").css({
+    //        "display": "inline",
+    //    })
+    //});
+
+    //$('#btnsave').on('click', function () {
+    //    $("#selectDisabled").attr('disabled', 'disabled');
+    //    $('#btnsave').css({
+    //        "display": "none",
+    //    })
+    //    $('.btnChange').css({
+    //        "display": "inline",
+    //    })
+    //});
 }
 
