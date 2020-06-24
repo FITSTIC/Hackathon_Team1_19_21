@@ -24,25 +24,5 @@
         }
     });
 
-
-    //$('.btnChange').on('click', function () {
-    //    $(this).css({
-    //        "display": "none",
-    //    })
-    //    $("#selectDisabled").removeAttr('disabled');
-    //    $("#btnsave").css({
-    //        "display": "inline",
-    //    })
-    //});
-
-    //$('#btnsave').on('click', function () {
-    //    $("#selectDisabled").attr('disabled', 'disabled');
-    //    $('#btnsave').css({
-    //        "display": "none",
-    //    })
-    //    $('.btnChange').css({
-    //        "display": "inline",
-    //    })
-    //});
 }
 

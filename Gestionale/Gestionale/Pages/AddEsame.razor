@@ -1,5 +1,6 @@
 ﻿@page "/AddEsame/Create/{Id:int}"
 @page "/AddEsame/Edit/{Id:int}"
+@page "/AddEsame/Voto/{Id:int}/{esameId:int}"
 @page "/AddEsame/{Id:int}/List"
 @using Gestionale.Data
 @using Microsoft.EntityFrameworkCore
@@ -9,6 +10,8 @@
 @code {
     Gestionale.Data.Control.ModuloDbService mdbservice = new Data.Control.ModuloDbService();
     Gestionale.Data.Control.PunteggioDbService puntDBservice = new Data.Control.PunteggioDbService();
+    Gestionale.Data.Control.PartecipanteDbService partecipanteDBservice = new Data.Control.PartecipanteDbService();
+    Gestionale.Data.Control.EsameDbService esameDBservice = new Data.Control.EsameDbService();
 }
 
 
@@ -66,29 +69,44 @@ else if (Navigator.Uri.Contains("List"))
             </tr>
         </thead>
         <tbody>
-            @if (ThisEsame.Moduli.Corsi.Partecipanti == null)
+            @if (ThisModulo.Corsi.Partecipanti == null)
             {
-                <p>Non sono ancora presenti degli studenti per questo corso</p>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Non sono ancora presenti degli studenti per questo corso</td>
+                    <td></td>
+                </tr>
+  
             }
             else
             {
-                @foreach (var Studente in ThisEsame.Moduli.Corsi.Partecipanti) // qui prendo tutti i partecipanti di quell'esame
+                @if (ThisModulo.Corsi.Partecipanti == null)
                 {
-                    punteggioS = puntDBservice.Read(db, ThisEsame, Studente).Result;
                     <tr>
-                        <td>@Studente.Nome</td>
-                        <td>@Studente.Cognome</td>
+                        <td></td>
+                        <td></td>
                         <td>
-                            <select @bind="@punteggioS.Voto" class="form-control" name="selecThis" disabled>
-                                @for (int i = 0; i <= 100; i += 5)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
+                            Non sono ancora presenti degli studenti per questo corso
                         </td>
-                        <td><button value="Salva" name="btnChange" class="btn btn-primary" title="Confema modifica voto" @onclick="()=> Change(punteggioS)" style="width:100px;">Modifica</button></td>
-
+                        <td></td>
                     </tr>
+                }
+                else
+                {
+                    foreach (var studente in ThisEsame.Moduli.Corsi.Partecipanti)
+                    {
+                        punteggioPart = puntDBservice.Read(db, ThisEsame, studente).Result;
+                        <tr>
+                            <td>@studente.Nome</td>
+                            <td>@studente.Cognome</td>
+                            <td>@punteggioPart.Voto</td>
+                            <td>
+                                <button @onclick='() => { BtnChangedPag("/AddEsame/Voto/" + studente.Id + "/" + ThisEsame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                            </td>
+                        </tr>
+                    }
+
                 }
             }
         </tbody>
@@ -111,8 +129,6 @@ else if (Navigator.Uri.Contains("Edit"))
             ThisEsame = esame; // trovato il match copio tutto nella nuova variabile
         }
     }
-
-
     <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
 
@@ -135,17 +151,63 @@ else if (Navigator.Uri.Contains("Edit"))
         <button type="submit" value="save" class="btn btn-warning">Modifica</button>
     </EditForm>
 }
+else if (Navigator.Uri.Contains("Voto"))
+{
+    //<button @onclick='() => { BtnChangedPag("/add"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <h2>Voti Studente all'esame di @ThisModulo.Materia</h2>
+
+    <hr />
+    <table class="table table-hover table">
+        <thead>
+            <tr class="table-secondary">
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Voto</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ThisModulo.Corsi.Partecipanti == null)
+            {
+                <tr>
+                    <td>Non sono ancora presenti degli studenti per questo corso</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@partecipante.Nome</td>
+                    <td>@partecipante.Cognome</td>
+                    <td>
+                        <select @bind="punteggioPart.Voto" class="form-control" name="selecThis" disabled>
+                            @for (int j = 0; j <= 100; j += 5)
+                            {
+                                <option value="@j">@j</option>
+                            }
+                        </select>
+                    </td>
+                    <td><button value="Salva" name="btnChange" class="btn btn-primary btnChange" @onclick="()=> Change(punteggioPart)" title="Confema modifica voto" style="width:100px;">Modifica</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+}
 
 @code {
     [Parameter]
     public int Id { get; set; } // var Id che raccoglie il valore dal modulo specificato
+    [Parameter]
+    public int esameId { get; set; }
 
     private Corso[] ListaCorsi;
     private Modulo[] ListaModuli;
     private Esame[] ListaEsami;
     private Partecipante[] ListaPartecipanti;
     private Punteggio[] ListaPunteggi;
-    Punteggio punteggioS = new Punteggio();
+    Punteggio punteggioPart = new Punteggio();
+    Partecipante partecipante = new Partecipante();
     private Esame NuovoEsame = new Esame()
     {
         DataEsame = DateTime.Now
@@ -176,19 +238,33 @@ else if (Navigator.Uri.Contains("Edit"))
         {
             ThisModulo = await db.Moduli.FindAsync(Id);
         }
-        else if (Navigator.Uri.Contains("Edit") || Navigator.Uri.Contains("List"))
+        else if (Navigator.Uri.Contains("Edit"))
         {
             ThisEsame = await db.Esami.FindAsync(Id);
+        }
+        else if (Navigator.Uri.Contains("List"))
+        {
+            ThisEsame = esameDBservice.Read(db, Id).Result;
+            ThisModulo = mdbservice.Read(db, ThisEsame.ModuliId).Result;
+        }
+        else if (Navigator.Uri.Contains("Voto"))
+        {
+            partecipante = partecipanteDBservice.Read(db, Id).Result;
+            ThisEsame = esameDBservice.Read(db, esameId).Result;
+            ThisModulo = mdbservice.Read(db, ThisEsame.ModuliId).Result;
+            punteggioPart = puntDBservice.Read(db, ThisEsame, partecipante).Result;
         }
     }
 
     private async Task Change(Punteggio p)
     {
-        var m = db.Punteggi.Find(p.Id);
-        m = p;
+
+        await puntDBservice.Update(db, p);
         await db.SaveChangesAsync();
 
         StateHasChanged();
+        await OnInitializedAsync();
+
     }
 
 

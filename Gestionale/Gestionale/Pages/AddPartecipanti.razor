@@ -211,6 +211,7 @@ else if (navigationManager.Uri.Contains("Info")) // Visualizzazione info
                                         <tbody>
                                             @foreach (var esame in modulo.Esami)
                                             {
+                                                punteggioPart = PunteggioDb.Read(db, esame, P).Result;
                                                 <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
                                                 <tr>
                                                     <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
@@ -218,17 +219,11 @@ else if (navigationManager.Uri.Contains("Info")) // Visualizzazione info
                                                         @if (esame.Punteggi == null) { }
                                                         else
                                                         {
-                                                            @foreach (var Voto in esame.Punteggi)
-                                                            {
-                                                                if (Voto.PartecipanteId == P.Id)
-                                                                {
-                                                                    @Voto.Voto
-                                                                }
-                                                            }
+                                                            @punteggioPart.Voto;
                                                         }
                                                     </td>
                                                     <td>
-                                                        <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                                                        <button @onclick='() => { BtnChangedPag("/AddEsame/Voto/" + P.Id + "/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
                                                     </td>
                                                 </tr>
                                             }
@@ -371,6 +366,7 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
     private Punteggio[] ListaPunteggi;
     private Iscrizione[] ListaIscrizioni;
     private List<Esame> EsamePartecipante = new List<Esame>();
+    Punteggio punteggioPart = new Punteggio();
     private ICollection<Modulo> ModuliPartecipante;
 
     private Partecipante P = new Partecipante()
@@ -393,6 +389,7 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
         ListaTutor = await db.Tutor.ToArrayAsync();
         ListaPunteggi = await db.Punteggi.ToArrayAsync();
         ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
+       
 
         if (navigationManager.Uri.Contains("Create"))
         {
