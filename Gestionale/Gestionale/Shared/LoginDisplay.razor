@@ -1,9 +1,10 @@
 ﻿<AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage">Bentornato, @context.User.Identity.Name!</a>
+        <a href="Identity/Account/Manage">Bentornato @context.User.Identity.Name!</a>
         <form class="form-inline" action="Identity/Account/LogOut">
             <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
+        <a href="/About">About</a>
     </Authorized>
     <NotAuthorized>
         <a href="Identity/Account/Register">Register</a>

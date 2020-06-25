@@ -45,7 +45,7 @@ namespace Gestionale.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Nuova Email")]
             public string NewEmail { get; set; }
         }
 
@@ -100,14 +100,14 @@ namespace Gestionale.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
+                    "Conferma la tua email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Link di conferma per modificare l'email inviata. Controlla la tua email.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "La tua email è invariata.";
             return RedirectToPage();
         }
 
@@ -136,10 +136,10 @@ namespace Gestionale.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
+                "Conferma la tua mail",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Email di verifica inviata. Controlla la tua email.";
             return RedirectToPage();
         }
     }

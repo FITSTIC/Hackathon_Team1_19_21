@@ -452,6 +452,8 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
         {
             P.Iscrizione.CorsiId = P.CorsiId;
             await db.SaveChangesAsync();
+
+            navigationManager.NavigateTo("/Partecipanti");
         }
     }
     protected void BtnChangedPag(string uri)

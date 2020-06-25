@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gestionale.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200622142659_dbModifiche")]
-    partial class dbModifiche
+    [Migration("20200625133651_Complete")]
+    partial class Complete
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,53 +45,6 @@ namespace Gestionale.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Corsi");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AnnoAccademico = "21/23",
-                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nome = "Alan Turing",
-                            Sede = "Cesena"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AnnoAccademico = "21/23",
-                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nome = "Marshall McLuhan",
-                            Sede = "Bologna"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AnnoAccademico = "21/23",
-                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nome = "Grace Hopper",
-                            Sede = "Modena"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AnnoAccademico = "21/23",
-                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nome = "Product Manager Fashion",
-                            Sede = "Carpi"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AnnoAccademico = "21/23",
-                            AnnoFineCorso = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            AnnoInizioCorso = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nome = "Expert Mixed Reality",
-                            Sede = "Casalecchio"
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Dipendente", b =>
@@ -158,38 +111,6 @@ namespace Gestionale.Migrations
                     b.HasIndex("ModuliId");
 
                     b.ToTable("Esami");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DataEsame = new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModuliId = 5
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DataEsame = new DateTime(2021, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModuliId = 4
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DataEsame = new DateTime(2021, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModuliId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DataEsame = new DateTime(2021, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModuliId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DataEsame = new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModuliId = 1
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Iscrizione", b =>
@@ -209,38 +130,6 @@ namespace Gestionale.Migrations
                     b.HasIndex("CorsiId");
 
                     b.ToTable("Iscrizioni");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CorsiId = 1,
-                            DataIscrizione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CorsiId = 2,
-                            DataIscrizione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CorsiId = 3,
-                            DataIscrizione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CorsiId = 4,
-                            DataIscrizione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CorsiId = 5,
-                            DataIscrizione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Modulo", b =>
@@ -282,58 +171,6 @@ namespace Gestionale.Migrations
                     b.HasIndex("TutorId");
 
                     b.ToTable("Moduli");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CorsiId = 1,
-                            DataFine = new DateTime(2021, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            InsegnanteId = 15,
-                            Materia = "Programmazione OOP",
-                            TutorId = 9
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CorsiId = 2,
-                            DataFine = new DateTime(2021, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            InsegnanteId = 11,
-                            Materia = "C#",
-                            TutorId = 10
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CorsiId = 3,
-                            DataFine = new DateTime(2021, 9, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            InsegnanteId = 12,
-                            Materia = "Inglese",
-                            TutorId = 8
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CorsiId = 4,
-                            DataFine = new DateTime(2021, 5, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            InsegnanteId = 13,
-                            Materia = "Lavorare in team",
-                            TutorId = 7
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CorsiId = 5,
-                            DataFine = new DateTime(2021, 2, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInizio = new DateTime(2021, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            InsegnanteId = 14,
-                            Materia = "Relazione con il Cliente",
-                            TutorId = 6
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Partecipante", b =>
@@ -388,83 +225,6 @@ namespace Gestionale.Migrations
                     b.HasIndex("IscrizioneId");
 
                     b.ToTable("Partecipanti");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AnnoDiploma = new DateTime(2010, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Citta = "Cesena",
-                            Cognome = "Polo",
-                            CorsiId = 1,
-                            DataNascita = new DateTime(2010, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Diploma = "Tecnico",
-                            Email = "MarcoPolo@gmail.com",
-                            Indirizzo = "Via Polo 29°",
-                            IscrizioneId = 1,
-                            Nome = "Marco",
-                            Telefono = "3338614937"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AnnoDiploma = new DateTime(2016, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Citta = "Bologna",
-                            Cognome = "Venere",
-                            CorsiId = 2,
-                            DataNascita = new DateTime(1995, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Diploma = "Sociale",
-                            Email = "GiorgiaVenere@gmail.com",
-                            Indirizzo = "Via Venere 219°",
-                            IscrizioneId = 2,
-                            Nome = "Giorgia",
-                            Telefono = "3338895937"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AnnoDiploma = new DateTime(2019, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Citta = "Rimini",
-                            Cognome = "Deandrè",
-                            CorsiId = 3,
-                            DataNascita = new DateTime(2000, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Diploma = "Tecnico",
-                            Email = "LuigiDeandè@gmail.com",
-                            Indirizzo = "Via Deandè 5°",
-                            IscrizioneId = 3,
-                            Nome = "Luigi",
-                            Telefono = "3338678437"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AnnoDiploma = new DateTime(2018, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Citta = "Forlì",
-                            Cognome = "Pane",
-                            CorsiId = 4,
-                            DataNascita = new DateTime(1999, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Diploma = "Tecnico",
-                            Email = "MartaPane@gmail.com",
-                            Indirizzo = "Via Pane 15°",
-                            IscrizioneId = 4,
-                            Nome = "Marta",
-                            Telefono = "3458684937"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AnnoDiploma = new DateTime(2017, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Citta = "Faenza",
-                            Cognome = "Telo",
-                            CorsiId = 5,
-                            DataNascita = new DateTime(1998, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Diploma = "Tecnico",
-                            Email = "GiorgiaTelo@gmail.com",
-                            Indirizzo = "Via Telo 78°",
-                            IscrizioneId = 5,
-                            Nome = "Giorgia",
-                            Telefono = "3338614937"
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Punteggio", b =>
@@ -694,68 +454,6 @@ namespace Gestionale.Migrations
                     b.HasIndex("CorsiId");
 
                     b.HasDiscriminator().HasValue("Coordinatore");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Coordinatore",
-                            Cognome = "Frasulli",
-                            CorsiId = 1,
-                            DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "MatteoFrasulli@gmail.com",
-                            Nome = "Matteo",
-                            Telefono = "3458614787"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Coordinatore",
-                            Cognome = "Grud",
-                            CorsiId = 2,
-                            DataNascita = new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "PaolaGrud@gmail.com",
-                            Nome = "Paola",
-                            Telefono = "3458775787"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Coordinatore",
-                            Cognome = "Stella",
-                            CorsiId = 3,
-                            DataNascita = new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "GiorgiaStella@gmail.com",
-                            Nome = "Giorgia",
-                            Telefono = "3458618787"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Coordinatore",
-                            Cognome = "Dadi",
-                            CorsiId = 4,
-                            DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "DarioDadi@gmail.com",
-                            Nome = "Dario",
-                            Telefono = "3457914787"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Coordinatore",
-                            Cognome = "Raro",
-                            CorsiId = 5,
-                            DataNascita = new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "MattiaRaro@gmail.com",
-                            Nome = "Mattia",
-                            Telefono = "3458614787"
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Insegnante", b =>
@@ -766,68 +464,6 @@ namespace Gestionale.Migrations
                         .HasName("IX_Dipendente_CorsiId1");
 
                     b.HasDiscriminator().HasValue("Insegnante");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 11,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Insegnante",
-                            Cognome = "Telepatia",
-                            CorsiId = 1,
-                            DataNascita = new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "RosaliaTelepatia@gmail.com",
-                            Nome = "Rosalia",
-                            Telefono = "3278614787"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Insegnante",
-                            Cognome = "De'Martino",
-                            CorsiId = 2,
-                            DataNascita = new DateTime(1979, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "AlessandroDeMartino@gmail.com",
-                            Nome = "Alessandro",
-                            Telefono = "3258174787"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Insegnante",
-                            Cognome = "Martin",
-                            CorsiId = 3,
-                            DataNascita = new DateTime(1990, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "SaraMartin@gmail.com",
-                            Nome = "Sara",
-                            Telefono = "3258614977"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Insegnante",
-                            Cognome = "Terra",
-                            CorsiId = 4,
-                            DataNascita = new DateTime(1988, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "MarcoTerra@gmail.com",
-                            Nome = "Marco",
-                            Telefono = "3258610787"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Insegnante",
-                            Cognome = "Rosa",
-                            CorsiId = 5,
-                            DataNascita = new DateTime(1987, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "FrancescaRosa@gmail.com",
-                            Nome = "Francesca",
-                            Telefono = "3258414787"
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Tutor", b =>
@@ -838,68 +474,6 @@ namespace Gestionale.Migrations
                         .HasName("IX_Dipendente_CorsiId2");
 
                     b.HasDiscriminator().HasValue("Tutor");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 6,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Tutor",
-                            Cognome = "Giuseppa",
-                            CorsiId = 1,
-                            DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "MauroGiuseppa@gmail.com",
-                            Nome = "Mauro",
-                            Telefono = "3228614787"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Tutor",
-                            Cognome = "Frafra",
-                            CorsiId = 2,
-                            DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "GiuliaFrafra@gmail.com",
-                            Nome = "Giulia",
-                            Telefono = "3248614787"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Tutor",
-                            Cognome = "Del Mio",
-                            CorsiId = 3,
-                            DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "CarmineDelMio@gmail.com",
-                            Nome = "Carmine",
-                            Telefono = "3278614787"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Tutor",
-                            Cognome = "Del Capo",
-                            CorsiId = 4,
-                            DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "FrancescaDelCapo@gmail.com",
-                            Nome = "Francesca",
-                            Telefono = "3298614787"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Assunzione = new DateTime(2020, 6, 22, 16, 26, 58, 0, DateTimeKind.Unspecified),
-                            Categoria = "Tutor",
-                            Cognome = "Ortè",
-                            CorsiId = 5,
-                            DataNascita = new DateTime(1989, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "AlessandroOrtè@gmail.com",
-                            Nome = "Alessandro",
-                            Telefono = "3258614787"
-                        });
                 });
 
             modelBuilder.Entity("Gestionale.Data.Esame", b =>
