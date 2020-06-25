@@ -101,10 +101,18 @@ else if (Navigator.Uri.Contains("List"))
                         <tr>
                             <td>@studente.Nome</td>
                             <td>@studente.Cognome</td>
-                            <td>@punteggioPart.Voto</td>
+                            @if (punteggioPart == null)
+                            {
+                                <td>Nessun voto</td>
+                            }
+                            else
+                            {
+                                <td>@punteggioPart.Voto</td>
+                            }
                             <td>
                                 <button @onclick='() => { BtnChangedPag("/AddEsame/Voto/" + studente.Id + "/" + ThisEsame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
                             </td>
+
                         </tr>
                     }
 
@@ -255,7 +263,20 @@ else if (Navigator.Uri.Contains("Voto"))
             partecipante = partecipanteDBservice.Read(db, Id).Result;
             ThisEsame = esameDBservice.Read(db, esameId).Result;
             ThisModulo = mdbservice.Read(db, ThisEsame.ModuliId).Result;
+
             punteggioPart = puntDBservice.Read(db, ThisEsame, partecipante).Result;
+
+            if(punteggioPart == null)
+            {
+                Punteggio puntNuovo = new Punteggio()
+                {
+                    PartecipanteId = partecipante.Id,
+                    EsameId = ThisEsame.Id,
+                    Voto = 0,
+                };
+                await puntDBservice.Create(db, puntNuovo);
+                punteggioPart = puntNuovo;
+            };
         }
     }
 
