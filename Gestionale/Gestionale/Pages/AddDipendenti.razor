@@ -6,6 +6,7 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
+@inject IJSRuntime js
 @code{
     Gestionale.Data.Control.DipendenteDbService personaleService = new Data.Control.DipendenteDbService();
     Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
@@ -22,7 +23,8 @@
             <h3>@dip.Categoria</h3>
         </div>
         <div class="col-1 mt-3">
-            <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+            <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+            @*<button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>*@
         </div>
     </div>
 
@@ -70,112 +72,29 @@
         }
         else
         {
-        <table class="table table-hover text-center">
-            <thead>
-                <tr class="table-secondary">
-                    <th>Materia modulo</th>
-                    <th>Corso</th>
-                    <th>Inizio Modulo</th>
-                    <th>Fine Modulo</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody class="accordion" id="boolAccord">
-                @if (dip.Categoria == "Coordinatore")
-                {
-                    @foreach (var m in listTotModuliC)
+            <table class="table table-hover text-center">
+                <thead>
+                    <tr class="table-secondary">
+                        <th>Materia modulo</th>
+                        <th>Corso</th>
+                        <th>Inizio Modulo</th>
+                        <th>Fine Modulo</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="accordion" id="boolAccord">
+                    @if (dip.Categoria == "Coordinatore")
                     {
-                        listEsami = esameService.Read(db, m).Result;
-                        <tr>
-                            <td>
-                                <a href="/Moduli">@m.Materia</a>
-                            </td>
-                            <td>
-                                <a href="/Corsi">@corsoDip.Nome</a>
-                            </td>
-                            <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
-                            <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
-                            <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
-                            <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
-                        </tr>
-                        <!--Riga Esami-->
-                        <tr>
-                            <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
-                                <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+m.Id)" data-parent="#boolAccord">
-                                    <div class="row">
-                                        <div class="col align-self-start">
-                                            <h2>Esami del modulo @m.Materia</h2>
-                                        </div>
-                                        <div class="col">
-                                            <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+m.Id)"><b>x</b></button>
-                                        </div>
-                                    </div>
-
-                                    @if (listEsami == null || !listEsami.Any())
-                                    {
-                                        <div class="row">
-                                            <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
-                                            <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <table class="table table-hover table-sm">
-                                            <thead>
-                                                <tr class="table-secondary">
-                                                    <td></td>
-                                                    <th>N.</th>
-                                                    <th>Modulo</th>
-                                                    <th>Data Esame</th>
-                                                    <th></th>
-                                                    <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var esame in listEsami)
-                                                {
-                                                    <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
-                                                    <tr>
-                                                        <td>
-                                                            <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(esame)" title="Elimina"><b>–</b></button>
-                                                        </td>
-                                                        <td>@esame.Id</td>
-                                                        <td>@esame.Moduli.Materia</td>
-                                                        <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
-                                                        <td style="text-align:center;">
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
-                                                        </td>
-                                                        <td>
-                                                            <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table> <!-- fine tabella esami -->
-                                    }
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    if (listModuliDip == null) // Gestione eccezione nell'eventualità l'associazione di un corso sia mancante
-                    {
-                        <p>Non sono disponibili moduli per questo dipendente poichè non sono esistenti o non è associato ad alcun corso.</p>
-                    }
-                    else
-                    {
-                        @foreach (var m in listModuliDip)
+                        @foreach (var m in listTotModuliC)
                         {
                             listEsami = esameService.Read(db, m).Result;
                             <tr>
                                 <td>
-                                    <a href="/Moduli" @onclick='() => { BtnChangedPag("/Moduli"); }'>@m.Materia</a>
+                                    <a href="/Moduli">@m.Materia</a>
                                 </td>
                                 <td>
-                                    <a href="/Corsi" @onclick='() => { BtnChangedPag("/Corsi"); }'>@corsoDip.Nome</a>
+                                    <a href="/Corsi">@corsoDip.Nome</a>
                                 </td>
                                 <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
                                 <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
@@ -227,10 +146,10 @@
                                                             <td>@esame.Moduli.Materia</td>
                                                             <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
                                                             <td style="text-align:center;">
-                                                                <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
+                                                                <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
                                                             </td>
                                                             <td>
-                                                                <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                                                                <button @onclick='() => { BtnChangedPag("/AddEsame/"+ esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
                                                             </td>
                                                         </tr>
                                                     }
@@ -242,131 +161,213 @@
                             </tr>
                         }
                     }
-                }
-            </tbody>
-        </table>
+                    else
+                    {
+                        if (listModuliDip == null) // Gestione eccezione nell'eventualità l'associazione di un corso sia mancante
+                        {
+                            <p>Non sono disponibili moduli per questo dipendente poichè non sono esistenti o non è associato ad alcun corso.</p>
+                        }
+                        else
+                        {
+                            @foreach (var m in listModuliDip)
+                            {
+                                listEsami = esameService.Read(db, m).Result;
+                                <tr>
+                                    <td>
+                                        <a href="/Moduli" @onclick='() => { BtnChangedPag("/Moduli"); }'>@m.Materia</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Corsi" @onclick='() => { BtnChangedPag("/Corsi"); }'>@corsoDip.Nome</a>
+                                    </td>
+                                    <td>@m.DataInizio.ToString("dd/MM/yyyy")</td>
+                                    <td>@m.DataFine.ToString("dd/MM/yyyy")</td>
+                                    <td> <button class="btn btn-warning accordion-toggle" type="button" data-toggle="collapse" data-target="#@("e"+m.Id)">Esami</button></td>
+                                    <td class="p-1"><button @onclick='() => { BtnChangedPag("/AddModulo/" + m.Id); }' class="btn btn-link mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button></td>
+                                </tr>
+                                <!--Riga Esami-->
+                                <tr>
+                                    <td colspan="8" class="hiddenRow p-0" style="background-color: white; box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);">
+                                        <div class="table collapse p-3 container-fluid accordian-body" id="@("e"+m.Id)" data-parent="#boolAccord">
+                                            <div class="row">
+                                                <div class="col align-self-start">
+                                                    <h2>Esami del modulo @m.Materia</h2>
+                                                </div>
+                                                <div class="col">
+                                                    <button class="btn btn-danger accordion-toggle float-right mr-1" type="button" title="Chiudi" data-toggle="collapse" data-target="#@("e"+m.Id)"><b>x</b></button>
+                                                </div>
+                                            </div>
+
+                                            @if (listEsami == null || !listEsami.Any())
+                                            {
+                                                <div class="row">
+                                                    <p class="col">Non è presente alcun esame per questo modulo. Aggiungine uno premendo il tasto verde.</p>
+                                                    <button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success mr-3" title="Aggiungi un nuovo Esame"><b>+</b></button>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <table class="table table-hover table-sm">
+                                                    <thead>
+                                                        <tr class="table-secondary">
+                                                            <td></td>
+                                                            <th>N.</th>
+                                                            <th>Modulo</th>
+                                                            <th>Data Esame</th>
+                                                            <th></th>
+                                                            <th><button @onclick='() => { BtnChangedPag("/AddEsame/Create/" + m.Id); }' class="btn btn-success float-right" title="Aggiungi un nuovo Esame"><b>+</b></button></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var esame in listEsami)
+                                                        {
+                                                            <!-- Vincola di visualizzare solo gli esami della materia appartenente -->
+                                                            <tr>
+                                                                <td>
+                                                                    <button class="btn btn-danger" data-toggle="modal" data-target="#myModal" @onclick="() => ControlloDelete(esame)" title="Elimina"><b>–</b></button>
+                                                                </td>
+                                                                <td>@esame.Id</td>
+                                                                <td>@esame.Moduli.Materia</td>
+                                                                <td>@esame.DataEsame.ToString("dd/MM/yy")</td>
+                                                                <td style="text-align:center;">
+                                                                    <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id + "/List"); }' class="btn btn-primary">Lista Partecipanti</button>
+                                                                </td>
+                                                                <td>
+                                                                    <button @onclick='() => { BtnChangedPag("/AddEsame/" + esame.Id); }' class="btn mr-n2 float-right" title="Modifica"><img src="images/icon/gear.ico" width="27" height="32" /></button>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table> <!-- fine tabella esami -->
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
         }
     </div>
 
 
 
-<!-- Modal Conferma Delete-->
-<div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class=" modal-body divConferma border">
-                <p><strong>Sei sicuro di voler eliminare questo esame?</strong></p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
-                <button class="btn btn-danger" title="Elimina" @onclick="()=>BtnDeleteEsame(esam)" data-dismiss="modal"><b>Elimina</b></button>
+    <!-- Modal Conferma Delete-->
+    <div class="modal fade" id="myModal" style="box-shadow: 0px 0px 40px -11px rgba(0,0,0,0.75);" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gestionale</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class=" modal-body divConferma border">
+                    <p><strong>Sei sicuro di voler eliminare questo esame?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" title="Annulla" data-dismiss="modal"><b>Annulla</b></button>
+                    <button class="btn btn-danger" title="Elimina" @onclick="()=>BtnDeleteEsame(esam)" data-dismiss="modal"><b>Elimina</b></button>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 }
 else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
 {
     //modifica dipendente
 
-<div class="row">
-    <div class="col">
-        <h2>@dip.Nome  @dip.Cognome</h2>
-        <h3>@dip.Categoria</h3>
-    </div>
-    <div class="col-1 mt-3">
-        <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
-    </div>
-</div>
-
-<hr />
-
-<EditForm Model="dip" OnSubmit="()=> BtnUpdate(dip)">
-    <DataAnnotationsValidator />
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Nome</label>
-            <InputText class="form-control" @bind-Value="dip.Nome">@dip.Nome</InputText>
+    <div class="row">
+        <div class="col">
+            <h2>@dip.Nome  @dip.Cognome</h2>
+            <h3>@dip.Categoria</h3>
         </div>
-        <div class="form-group col-md-6">
-            <label>Cognome</label>
-            <InputText class="form-control" @bind-Value="dip.Cognome" required>@dip.Cognome</InputText>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Data di nascita</label>
-            <InputDate class="form-control" @bind-Value="dip.DataNascita" required>@dip.DataNascita</InputDate>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Email</label>
-            <InputText class="form-control" @bind-Value="dip.Email" required>@dip.Email</InputText>
+        <div class="col-1 mt-3">
+            <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+            @*<button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>*@
         </div>
     </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Telefono</label>
-            <InputText class="form-control" @bind-Value="dip.Telefono" required>@dip.Telefono</InputText>
+    <hr />
+
+    <EditForm Model="dip" OnSubmit="()=> BtnUpdate(dip)">
+        <DataAnnotationsValidator />
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nome</label>
+                <InputText class="form-control" @bind-Value="dip.Nome">@dip.Nome</InputText>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Cognome</label>
+                <InputText class="form-control" @bind-Value="dip.Cognome" required>@dip.Cognome</InputText>
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label>Assunzione</label>
-            <InputDate class="form-control" @bind-Value="dip.Assunzione" required>@dip.Assunzione</InputDate>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Data di nascita</label>
+                <InputDate class="form-control" @bind-Value="dip.DataNascita" required>@dip.DataNascita</InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="dip.Email" required>@dip.Email</InputText>
+            </div>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Categoria</label>
-            <select class="form-control" @bind="dip.Categoria" required>
-                <option value="@dip.Categoria" selected>@dip.Categoria - Attualmente Selezionato</option>
-                @if (dip.Categoria == "Coordinatore")
-                 {
-                    <option value="Insegnante">Insegnante</option>
-                    <option value="Tutor">Tutor</option>
-                 }
-                else if (dip.Categoria == "Tutor")
-                {
-                    <option value="Coordinatore">Coordinatore</option>
-                    <option value="Insegnante">Insegnante</option>
-                }
-                else if (dip.Categoria == "Insegnante")
-                {
-                    <option value="Coordinatore">Coordinatore</option>
-                    <option value="Tutor">Tutor</option>
-                }
-                else // Lascio tutti e tre i valori per gestire eventuale eccezione
-                {
-                    <option value="Coordinatore">Coordinatore</option>
-                    <option value="Insegnante">Insegnante</option>
-                    <option value="Tutor">Tutor</option>
-                }
-            </select>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Telefono</label>
+                <InputText class="form-control" @bind-Value="dip.Telefono" required>@dip.Telefono</InputText>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Assunzione</label>
+                <InputDate class="form-control" @bind-Value="dip.Assunzione" required>@dip.Assunzione</InputDate>
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label>Corso</label>
-            @if (dip.Corsi == null)
-            {
-                <select class="form-control" @bind="dip.CorsiId" required>
-                    <option value="" selected></option>
-                    @foreach (var c in ListaCorsi)
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Categoria</label>
+                <select class="form-control" @bind="dip.Categoria" required>
+                    <option value="@dip.Categoria" selected>@dip.Categoria - Attualmente Selezionato</option>
+                    @if (dip.Categoria == "Coordinatore")
                     {
-                        <option value="@c.Id">@c.Nome</option>
+                        <option value="Insegnante">Insegnante</option>
+                        <option value="Tutor">Tutor</option>
+                    }
+                    else if (dip.Categoria == "Tutor")
+                    {
+                        <option value="Coordinatore">Coordinatore</option>
+                        <option value="Insegnante">Insegnante</option>
+                    }
+                    else if (dip.Categoria == "Insegnante")
+                    {
+                        <option value="Coordinatore">Coordinatore</option>
+                        <option value="Tutor">Tutor</option>
+                    }
+                    else // Lascio tutti e tre i valori per gestire eventuale eccezione
+                    {
+                        <option value="Coordinatore">Coordinatore</option>
+                        <option value="Insegnante">Insegnante</option>
+                        <option value="Tutor">Tutor</option>
                     }
                 </select>
-            }
-            else
-            {
-
-
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
+                @if (dip.Corsi == null)
+                {
+                    <select class="form-control" @bind="dip.CorsiId" required>
+                        <option value="" selected></option>
+                        @foreach (var c in ListaCorsi)
+                        {
+                            <option value="@c.Id">@c.Nome</option>
+                        }
+                    </select>
+                }
+                else
+                {
                     <select class="form-control" @bind="dip.CorsiId" required>
                         <option value="@dip.CorsiId" selected>@corsoDip.Nome - Attualmente Selezionato</option>
                         @foreach (var c in ListaCorsi)
@@ -379,74 +380,74 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
                         }
                     </select>
 
-            }
+                }
+            </div>
         </div>
-    </div>
-    <hr />
-    <button type="submit" value="save" class="btn btn-warning">Modifica</button>
-</EditForm>
+        <hr />
+        <button type="submit" value="save" class="btn btn-warning">Modifica</button>
+    </EditForm>
 }
 else
 {
     // Aggiunta nuovo dipendente
-<div class="row">
-    <div class="col">
-        <h2>Inserisci un nuovo Dipendente</h2>
-    </div>
-    <div class="col-1 mt-3">
-        <button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
-    </div>
-</div>
-
-<hr />
-
-<EditForm Model="dip" OnSubmit="()=> BtnSalva(dip)">
-    <DataAnnotationsValidator />
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Nome</label>
-            <InputText class="form-control" @bind-Value="dip.Nome" required />
+    <div class="row">
+        <div class="col">
+            <h2>Inserisci un nuovo Dipendente</h2>
         </div>
-        <div class="form-group col-md-6">
-            <label>Cognome</label>
-            <InputText class="form-control" @bind-Value="dip.Cognome" required />
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Data di nascita</label>
-            <InputDate class="form-control" @bind-Value="dip.DataNascita" required></InputDate>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Email</label>
-            <InputText class="form-control" @bind-Value="dip.Email" required />
+        <div class="col-1 mt-3">
+            <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+            @*<button @onclick='() => { BtnChangedPag("/Personale"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>*@
         </div>
     </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Telefono</label>
-            <InputText class="form-control" @bind-Value="dip.Telefono" required />
-        </div>
-        <div class="form-group col-md-6">
-            <label>Assunzione</label>
-            <InputDate class="form-control" @bind-Value="dip.Assunzione" required></InputDate>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Categoria</label>
-            <select class="form-control" @bind="dip.Categoria" required>
-                <option value="" selected></option>
-                <option value="Coordinatore">Coordinatore</option>
-                <option value="Insegnante">Insegnante</option>
-                <option value="Tutor">Tutor</option>
-            </select>
-        </div>
-        <div class="form-group col-md-6">
-            <label>Corso</label>
+    <hr />
 
+    <EditForm Model="dip" OnSubmit="()=> BtnSalva(dip)">
+        <DataAnnotationsValidator />
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Nome</label>
+                <InputText class="form-control" @bind-Value="dip.Nome" required />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Cognome</label>
+                <InputText class="form-control" @bind-Value="dip.Cognome" required />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Data di nascita</label>
+                <InputDate class="form-control" @bind-Value="dip.DataNascita" required></InputDate>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="dip.Email" required />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Telefono</label>
+                <InputText class="form-control" @bind-Value="dip.Telefono" required />
+            </div>
+            <div class="form-group col-md-6">
+                <label>Assunzione</label>
+                <InputDate class="form-control" @bind-Value="dip.Assunzione" required></InputDate>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>Categoria</label>
+                <select class="form-control" @bind="dip.Categoria" required>
+                    <option value="" selected></option>
+                    <option value="Coordinatore">Coordinatore</option>
+                    <option value="Insegnante">Insegnante</option>
+                    <option value="Tutor">Tutor</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label>Corso</label>
                 <select class="form-control" @bind="dip.CorsiId">
                     <option value="">Nessun corso</option>
                     @foreach (var c in ListaCorsi)
@@ -454,12 +455,11 @@ else
                         <option value="@c.Id">@c.Nome</option>
                     }
                 </select>
-
+            </div>
         </div>
-    </div>
-    <hr />
-    <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
-</EditForm>
+        <hr />
+        <button type="submit" value="save" class="btn btn-primary">Inserisci</button>
+    </EditForm>
 }
 
 
@@ -489,62 +489,69 @@ else
             idCorsodip = dip.CorsiId;
             corsoDip = corsoService.Read(db, idCorsodip).Result;
 
-            if (corsoDip != null) 
+            if (corsoDip != null)
             {
-                listTotModuliC = corsoService.Read(db, corsoDip.Nome).Result.Moduli; // lista totale del corso 
+                listTotModuliC = corsoService.Read(db, corsoDip.Nome).Result.Moduli; // lista totale del corso
             }
 
-                if (dip != null) { listModuliDip = moduliService.Read(db, dip).Result; }
+            if (dip != null) { listModuliDip = moduliService.Read(db, dip).Result; }
 
-            }
-            else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
-            {
-                dip = personaleService.Read(db, dipendenteid).Result;
-                idCorsodip = dip.CorsiId;
-                corsoDip = corsoService.Read(db, idCorsodip).Result;
+        }
+        else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
+        {
+            dip = personaleService.Read(db, dipendenteid).Result;
+            idCorsodip = dip.CorsiId;
+            corsoDip = corsoService.Read(db, idCorsodip).Result;
 
-            }
         }
-        protected async Task BtnSalva(Dipendente d)
+    }
+    protected async Task BtnSalva(Dipendente d)
+    {
+        switch (d.Categoria)
         {
-            switch (d.Categoria)
-            {
-                case "Coordinatore":
-                    await personaleService.Create(db, new Coordinatore(d));
-                    break;
-                case "Tutor":
-                    await personaleService.Create(db, new Tutor(d));
-                    break;
-                case "Insegnante":
-                    await personaleService.Create(db, new Insegnante(d));
-                    break;
-            }
+            case "Coordinatore":
+                await personaleService.Create(db, new Coordinatore(d));
+                break;
+            case "Tutor":
+                await personaleService.Create(db, new Tutor(d));
+                break;
+            case "Insegnante":
+                await personaleService.Create(db, new Insegnante(d));
+                break;
+        }
 
-            ListaCorsi = await db.Corsi.ToArrayAsync();
-            ListaDip = await db.Dipendente.ToArrayAsync();
-            StateHasChanged();
+        ListaCorsi = await db.Corsi.ToArrayAsync();
+        ListaDip = await db.Dipendente.ToArrayAsync();
+        StateHasChanged();
 
-            Navigator.NavigateTo("/Personale");
-        }
-        protected async Task BtnUpdate(Dipendente d)
+        Navigator.NavigateTo("/Personale");
+    }
+    protected async Task BtnUpdate(Dipendente d)
+    {
+        await personaleService.Update(db, dip);
+        ListaDip = await db.Dipendente.ToArrayAsync();
+        StateHasChanged();
+        Navigator.NavigateTo("/Personale");
+    }
+    protected async Task BtnDeleteEsame(Esame e)
+    {
+        await esameService.Delete(db, e);
+        ListaEsami = await db.Esami.ToArrayAsync();
+        StateHasChanged();
+    }
+    protected void BtnChangedPag(String uri)
+    {
+        Navigator.NavigateTo(uri, true);
+    }
+    protected void ControlloDelete(Esame e)
+    {
+        esam = e;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
-            await personaleService.Update(db, dip);
-            ListaDip = await db.Dipendente.ToArrayAsync();
-            StateHasChanged();
-            Navigator.NavigateTo("/Personale");
+            await js.InvokeVoidAsync("Global");
         }
-        protected async Task BtnDeleteEsame(Esame e)
-        {
-            await esameService.Delete(db, e);
-            ListaEsami = await db.Esami.ToArrayAsync();
-            StateHasChanged();
-        }
-        protected void BtnChangedPag(String uri)
-        {
-            Navigator.NavigateTo(uri, true);
-        }
-        protected void ControlloDelete(Esame e)
-        {
-            esam = e;
-        }
+    }
 }

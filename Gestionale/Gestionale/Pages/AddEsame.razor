@@ -23,7 +23,8 @@
 
     ======================================================================================*/
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo esame</h2>
 
     <hr />
@@ -54,9 +55,9 @@ else if (Navigator.Uri.Contains("List"))
 
     ======================================================================================*/
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    // <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Lista Studenti all'esame di @ThisEsame.Moduli.Materia</h2>
-
     <hr />
 
     <table class="table table-hover table">
@@ -77,7 +78,7 @@ else if (Navigator.Uri.Contains("List"))
                     <td>Non sono ancora presenti degli studenti per questo corso</td>
                     <td></td>
                 </tr>
-  
+
             }
             else
             {
@@ -129,7 +130,8 @@ else if (Navigator.Uri.Contains("Edit"))
             ThisEsame = esame; // trovato il match copio tutto nella nuova variabile
         }
     }
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Esame del modulo @ThisEsame.Moduli.Materia</h2>
 
     <hr />
@@ -153,7 +155,8 @@ else if (Navigator.Uri.Contains("Edit"))
 }
 else if (Navigator.Uri.Contains("Voto"))
 {
-    //<button @onclick='() => { BtnChangedPag("/add"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<button @onclick='() => { BtnChangedPag("/AddEsame/"+esameId+"/List"); }' class="btn mr-n2 float-right" title="Pagina principale Moduli"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Voti Studente all'esame di @ThisModulo.Materia</h2>
 
     <hr />

@@ -5,6 +5,7 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager navigationManager
+@inject IJSRuntime js
 
 @code{
     Gestionale.Data.Control.IscrizioneDbService IscrizioneDb = new Data.Control.IscrizioneDbService();
@@ -15,7 +16,8 @@
 
 @if (navigationManager.Uri.Contains("Create")) // Creazione di un nuovo partecipante
 {
-    <button @onclick='() => { BtnChangedPag("/Partecipanti"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    // <button @onclick='() => { BtnChangedPag("/Partecipanti"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo partecipante</h2>
 
     <hr />
@@ -95,7 +97,8 @@
 }
 else if (navigationManager.Uri.Contains("Info")) // Visualizzazione info
 {
-    <button @onclick='() => { BtnChangedPag("/Partecipanti"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<button @onclick='() => { BtnChangedPag("/Partecipanti"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>@P.Nome @P.Cognome</h2>
 
     <hr />
@@ -255,7 +258,8 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
         }
     }
 
-    <a href="/Partecipanti" class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></a>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<a href="/Partecipanti" class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></a>
     <h2>@ThisAlunno.Nome @ThisAlunno.Cognome</h2>
 
     <hr />
@@ -340,7 +344,6 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
                         }
                     }
 
-
                 </select>
             </div>
         </div>
@@ -389,7 +392,7 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
         ListaTutor = await db.Tutor.ToArrayAsync();
         ListaPunteggi = await db.Punteggi.ToArrayAsync();
         ListaIscrizioni = await db.Iscrizioni.ToArrayAsync();
-       
+
 
         if (navigationManager.Uri.Contains("Create"))
         {
@@ -454,6 +457,13 @@ else if (navigationManager.Uri.Contains("Edit")) // Modifica dei dati
     protected void BtnChangedPag(string uri)
     {
         navigationManager.NavigateTo(uri, true);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Global");
+        }
     }
 
 }

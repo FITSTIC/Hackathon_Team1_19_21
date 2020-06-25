@@ -5,6 +5,7 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext db
 @inject NavigationManager Navigator
+@inject IJSRuntime js
 @code{
     Gestionale.Data.Control.ModuloDbService moduloService = new Data.Control.ModuloDbService();
     Gestionale.Data.Control.CorsoDbService corsoService = new Data.Control.CorsoDbService();
@@ -17,7 +18,8 @@
 
     ======================================================================================*/
 
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo modulo</h2>
 
     <hr />
@@ -91,8 +93,8 @@ else if (Navigator.Uri.Contains("FromCorsi"))
                    CONDIZIONE PER INSERIRE UN NUOVO MODULO DALLA PAGINA CORSI
 
     ======================================================================================*/
-
-    <button @onclick='() => { BtnChangedPag("/AddCorsi/moduli/" + ThisCorso.Id); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<button @onclick='() => { BtnChangedPag("/AddCorsi/moduli/" + ThisCorso.Id); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Inserisci un nuovo modulo nel corso di @ThisCorso.Nome</h2>
 
     <hr />
@@ -128,12 +130,15 @@ else if (Navigator.Uri.Contains("FromCorsi"))
                     @if (NuovoModulo.CorsiId != 0)
                     {
                         InsegnantiThisCorso = corsoService.Read(db, NuovoModulo.CorsiId).Result.Insegnanti;
-                        if (InsegnantiThisCorso == null) {<option value="">Non sono presenti insegnanti per questo corso</option> }
+                        if (InsegnantiThisCorso == null)
+                        {
+                            <option value="">Non sono presenti insegnanti per questo corso</option>
+                        }
                         else
                         {
                             @foreach (var Insegnante in InsegnantiThisCorso)
                             {
-                                    <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
+                                <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
                             }
                         }
                     }
@@ -158,7 +163,7 @@ else if (Navigator.Uri.Contains("FromCorsi"))
                             }
                         }
                     }
-                    </select>
+                </select>
             </div>
         </div>
         <hr />
@@ -182,8 +187,8 @@ else
         }
     }
 
-
-    <button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    <button class="btn mr-n2 float-right arrowBack" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
+    //<button @onclick='() => { BtnChangedPag("/Moduli"); }' class="btn mr-n2 float-right" title="Pagina principale"><img src="images/icon/back.png" width="35" height="32" /></button>
     <h2>Modulo @ThisModulo.Materia</h2>
 
     <hr />
@@ -203,9 +208,9 @@ else
                         if (Corso.Insegnanti == null || Corso.Tutor == null || Corso.Partecipanti == null) { } // Gestione eccezione eventuale lista vuote
                         else
                         {
-                           
-                                <option value="@Corso.Id">@Corso.Nome</option>
-                           
+
+                            <option value="@Corso.Id">@Corso.Nome</option>
+
                         }
                     }
                 </select>
@@ -239,9 +244,10 @@ else
                     </select>
                 }
                 else
-                {<select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
+                {
+                    <select @bind="@ThisModulo.InsegnanteId" class="form-control" required>
                         <option value="@ThisModulo.Insegnanti.Id" selected>@(ThisModulo.Insegnanti.Nome + " " + ThisModulo.Insegnanti.Cognome) - Attualmente Selezionato</option>
-                        
+
                         @if (ThisModulo.CorsiId != 0)
                         {
                             InsegnantiThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Insegnanti;
@@ -249,7 +255,7 @@ else
                             {
 
                                 <option value="@Insegnante.Id">@(Insegnante.Nome + " " + Insegnante.Cognome)</option>
-                                                         
+
                             }
                         }
                     </select>
@@ -261,30 +267,30 @@ else
                 {
                     <select @bind="@ThisModulo.TutorId" class="form-control" required>
                         <option value="" selected></option>
-                         @if (ThisModulo.CorsiId != 0)
-                         {
-                                TutorThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Tutor;
-                                @foreach (var tutor in TutorThisCorso)
-                                {
-                                    <option value="@tutor.Id">@(tutor.Nome + " " + tutor.Cognome)</option>
-                                }
-                         }
+                        @if (ThisModulo.CorsiId != 0)
+                        {
+                            TutorThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Tutor;
+                            @foreach (var tutor in TutorThisCorso)
+                            {
+                                <option value="@tutor.Id">@(tutor.Nome + " " + tutor.Cognome)</option>
+                            }
+                        }
                     </select>
                 }
                 else
                 {
                     <select @bind="@ThisModulo.TutorId" class="form-control" required>
-                        <option value="@ThisModulo.Tutor.Id" selected>@(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome) - Attualmente Selezionato</option>                        
+                        <option value="@ThisModulo.Tutor.Id" selected>@(ThisModulo.Tutor.Nome + " " + ThisModulo.Tutor.Cognome) - Attualmente Selezionato</option>
                         @if (ThisModulo.CorsiId != 0)
-                         {
-                                TutorThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Tutor;
-                                @foreach (var tutor in TutorThisCorso)
-                                {
+                        {
+                            TutorThisCorso = corsoService.Read(db, ThisModulo.CorsiId).Result.Tutor;
+                            @foreach (var tutor in TutorThisCorso)
+                            {
 
-                                        <option value="@tutor.Id">@(tutor.Nome + " " + tutor.Cognome)</option>
+                                <option value="@tutor.Id">@(tutor.Nome + " " + tutor.Cognome)</option>
 
-                                }
-                         }
+                            }
+                        }
                     </select>
                 }
             </div>
@@ -359,5 +365,12 @@ else
     protected void BtnChangedPag(String uri)
     {
         Navigator.NavigateTo(uri, true);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("Global");
+        }
     }
 }
