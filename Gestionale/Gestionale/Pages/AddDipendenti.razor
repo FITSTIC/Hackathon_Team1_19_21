@@ -369,7 +369,11 @@ else if (Navigator.Uri.Contains("/AddDipendente/Modifica"))
                 else
                 {
                     <select class="form-control" @bind="dip.CorsiId" required>
-                        <option value="@dip.CorsiId" selected>@corsoDip.Nome - Attualmente Selezionato</option>
+                        @if (corsoDip != null)
+                        {
+                            <option value="@dip.CorsiId" selected>@corsoDip.Nome - Attualmente Selezionato </option>
+                        }
+
                         @foreach (var c in ListaCorsi)
                         {
                             if (c.Id == dip.CorsiId) { }
@@ -501,8 +505,11 @@ else
         {
             dip = personaleService.Read(db, dipendenteid).Result;
             idCorsodip = dip.CorsiId;
-            corsoDip = corsoService.Read(db, idCorsodip).Result;
 
+            if (dip.Corsi != null)
+            {
+                corsoDip = corsoService.Read(db, idCorsodip).Result;
+            }
         }
     }
     protected async Task BtnSalva(Dipendente d)
